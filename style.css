@@ -1,0 +1,214 @@
+* 
+
+{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Lora' , serif;
+    color: #222;
+    padding-bottom: 50px;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+    /* -- (1) Header (IAS) -- */
+
+  .header {
+    background-color: #f8f9fa; /* Light gray background */
+    padding: 20px;
+    border-bottom: 2px solid #ddd;
+    z-index: 999; /* Higher than nav */
+  }
+
+  .header .header-content {
+    display: flex;
+    align-items: flex-end; /* Align vertically */
+    gap: 50px; /* Add space between h1 and p */
+  }
+
+  .header .container {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .header-logo {
+    height: 100px;
+    width: auto;
+    align-items: center; 
+    justify-content: flex-end;
+  }
+
+  .site-title {
+    font-family: 'Lora', serif;
+    font-size: 36px;
+    color: #222;
+    font-weight: 600;
+  }
+  
+  /* -- (2) Navigation Pane (Sign in) -- */
+
+  .nav {
+    position: absolute;
+    background-color: #FBAF41;
+    top: 80px; /* Moves it down below the header */
+    left: 0;
+    right: 0;
+    transition: all 0.3s ease-in-out;
+    z-index: 1000;
+  }
+
+  .nav.fixed {
+    position: fixed; /* Becomes fixed when scrolled */
+    top: 0;
+  }
+
+  .nav .container {
+    display: flex;
+    justify-content: flex-end; /* Align items to the right */
+    align-items: center;
+    padding: 20px 0;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .nav ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+  }
+  
+  .nav a {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 7px 15px;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .nav a:hover {
+    color: #000000;
+  }
+  
+  /* -- (2.1) Navigation Pane (Active Navigation) -- */
+
+  .nav.active {
+    background: rgb#FBAF41;
+  }
+  
+  .nav.active a {
+    color: #000;
+  }
+
+  /* (2) End -------------- */
+
+  /* -- (3.1) Landing Page (Background) -- */
+
+  
+  .hero {
+    background: url(Assets/bg_login.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom center;
+    height: 100vh;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .hero .hero-content {
+    display: flex;
+    align-items: flex-end; /* Align vertically */
+    gap: 50px; /* Add space between h1 and p */
+  }
+  
+  
+  .hero:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: -1;
+  }
+  
+    /* -- (3.2) Landing Page (Subtitle) -- */
+
+  .hero h1 {
+    font-size: 250px;
+    color: #fff;
+    font-weight: 600;
+    transition: 0.5s;
+  }
+  
+  .hero .hero-content:hover h1{
+    -webkit-text-stroke: 2px white;
+    color: transparent;
+    transition: 0.5s;
+  }
+  
+  .hero .subtitle {
+    font-family: 'Inria Serif';
+    font-size: 32px;
+    text-align: left;
+    max-width: 700px;
+    letter-spacing: 10px;
+
+  }
+
+  .hero p {
+    position: relative;
+    top: -60px; /* Move up by 10px */
+    line-height: 40px;
+  }
+
+  /* (3) End -------------- */
+
+
+  /* -- (4) Content Section -- */
+
+  /* -- (4.1) Content Section (Background)  -- */
+  .content-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgb(244, 242, 242);
+  }
+
+  /* -- (4.2) Content Section (Content Box background)  -- */
+
+  .content {
+    max-width: 600px;
+    margin: 20px;
+    background: rgb(230, 229, 229);
+    padding: 20px;
+  }
+
+  /* -- (4.3) Content Section (Content Box text)  -- */
+
+  .content h2 {
+    margin-bottom: 20px;
+    color: #444;
+  }
+  
+  .content p {
+    font-family: sans-serif;
+    line-height: 24px;
+  }
+  /* (4) End -------------- */
+
