@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     border: none;
+    overflow: hidden;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
@@ -32,50 +33,87 @@ body {
 /* Container Layout */
 .container {
     display: flex;
+    position: relative;
     height: 100%;
     width: 100%;
+    background: #d3d3d3;
 }
 
 /* Sidebar *//* 🎨 Sidebar Styles */
 .sidebar {
-    width: 150px;
+    width: 55px;
+    height: 100%;
     background-color: #343A40;
-    top: 0;
-    left: -150px; /* Hides sidebar initially */
-    transition: left 0.3s ease-in-out;
-    padding-top: 20px;
-}
-
-.sidebar a {
-    display: block;
-    color: white;
-    text-decoration: none;
-    padding: 15px;
-}
-
-.sidebar a:hover {
-    background-color: #495057;
-}
-
-/* 🍔 Burger Button */
-.burger-btn {
-    top: 15px;
-    left: 15px;
-    font-size: 24px;
-    background: #FFB400;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    z-index: 1000;
-}
-
-.burger-btn:hover {
-    background: #FFA000;
+    padding: 10px 0;
+    transition: width 0.3s ease-in-out;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 /* 🎭 Sidebar Open State */
 .sidebar.open {
-    left: 0;
+    width: 200px;
+}
+
+.sidebar-content {
+    height: 100%;
+    background-color: #343a40;
+}
+
+.sidebar-item {
+    font-style: normal;
+    text-decoration: none;
+    padding: 15px;
+    color: #ffffff;
+    white-space: nowrap; /* Prevents text from wrapping */
+    user-select: none; /* Standard */
+    cursor: pointer; /* Makes the cursor change to a hand */
+}
+
+.icon {
+    font-style: normal;
+}
+
+.sidebar-item i {
+    padding-right: 20px;
+}
+
+.sidebar-item span {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.sidebar-item.open span {
+    opacity: 1;
+}
+
+.sidebar-item:hover {
+    background-color: #212529;
+}
+
+/* 🍔 Burger Button */
+.burger-btn {
+    position: relative;
+    display: flex;
+    margin-right: 10px;
+    margin-left: 10px;
+    font-size: 20px;
+    color: #FFB400;
+    background: #343a40;
+    border: none;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.sidebar-item.open .burger-btn {
+    margin-left: auto;
+}
+
+.burger-btn:hover {
+    background: #212529;
 }
 
 /* Main Content */
