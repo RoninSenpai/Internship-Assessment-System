@@ -3,17 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>RAMS Internship Assessment System - INTERNSHIP OFFICER</title>
     <link rel="stylesheet" href="/static/css/components.css">
 </head>
 <body class="body">
 
     <!-- Header -->
-    <iframe src="/templates/_components/header.html" class="header"></iframe>
-
+    <iframe src="/templates/_components/header.html" class="header" id="headerFrame"></iframe>
+    
     <div class="container">
         <!-- Sidebar -->
-        <iframe src="/templates/schooluser/faculty/sidebar.html" class="sidebar"></iframe>
+        <iframe src="/templates/_components/sidebar.html" class="sidebar" id="sidebarFrame"></iframe>
+
+        <script>
+            const userRole = "faculty"; // Replace with actual role-checking logic
+
+            document.getElementById("sidebarFrame").addEventListener("load", function() {
+                this.contentWindow.postMessage({ role: userRole }, "*");
+            });
+
+            const userRole2 = "INTERNSHIP OFFICER";
+
+            document.getElementById("headerFrame").addEventListener("load", function() {
+                this.contentWindow.postMessage({ role: userRole2 }, "*");
+            });
+        </script>
 
         <!-- Main Content -->
         <iframe id="content" src="/templates/schooluser/faculty/home.html" class="content"></iframe>

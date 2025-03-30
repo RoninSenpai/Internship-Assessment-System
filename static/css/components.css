@@ -5,7 +5,8 @@
     border: none;
     overflow: hidden;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 2px; /* Adjust the number to increase spacing */
 }
 
 /* Body Styling */
@@ -21,12 +22,14 @@ body {
     width: 100%;
     height: 70px;
     background-color: #FBAF41;
+    display: flex;
+    align-items: center;
 }
 
 /* Footer */
 .footer {
     width: 100%;
-    height: 60px;
+    height: 50px;
     background-color: #213B9A;
 }
 
@@ -39,9 +42,9 @@ body {
     background: #d3d3d3;
 }
 
-/* Sidebar *//* 🎨 Sidebar Styles */
+/* Sidebar *//* 🎨 Sidebar Styles */ 
 .sidebar {
-    width: 55px;
+    width: 60px;
     height: 100%;
     background-color: #343A40;
     padding: 10px 0;
@@ -61,17 +64,33 @@ body {
 }
 
 .sidebar-item {
+    display: flex; /* KEEPS ICONS & TEXT ALIGNED */
+    margin-left: auto;
+    align-items: center;
+    justify-content: flex-end;
     font-style: normal;
     text-decoration: none;
+    font-size: 12px; /* Adjust font size */
     padding: 15px;
+    padding-right: 20px; /* Aligns text to the left */
     color: #ffffff;
     white-space: nowrap; /* Prevents text from wrapping */
     user-select: none; /* Standard */
     cursor: pointer; /* Makes the cursor change to a hand */
+    gap: 0px; /* Space between icon and text */
+    transition: gap 0.3s ease-in-out;
+}
+
+.sidebar-item.open {
+    gap: 20px; /* Space between icon and text */
 }
 
 .icon {
+    position: relative;
+    height: auto; /* Adjust icon size */
+    width: 20px; /* Maintain aspect ratio */
     font-style: normal;
+    flex-shrink: 0; /* PREVENTS ICONS FROM SQUISHING */
 }
 
 .sidebar-item i {
@@ -79,8 +98,9 @@ body {
 }
 
 .sidebar-item span {
-    opacity: 0;
+    opacity: 0; /* Hides text by default */
     transition: opacity 0.3s ease-in-out;
+    flex-grow: 1;
 }
 
 .sidebar-item.open span {
@@ -93,6 +113,7 @@ body {
 
 /* 🍔 Burger Button */
 .burger-btn {
+    font-style: normal;
     position: relative;
     display: flex;
     margin-right: 10px;
