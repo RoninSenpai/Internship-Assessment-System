@@ -1,7 +1,73 @@
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
 
-<div class="content">
-    <h1>IP Supervisors</h1>
-    <h2>Welcome to the Masterlist</h2>
-    <p>This is where the student list happens! ✨</p>
-    <a href="evaluation.html" onclick="window.location.href='evaluation.html'; return false;">Evaluation</a>
-</div>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Internship Assessment System</title>
+        <link rel="stylesheet" href="/static/css/style.css" />
+    
+        <style>
+            .header {
+                background-color: #fbaf41; 
+                /* color: black;  */
+                padding: 10;
+                margin: 0;
+            }
+
+            .header-container {
+        justify-content: left; /* Center them */
+        /* padding: 10px; Add breathing room */
+        align-items: center;
+        position: relative;
+        box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1);
+    }
+    .sidebar {
+    background-color: #343A40; /* Sidebar background */
+    width: 100px; /* Set sidebar width */
+    height: 100vh; /* Full height */
+    padding: 10px; /* Optional padding */
+}
+
+.sidebar nav ul {
+    list-style-type: none; /* Remove bullets */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+}
+.sidebar nav ul li {
+    margin: 10px 0; /* Space between links */
+}
+.sidebar nav ul li a {
+    color: white; /* Sidebar link color */
+    text-decoration: none; /* Remove underline */
+}
+        </style>
+    </head>
+
+    <body>
+        <!-- (1) Header (RIAS) -->
+        <header class="header">
+            <div class="header-container">
+                <div class="header-text">
+                    <h1 class="site-title">RIAS</h1>
+                    <p class="subtitle">RAMS<br>INTERNSHIP<br>ASSESSMENT SYSTEM</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="sidebar">
+                <nav>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Users</a></li>
+                        <li><a href="#">Interns</a></li>
+                        <li><a href="#">Reports</a></li>
+                        <li><a href="#">Settings</a></li>
+                    </ul>
+                </nav>
+            </div>
+    </body>
