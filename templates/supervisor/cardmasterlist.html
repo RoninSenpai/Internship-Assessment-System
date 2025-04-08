@@ -1,0 +1,101 @@
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Internship Assessment System</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+    
+    <style>
+        .header {
+            background-color: #FFF3E2;
+            padding: 20px;
+            margin: 0;
+            height: 100vh; /* Adjust to content height */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column; /* Align child elements horizontally */
+            justify-content: flex-start;
+            align-items: flex-start;
+            width: 100%; /* Make sure it takes full width */
+        }
+        .search-bar {
+            display: flex;
+            justify-content: flex-end; /* Align search bar to the right */
+            margin-bottom: 20px;
+        }
+        
+        .search-bar input {
+        flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .search-bar button {
+            padding: 8px 15px;
+            background-color: #FF8C42;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .information-panel{
+            background-color: #ffffff;
+                padding: 10;
+                width: 185vh;
+                height: 100vh;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+                align-items: stretch;
+        }
+
+        .student-info-card{
+            background-color: #d9d9d9;
+                padding: 10;
+                width: 30vh;
+                height: 35vh;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+                flex-direction: column;
+        }
+    </style>
+
+</head>
+
+<body>
+    <header class="header">
+        <h1>CARD VIEW</h1>
+        <div class="information-panel">
+            <div class="search-bar">
+                <form action="/supervisor/masterlist" method="GET">
+                    <input type="text" name="search" placeholder="Search by student name..." required>
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            <h2>INTERNS FOR SCHOOL YEAR 2024 - 2025:</h2>
+<student-info-card>
+                <div class="student-info-card">
+                    <h3>Student Name: {{ student.name }}</h3>
+                    <p>Student ID: {{ student.student_id }}</p>
+                    <p>Course: {{ student.course }}</p>
+                    <p>Year Level: {{ student.year_level }}</p>
+                    <p>Company: {{ student.company }}</p>
+                    <p>Status: {{ student.status }}</p>
+                </div>
+            </student-info-card>
+        </div>
+    </header>
+</body>
