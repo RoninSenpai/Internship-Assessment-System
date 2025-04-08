@@ -140,5 +140,6 @@ body {
 /* Main Content */
 .content {
     flex-grow: 1; /* Takes up remaining space */
-    padding: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
 }
