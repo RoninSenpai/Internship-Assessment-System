@@ -12,62 +12,113 @@
     
         <style>
             .header {
-                background-color: #fbaf41; 
-                /* color: black;  */
-                padding: 10;
-                margin: 0;
+                background-color: #FFF3E2;
+            padding: 20px;
+            margin: 0;
+            height: 100vh; /* Adjust to content height */
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column; /* Align child elements horizontally */
+            justify-content: flex-start;
+            align-items: flex-start;
+            width: 100%; /* Make sure it takes full width */
             }
 
-            .header-container {
-        justify-content: left; /* Center them */
-        /* padding: 10px; Add breathing room */
-        align-items: center;
-        position: relative;
-        box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1);
+    .search-bar {
+        margin-top: 50px;
+        margin-left: 30px;
+            width: 50vh;
+            display: flex;
+            justify-content: left;
     }
-    .sidebar {
-    background-color: #343A40; /* Sidebar background */
-    width: 100px; /* Set sidebar width */
-    height: 100vh; /* Full height */
-    padding: 10px; /* Optional padding */
-}
+    .search-bar input {
+        flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
 
-.sidebar nav ul {
-    list-style-type: none; /* Remove bullets */
-    padding: 0; /* Remove padding */
-    margin: 0; /* Remove margin */
-}
-.sidebar nav ul li {
-    margin: 10px 0; /* Space between links */
-}
-.sidebar nav ul li a {
-    color: white; /* Sidebar link color */
-    text-decoration: none; /* Remove underline */
-}
+        .search-bar button {
+            padding: 8px 15px;
+            background-color: #FF8C42;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .panels-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        .list-panel{
+            background-color: #ffffff; 
+            margin-left: 30px;
+                padding: 10;
+                width: 40vh;
+                height: 50vh;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+                align-items: stretch;
+        }
+
+        .information-panel{
+            background-color: #ffffff; 
+            margin-left: 30px;
+                padding: 10;
+                width: 120vh;
+                height: 50vh;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+                align-items: stretch;
+        }
         </style>
     </head>
 
     <body>
         <!-- (1) Header (RIAS) -->
         <header class="header">
-            <div class="header-container">
-                <div class="header-text">
-                    <h1 class="site-title">RIAS</h1>
-                    <p class="subtitle">RAMS<br>INTERNSHIP<br>ASSESSMENT SYSTEM</p>
-                </div>
-            </div>
-        </header>
+        <div class="search-bar">
+            <form action="/supervisor/masterlist" method="GET">
+                <input type="text" name="search" placeholder="Search by student name..." required>
+                <button type="submit">Search</button>
+            </form>
+        </div>
 
-        <div class="container">
-            <div class="sidebar">
-                <nav>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Users</a></li>
-                        <li><a href="#">Interns</a></li>
-                        <li><a href="#">Reports</a></li>
-                        <li><a href="#">Settings</a></li>
-                    </ul>
-                </nav>
+         <!-- Panels Container -->
+         <div class="panels-container">
+            <div class="list-panel">
+                <h2>Intern 1</h2>
+                <h3>SOE</h3>
+                <ul>
+                    <li><a href="/supervisor/student/{{ student.id }}">{{ student.name }}</a></li>
+                </ul>
+
+                <h3>SOCIT</h3>
+                <ul>
+                    <li><a href="/supervisor/student/{{ student.id }}">{{ student.name }}</a></li>
+                </ul>
             </div>
-    </body>
+
+            <div class="information-panel">
+                <h2>Intern 1 SOE</h2>
+                <a href="/supervisor/student/{{ student.id }}">{{ student.name }}</a>
+                <p><strong>Student ID:</strong> {{ student.student_id }}</p>
+                <p><strong>Program:</strong> {{ student.program }}</p>
+                <p><strong>Supervisor:</strong> {{ student.supervisor }}</p>
+            </div>
+        </div>
+    </header>
+</body>
+
+</html>

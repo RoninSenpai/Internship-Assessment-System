@@ -1,6 +1,185 @@
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
 
-<div class="content">
-    <h1>IP Supervisors</h1>
-    <h2>Welcome to the Evaluation</h2>
-    <p>This is where the grading happens! ✨</p>
-</div>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Internship Assessment System</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+    
+    <style>
+        .header {
+            background-color: #FFF3E2;
+            padding: 20px;
+            margin: 0;
+            height: auto; /* Adjust to content height */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column; /* Align child elements horizontally */
+            justify-content: flex-start;
+            align-items: flex-start;
+            width: 100%; /* Make sure it takes full width */
+            position: relative; /* Position relative for absolute children */
+        }
+        .date-container{
+            display: absolute;
+            justify-content: flex-end; /* Align search bar to the right */
+            margin-bottom: 5px;
+        }
+        .information-panel{
+            background-color: #ffffff;
+                padding: 10px;
+                width: 185vh;
+                height: auto;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+                flex-direction: row;
+                align-items: stretch;
+        }
+        .information-card{
+            background-color: #d9d9d9;
+                padding: 10px;
+                width: 65vh;
+                height: 30vh;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+                flex-direction: column;
+        }
+        .grading-panel{
+            background-color: #d9d9d9;
+            padding: 10px;
+            margin-left: 2vh;
+                width: 180vh;
+                height: 100vh;
+                display: flex;
+                flex-direction: row;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+        }
+        .rubrics-questions{
+                padding: 10px;
+                width: 30vh;
+                height: 100vh;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+        }
+        .rubrics-grade{
+                padding: 10px;
+                margin-left: 50vh;
+                width: 30vh;
+                height: 100vh;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+        }
+        .button-panel{
+            display: flex;
+            justify-content: left; /* Center the button panel */
+            margin-top: 20px; /* Add some space above the button panel */
+            flex-direction: row; /* Align child elements horizontally */
+        }
+        .submit-buttons{
+            padding: 8px 15px;
+            background-color: #00e05d;
+            color: rgb(0, 0, 0);
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+        .save-buttons{
+            padding: 8px 15px;
+            background-color: #ffef0a;
+            color: rgb(0, 0, 0);
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+        .cancel-buttons{
+            padding: 8px 15px;
+            background-color: #949494;
+            color: rgb(0, 0, 0);
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+    </style>
+</head>
+<script>
+    function confirmAction(event) {
+        let userResponse = confirm("Are you sure you want to proceed? 😔");
+        if (!userResponse) {
+            event.preventDefault(); // Prevent the default action if the user clicks 'Cancel'
+        }
+    }
+</script>
+<body> 
+    <header class="header">
+        <h1>EVALUATION FORM</h1>
+        <div class="date-container">
+            <h2>DATE: {{ date }}</h2>
+        </div>
+        <div class="information-panel">
+            <div class="information-card">
+                <h2>Student Information</h2>
+                <p><strong>Name:</strong> {{ student.name }}</p>
+                <p><strong>Email:</strong> {{ student.student_email }}</p>
+            </div>
+            <p>RATING SCALE: 5-Highest, 0-Lowest, N/A-Not Applicable</p>
+            <div class="grading-panel">
+                <div class="rubrics-questions">
+                <h2>Rubrics Evaluation</h2>
+                <p>#1</p>
+                <p>Quality of Work</p>
+                </div>
+                    <div class="rubrics-grade">
+                        <h2>Grade</h2>
+                        <ul>
+                         {% for question in questions %}
+                              {{ question }}: 
+                               <select name="grade_{{ loop.index }}" required>
+                                <option value="5">5</option>
+                                <option value="4">4</option>
+                                <option value="3">3</option>
+                                <option value="2">2</option>
+                                <option value="1">1</option>
+                                <option value="0">0</option>
+                                <option value="N/A">N/A</option>
+                               </select>
+                        {% endfor %}
+                        </ul>
+                </form>
+            </div>
+        </div> 
+        <div class="button-panel">
+            <form action="/supervisor/evaluation" method="POST">
+                <input type="hidden" name="student_id" value="{{ student.id }}">
+                <input type="hidden" name="supervisor_id" value="{{ supervisor_id }}">
+                <input type="hidden" name="internship_id" value="{{ internship_id }}">
+                <button type="button" class="cancel-buttons">Cancel Evaluation</button>
+                <button type="save" class="save-buttons">Save Evaluation</button>
+                <button type="submit" class="submit-buttons" onclick="confirmAction(event)">Submit Evaluation</button>
+            </form>
+        </div>
+        
+        
+    </header>
+    
+</body>
