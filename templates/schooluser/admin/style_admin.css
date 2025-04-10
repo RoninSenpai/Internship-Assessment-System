@@ -1,0 +1,151 @@
+body {
+    font-family: 'Consolas', 'Josefin Sans', sans-serif;
+    background: #f2f4f7;
+    margin: 0;
+    padding: 20px;
+  }
+  
+  .admin-container {
+    background: #fff;
+    max-width: 1280px;
+    margin: auto;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .top-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 25px;
+  }
+  
+  .top-info a {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .role-stats {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .stat {
+    padding: 15px;
+    background: #fafafa;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    flex: 1;
+    margin: 0 5px;
+  }
+  
+  .stat span {
+    font-size: 13px;
+    color: #888;
+  }
+  
+  .stat strong {
+    font-size: 24px;
+    color: #222;
+  }
+  
+  .calendar-section table {
+    width: 100%;
+    margin-bottom: 10px;
+    border-collapse: collapse;
+  }
+  
+  .calendar-section th, .calendar-section td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .event-yellow { background: #fdf3c0; }
+  .event-purple { background: #e6e3f5; }
+  
+  .calendar-options {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  
+  .activity-login-section {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  
+  .log-activity {
+    flex: 2;
+  }
+  
+  .user-logins {
+    flex: 1;
+  }
+  
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .tag {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    color: #fff;
+  }
+  
+  .green { background: #34c759; }
+  .blue { background: #4a90e2; }
+  .pink { background: #d36ae3; }
+  .orange { background: #ff8c42; }
+  .yellow { background: #ffd700; color: #222; }
+  .gray { background: #bbb; }
+  
+  .logs {
+    list-style: none;
+    padding: 0;
+    font-size: 14px;
+  }
+  
+  .logs li {
+    margin-bottom: 10px;
+  }
+  
+  .logs small {
+    display: block;
+    color: #777;
+    font-size: 12px;
+  }
+  
+  .log-dot {
+    margin-right: 8px;
+  }
+  a {
+    color: #007bff; /* A nice crisp blue */
+    text-decoration: none; /* Remove underline if you want */
+  }
+  
+  a:hover {
+    text-decoration: underline;
+    color: #0056b3; /* A slightly darker blue on hover */
+  }
+  
+  .last-page-link {
+    color: #007bff;
+    text-decoration: none;
+    font-family: 'Josefin Sans', sans-serif;
+  }
+  
+  .last-page-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+  }
+  
+  

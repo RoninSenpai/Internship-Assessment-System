@@ -1,168 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Internship Officer Homepage</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="stylus.css"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Intern Dashboard</title>
+  <link rel="stylesheet" href="stylus.css" />
 </head>
-<body class="bg-yellow-100">
-    <input type="checkbox" id="menu-toggle" class="hidden">
- 
-    <div class="flex flex-col min-h-screen">
- 
-        <!-- Header -->
-        <header class="bg-yellow-500 p-4 flex justify-between items-center">
-            <div class="flex items-center">
-                <img alt="RIAS Logo" class="h-12" height="50"
-                     src="https://storage.googleapis.com/a1aa/image/Gd7I4CmNch9nWkCM4i2QbLqqzEwezakgmcc066zuDjI.jpg" width="100"/>
-                <div class="ml-4">
-                    <h1 class="text-2xl font-bold text-white">Internship Officer</h1>
-                </div>
-            </div>
-            <div class="flex items-center space-x-4">
-                <!-- Clickable Notification Bell -->
-                <a href="notifications.html">
-                    <i class="fas fa-bell text-white text-2xl hover:text-gray-200 transition"></i>
-                </a>
-                <!-- Clickable Profile Picture -->
-                <a href="profile.html">
-                    <img alt="Profile picture" class="h-10 w-10 rounded-full hover:opacity-80 transition"
-                         src="https://th.bing.com/th/id/OIP.fXLkbSOJEBn5W1jRnNQc6wAAAA?rs=1&pid=ImgDetMain"/>
-                </a>
-            </div>
-        </header>
- 
-       
-       
- 
-       
- 
-        <!-- Main Content -->
-        <div class="flex flex-1">
-            <!-- Sidebar -->
-            <aside class="sidebar">
-                <nav class="space-y-4">
-                    <a class="sidebar-link" href="#"><i class="fas fa-calendar-alt"></i> <span>2024 - 2025</span></a>
-                    <a class="sidebar-link" href="#"><i class="fas fa-list"></i> <span>Master List</span></a>
-                    <a class="sidebar-link" href="#"><i class="fas fa-clipboard-list"></i> <span>Rubrics</span></a>
-                    <a class="sidebar-link" href="#"><i class="fas fa-chart-line"></i> <span>Progress</span></a>
-                    <a class="sidebar-link" href="#"><i class="fas fa-file-alt"></i> <span>Reports</span></a>
-                </nav>
-            </aside>
- 
-            <!-- Main Section -->
-            <main class="flex-1 p-6">
-                <div class="main-card">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-2xl font-bold">03/12/2025</h2>
-                        <p class="text-sm text-gray-600">You previously logged in on Saturday, March 09, 2025 at 01:59 PM</p>
-                    </div>
- 
-                    <div class="flex space-x-4">
-                        <div class="user-card"> <p class="text-lg font-bold">214</p> <p>Total Users</p> </div>
-                        <div class="user-card"> <p class="text-lg font-bold">130</p> <p>Student Intern</p> </div>
-                        <div class="user-card"> <p class="text-lg font-bold">1</p> <p>Internship Officer</p> </div>
-                        <div class="user-card"> <p class="text-lg font-bold">36</p> <p>Program Director</p> </div>
-                        <div class="user-card"> <p class="text-lg font-bold">5</p> <p>Executive Director</p> </div>
-                        <div class="user-card"> <p class="text-lg font-bold">42</p> <p>Industry Partner</p> </div>
-                    </div>
- 
-                    <h3 class="text-xl font-bold mt-4">Internship Calendar Events for the Academic Year 2024-2025</h3>
-                    <table class="calendar-table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Event</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>September 1</td><td>INTERNS' End</td></tr>
-                            <tr><td>August 30</td><td>INTERNS' End</td></tr>
-                            <tr><td>December 16</td><td>Internship Consultation</td></tr>
-                        </tbody>
-                    </table>
- 
-                    <div class="flex justify-between items-center mt-4">
-                        <button class="btn">Set Event</button>
-                        <button class="btn">Change Academic Year</button>
-                    </div>
-                </div>
- 
-                <!-- Intern Tracking Section -->
-<div class="grid grid-cols-3 gap-4 mt-6">
-    <!-- Intern1 Card -->
-    <div class="stats-card">
-        <h3 class="text-lg font-bold">Intern1</h3>
-        <div class="flex justify-between">
-            <div class="text-center">
-                <p class="text-2xl font-bold">10</p>
-                <p class="text-gray-500">New</p>
-            </div>
-            <div class="text-center">
-                <p class="text-2xl font-bold">13</p>
-                <p class="text-gray-500">Active</p>
-            </div>
-            <div class="text-center">
-                <p class="text-2xl font-bold">31</p>
-                <p class="text-gray-500">Completed</p>
-            </div>
-        </div>
+<body>
+  <div class="dashboard">
+    <div class="header">
+      <div class="title">Dashboard</div>
+      <div class="date">Wednesday, March 12, 2025</div>
     </div>
- 
-    <!-- Progress Card -->
-    <div class="stats-card">
-        <h3 class="text-lg font-bold">Progress</h3>
-        <div class="flex justify-between">
-            <div class="text-center">
-                <p class="text-2xl font-bold">40</p>
-                <p class="text-gray-500">New</p>
-            </div>
-            <div class="text-center">
-                <p class="text-2xl font-bold">90</p>
-                <p class="text-gray-500">Active</p>
-            </div>
-            <div class="text-center">
-                <p class="text-2xl font-bold">20</p>
-                <p class="text-gray-500">Completed</p>
-            </div>
-        </div>
+
+    <div class="top-bar">
+      <button>See Masterlist</button>
+      <div class="search-bar">
+        <input type="text" placeholder="SEARCH FOR USERS..." />
+      </div>
     </div>
- 
-    <!-- Interns Chart Card -->
-    <div class="stats-card">
-        <h3 class="text-lg font-bold">130 Interns</h3>
-        <img src="https://www.ielts-mentor.com/images/writingsamples/ielts-pie-chart245-important-aspects-internship-students-have-learned.png" alt="Interns Tracking" class="w-full rounded"/>
+
+    <div class="section-title">Your Interns for the School Year 2025 - 2026:</div>
+
+    <div class="cards">
+      <div class="card">
+        <img src="https://th.bing.com/th/id/OIP.UvgAzpk1q-n7gqp0r45KXgHaEK?rs=1&pid=ImgDetMain" alt="Profile" />
+        <div class="name">ABONITA, RONIN N.</div>
+        <div class="email">rnabonita@student.apc.edu.ph</div>
+        <div class="course">BS Computer Engineering</div>
+        <div class="status done">DONE</div>
+      </div>
+
+      <div class="card">
+        <img src="https://media.licdn.com/dms/image/D4E03AQEes9AcIWMQDg/profile-displayphoto-shrink_800_800/0/1689101833460?e=2147483647&v=beta&t=MBWkYHGpsytIqBriewSdf8F0ZNPeXdaP_GQge1oD18M" alt="Profile" />
+        <div class="name">AQUINO, JULIUS V.</div>
+        <div class="email">jvaquino@student.apc.edu.ph</div>
+        <div class="course">BS Computer Engineering</div>
+        <div class="status continue">CONTINUE</div>
+      </div>
+
+      <div class="card">
+        <img src="https://media.licdn.com/dms/image/D5603AQEpqwMqh9jHlw/profile-displayphoto-shrink_800_800/0/1683843112568?e=2147483647&v=beta&t=rq6dM8Hta2H1C1JLv242KR3d3F1ap_PApaB7e9SRqgY" alt="Profile" />
+        <div class="name">KURUMPHANG, MARVIN J.</div>
+        <div class="email">mjkurumphang@student.apc.edu.ph</div>
+        <div class="course">BS Computer Engineering</div>
+        <div class="status done">DONE</div>
+      </div>
+
+      <div class="card">
+        <img src="https://media.licdn.com/dms/image/v2/C4E03AQE7H_T72rXTvQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1650170111817?e=2147483647&v=beta&t=-WTKyIVoe5Bi5P3o_tHP__u_awv-qxoKy92IwazQjiY" alt="Profile" />
+        <div class="name">VELORIA, DENBERT J.</div>
+        <div class="email">djveloria@student.apc.edu.ph</div>
+        <div class="course">BS Computer Engineering</div>
+        <div class="status done">DONE</div>
+      </div>
     </div>
-</div>
- 
- 
-                <!-- Internship Officer Profile -->
-                <div class="profile-card">
-                    <img src="https://th.bing.com/th/id/OIP.fXLkbSOJEBn5W1jRnNQc6wAAAA?rs=1&pid=ImgDetMain" alt="Mr. Sen S. Ei" class="profile-img"/>
-                    <div>
-                        <h4 class="text-lg font-bold">Mr. Sen S. Ei</h4>
-                        <p class="text-sm text-gray-600">Internship Officer of the School of Management for the Academic Year 2024-2025</p>
-                        <a href="#" class="text-blue-500">View Complete Profile</a>
-                    </div>
-                </div>
-            </main>
-        </div>
- 
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="flex justify-center space-x-4">
-                <a class="footer-link" href="#">About Us</a>
-                <a class="footer-link" href="#">Privacy Policy</a>
-                <a class="footer-link" href="#">Terms of Use</a>
-                <a class="footer-link" href="#">Contact Us</a>
-            </div>
-            <p>© 2025 Asia Pacific College. All rights reserved.</p>
-        </footer>
- 
-    </div>
+  </div>
 </body>
 </html>
+

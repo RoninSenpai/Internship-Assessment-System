@@ -16,7 +16,7 @@
         <iframe src="/templates/_components/sidebar.html" class="sidebar" id="sidebarFrame"></iframe>
 
         <script>
-            const userRole = "admin"; // Replace with actual role-checking logic
+            const userRole = "admin"; // 
 
             document.getElementById("sidebarFrame").addEventListener("load", function() {
                 this.contentWindow.postMessage({ role: userRole }, "*");

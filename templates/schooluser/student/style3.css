@@ -1,0 +1,98 @@
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+}
+ 
+/* Sidebar */
+.sidebar {
+    background: #2c3e50;
+    color: white;
+    width: 250px;
+    padding: 20px;
+}
+ 
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+}
+ 
+.sidebar-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+ 
+/* Main Content */
+.main-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+ 
+/* User Cards */
+.user-card {
+    text-align: center;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    flex: 1;
+}
+ 
+/* Table Styling */
+.calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+ 
+.calendar-table th, .calendar-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+ 
+.calendar-table th {
+    background: #f1f1f1;
+}
+ 
+/* Buttons */
+.btn {
+    background: #3498db;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+ 
+.btn:hover {
+    background: #2980b9;
+}
+ 
+/* Profile Card */
+.profile-card {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+}
+ 
+.profile-img {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+.stats-card {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+ 

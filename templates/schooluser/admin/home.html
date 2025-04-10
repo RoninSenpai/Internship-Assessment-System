@@ -1,6 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style_admin.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="admin-container">
+    <header class="top-info">
+      <div class="date" id="current-date"></div>
+      <div class="last-login">
+        You previously logged in on <span id="current-datetime"></span>
+        <a href="#" class="last-page-link">
+          Go to your last visited page: <strong>Master List</strong> ⟳
+        </a>
+      </div>
+    </header>
 
-<div class="content">
-    <h1>Admin</h1>
-    <h2>Welcome to the Home</h2>
-    <p>This is where the calendar happens! ✨</p>
-</div>
+    <section class="role-stats">
+      <div class="stat"><span>Total Users</span><strong><br>214</strong></div>
+      <div class="stat"><span>Student Intern</span><strong><br>130</strong></div>
+      <div class="stat"><span>Internship Officer</span><strong><br>1</strong></div>
+      <div class="stat"><span>Program Director</span><strong><br>36</strong></div>
+      <div class="stat"><span>Executive Director</span><strong><br>5</strong></div>
+      <div class="stat"><span>Industry Partner</span><strong><br>42</strong></div>
+    </section>
+
+    <section class="calendar-section">
+      <h2>Internship Calendar Events for the Academic Year <strong>2024-2025</strong></h2>
+      <table>
+        <thead>
+          <tr><th>Date</th><th>Event</th></tr>
+        </thead>
+        <tbody>
+          <tr class="event-yellow"><td>September 1</td><td>INTERN2 End</td></tr>
+          <tr class="event-yellow"><td>August 30</td><td>INTERN1 End</td></tr>
+          <tr class="event-purple"><td>December 16</td><td>Internship consultation</td></tr>
+        </tbody>
+      </table>
+      <div class="calendar-options">
+        <a href="#">📅 Set Event</a>
+        <a href="#">📅 Change Academic Year</a>
+      </div>
+    </section>
+
+    <section class="activity-login-section">
+      <div class="log-activity">
+        <h3>Recent Log Activity</h3>
+        <div class="tags">
+          <span class="tag green">Student Intern   25</span>
+          <span class="tag blue">Program Director   7</span>
+          <span class="tag pink">Internship Officer   5</span>
+          <span class="tag orange">Industry Partner   3</span>
+          <span class="tag yellow">Executive Director   2</span>
+          <span class="tag gray">Admin   4</span>
+        </div>
+
+        <ul class="logs">
+          <li>
+            <span class="log-dot">📌</span>
+            Internship Officer changed the master-list
+            <small>About a minute ago - 03/12/2025</small>
+          </li>
+          <li>
+            <span class="log-dot">📌</span>
+            CpE Program director commented on the student outcomes
+            <small>About a month ago - 02/12/2025</small>
+          </li>
+        </ul>
+      </div>
+
+      <div class="user-logins">
+        <h3>User Logins</h3>
+        <canvas id="loginChart" width="400" height="250"></canvas>
+      </div>
+    </section>
+  </div>
+
+  <!-- Real-time Date and Time Script -->
+  <script>
+    function updateDateTime() {
+      const now = new Date();
+      const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+      const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+      const fullDate = now.toLocaleDateString(undefined, dateOptions);
+      const fullTime = now.toLocaleTimeString(undefined, timeOptions);
+      const weekday = now.toLocaleDateString(undefined, { weekday: 'long' });
+
+      document.getElementById('current-date').textContent = fullDate;
+      document.getElementById('current-datetime').textContent = `${weekday}, ${fullDate} at ${fullTime}`;
+    }
+
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+  </script>
+
+  <!-- Chart.js Bar Chart -->
+  <script>
+    const ctx = document.getElementById('loginChart');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['PD', 'IO', 'SI', 'EXD', 'IP'],
+        datasets: [{
+          label: 'INTERN1',
+          data: [25, 10, 50, 30, 60],
+          backgroundColor: '#f15a5a'
+        }, {
+          label: 'INTERN2',
+          data: [30, 15, 55, 35, 65],
+          backgroundColor: '#34c9ad'
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
+
