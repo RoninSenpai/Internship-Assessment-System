@@ -14,7 +14,6 @@ body {
     display: flex;
     flex-direction: column; 
     height: 100vh;
-    background: linear-gradient(135deg, #ffffff, #e2e2ff);
 }
 
 /* Header */
@@ -140,6 +139,20 @@ body {
 /* Main Content */
 .content {
     flex-grow: 1; /* Takes up remaining space */
-    padding-left: 20px;
-    padding-top: 20px;
+    /* padding: 20px; */
+    min-width: calc(100% - 60px); /* Adjusts for sidebar width */
+}
+
+.box-shadow {
+    padding: 20px;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
+
+.content-card {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }

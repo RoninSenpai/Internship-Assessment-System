@@ -1,14 +1,26 @@
 
-function toggleSidebar() {
-    console.log("Sidebar toggled");
-    window.parent.document.querySelector(".sidebar").classList.toggle("open");
-    document.querySelectorAll(".sidebar-item").forEach(item => {
-        item.classList.toggle("open");
-    });
-}
+function toggleSidebar(forceState = null) {
+    const sidebar = window.parent.document.querySelector(".sidebar");
+    const sidebarItems = document.querySelectorAll(".sidebar-item");
 
-function changeIframe(newSrc) {
-    window.parent.document.getElementById("content").src = newSrc;
+    console.log("Sidebar toggle triggered. State:", forceState);
+
+    if (!sidebar) {
+        console.warn("Sidebar not found!! YOU FOOL!!");
+        return;
+    }
+
+    if (forceState === "open") {
+        sidebar.classList.add("open");
+        sidebarItems.forEach(item => item.classList.add("open"));
+    } else if (forceState === "close") {
+        sidebar.classList.remove("open");
+        sidebarItems.forEach(item => item.classList.remove("open"));
+    } else {
+        // default toggle mode if no forceState specified
+        sidebar.classList.toggle("open");
+        sidebarItems.forEach(item => item.classList.toggle("open"));
+    }
 }
 
 const ICON_DIR = "/static/images/components/";
@@ -81,3 +93,21 @@ window.addEventListener("message", (event) => {
         loadSidebar(event.data.role);
     }
 });
+
+const sidebar = document.getElementById('sidebar-content');
+
+let timeout;
+
+sidebar.addEventListener('mouseleave', () => {
+  timeout = setTimeout(() => {
+    toggleSidebar("close");
+  }, 100); // wait 300ms before closing
+});
+
+sidebar.addEventListener('mouseenter', () => {
+  clearTimeout(timeout); // cancel if they come back in
+});
+
+function changeIframe(newSrc) {
+    window.parent.document.getElementById("content").src = newSrc;
+}
