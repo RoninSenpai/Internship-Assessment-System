@@ -53,25 +53,31 @@ const sidebarItems = {
 
 function loadSidebar(role) {
     const sidebar = document.querySelector(".sidebar-content");
-    sidebar.innerHTML = ""; // Clear existing items
+    sidebar.innerHTML = "";
 
-    // **💀 ADD THE BURGER BUTTON FIRST!**
+    const currentSrc = window.parent.document.getElementById("content").src;
+
+    // BURGER ITEM
     const burger = document.createElement("div");
     burger.className = "sidebar-item";
     burger.setAttribute("onclick", "toggleSidebar()");
-
     const burgerImg = document.createElement("img");
     burgerImg.src = ICON_DIR + "burger_icon.png";
     burgerImg.alt = "Menu";
     burgerImg.className = "icon";
-
     burger.appendChild(burgerImg);
-    sidebar.appendChild(burger); // **Always first!**
+    sidebar.appendChild(burger);
 
-    // **💀 THEN ADD USER-SPECIFIC ITEMS!**
+    // USER ROLE ITEMS
     sidebarItems[role].forEach(item => {
         const div = document.createElement("div");
         div.className = "sidebar-item";
+
+        // CHECK IF IT'S THE CURRENT PAGE
+        if (currentSrc.includes(item.link)) {
+            div.classList.add("active"); // 👈 ADD ACTIVE CLASS
+        }
+
         div.setAttribute("onclick", `changeIframe('${item.link}')`);
 
         const span = document.createElement("span");
@@ -110,4 +116,35 @@ sidebar.addEventListener('mouseenter', () => {
 
 function changeIframe(newSrc) {
     window.parent.document.getElementById("content").src = newSrc;
+
+    // update active class from the sidebar
+    document.querySelectorAll('.sidebar-item').forEach(el => {
+        el.classList.remove("active");
+        console.log("test item", el);
+    });
+
+
+    // update active class from the content iframe
+    const targetIframe = window.parent.document.getElementById('sidebarFrame');
+    const targetDoc = targetIframe.contentWindow.document;
+
+    targetDoc.querySelectorAll('.sidebar-item').forEach(el => {
+        el.classList.remove("active");
+        console.log("deactivating sibling sidebar item:", el);
+    });
+
+    const sidebarIframe = window.parent.document.getElementById('sidebarFrame');
+
+    if (sidebarIframe) {
+        const sidebarDoc = sidebarIframe.contentWindow.document;
+
+        const matchingItem = Array.from(sidebarDoc.querySelectorAll('.sidebar-item'))
+            .find(item => item.getAttribute("onclick")?.includes(newSrc));
+        
+        console.log("test matchingItem", matchingItem);
+
+        if (matchingItem) {
+            matchingItem.classList.add("active");
+        }
+    }
 }

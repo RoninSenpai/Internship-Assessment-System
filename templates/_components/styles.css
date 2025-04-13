@@ -115,6 +115,7 @@
     align-items: center; /* Center vertically */
     margin-right: auto;
     gap: 30px; /* Space between items */
+    user-select: none; /* Standard */
 }
 
 .copyright {

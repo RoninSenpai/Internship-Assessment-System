@@ -1,124 +1,100 @@
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
-
-    <html lang="en">
-
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Internship Assessment System</title>
-        <link rel="stylesheet" href="/static/css/style.css" />
+<div class="content">
+    <div class="box-shadow">
+        <div class="content-card">
+        <div class="title-container">
+            <div class="title">Intern Masterlist</div>
+            <div class="date">Wednesday, March 12, 2025</div>
+        </div>
     
-        <style>
-            .header {
-                background-color: #FFF3E2;
-            padding: 20px;
-            margin: 0;
-            height: 100vh; /* Adjust to content height */
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column; /* Align child elements horizontally */
-            justify-content: flex-start;
-            align-items: flex-start;
-            width: 100%; /* Make sure it takes full width */
-            }
-
-    .search-bar {
-        margin-top: 50px;
-        margin-left: 30px;
-            width: 50vh;
-            display: flex;
-            justify-content: left;
-    }
-    .search-bar input {
-        flex: 1;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .search-bar button {
-            padding: 8px 15px;
-            background-color: #FF8C42;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-
-        .panels-container {
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-        }
-
-        .list-panel{
-            background-color: #ffffff; 
-            margin-left: 30px;
-                padding: 10;
-                width: 40vh;
-                height: 50vh;
-                border-top-right-radius: 10px;
-                border-bottom-right-radius: 10px;
-                border-top-left-radius: 10px;
-                border-bottom-left-radius: 10px;
-                align-items: stretch;
-        }
-
-        .information-panel{
-            background-color: #ffffff; 
-            margin-left: 30px;
-                padding: 10;
-                width: 120vh;
-                height: 50vh;
-                border-top-right-radius: 10px;
-                border-bottom-right-radius: 10px;
-                border-top-left-radius: 10px;
-                border-bottom-left-radius: 10px;
-                align-items: stretch;
-        }
-        </style>
-    </head>
-
-    <body>
-        <!-- (1) Header (RIAS) -->
-        <header class="header">
-        <div class="search-bar">
-            <form action="/supervisor/masterlist" method="GET">
-                <input type="text" name="search" placeholder="Search by student name..." required>
-                <button type="submit">Search</button>
-            </form>
-        </div>
-
-         <!-- Panels Container -->
-         <div class="panels-container">
-            <div class="list-panel">
-                <h2>Intern 1</h2>
-                <h3>SOE</h3>
-                <ul>
-                    <li><a href="/supervisor/student/{{ student.id }}">{{ student.name }}</a></li>
-                </ul>
-
-                <h3>SOCIT</h3>
-                <ul>
-                    <li><a href="/supervisor/student/{{ student.id }}">{{ student.name }}</a></li>
-                </ul>
-            </div>
-
-            <div class="information-panel">
-                <h2>Intern 1 SOE</h2>
-                <a href="/supervisor/student/{{ student.id }}">{{ student.name }}</a>
-                <p><strong>Student ID:</strong> {{ student.student_id }}</p>
-                <p><strong>Program:</strong> {{ student.program }}</p>
-                <p><strong>Supervisor:</strong> {{ student.supervisor }}</p>
+        <div class="top-bar">
+            <button>See Masterlist</button>
+            <div class="search-bar">
+            <input type="text" placeholder="SEARCH FOR USERS..." />
             </div>
         </div>
-    </header>
-</body>
+    
+        <div class="section-title">Your Interns for the School Year 2025 - 2026:</div>
+    
+        <div class="cards">
+            <div class="card">
+            <img src="https://th.bing.com/th/id/OIP.UvgAzpk1q-n7gqp0r45KXgHaEK?rs=1&pid=ImgDetMain" alt="Profile" />
+            <div class="name">ABONITA, RONIN N.</div>
+            <div class="email">rnabonita@student.apc.edu.ph</div>
+            <div class="course">BS Computer Engineering</div>
+            <div class="status done">DONE</div>
+            </div>
+    
+            <div class="card">
+            <img src="https://media.licdn.com/dms/image/D4E03AQEes9AcIWMQDg/profile-displayphoto-shrink_800_800/0/1689101833460?e=2147483647&v=beta&t=MBWkYHGpsytIqBriewSdf8F0ZNPeXdaP_GQge1oD18M" alt="Profile" />
+            <div class="name">AQUINO, JULIUS V.</div>
+            <div class="email">jvaquino@student.apc.edu.ph</div>
+            <div class="course">BS Computer Engineering</div>
+            <div class="status continue">CONTINUE</div>
+            </div>
+    
+            <div class="card">
+            <img src="https://media.licdn.com/dms/image/D5603AQEpqwMqh9jHlw/profile-displayphoto-shrink_800_800/0/1683843112568?e=2147483647&v=beta&t=rq6dM8Hta2H1C1JLv242KR3d3F1ap_PApaB7e9SRqgY" alt="Profile" />
+            <div class="name">KURUMPHANG, MARVIN J.</div>
+            <div class="email">mjkurumphang@student.apc.edu.ph</div>
+            <div class="course">BS Computer Engineering</div>
+            <div class="status done">DONE</div>
+            </div>
+    
+            <div class="card">
+            <img src="https://media.licdn.com/dms/image/v2/C4E03AQE7H_T72rXTvQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1650170111817?e=2147483647&v=beta&t=-WTKyIVoe5Bi5P3o_tHP__u_awv-qxoKy92IwazQjiY" alt="Profile" />
+            <div class="name">VELORIA, DENBERT J.</div>
+            <div class="email">djveloria@student.apc.edu.ph</div>
+            <div class="course">BS Computer Engineering</div>
+            <div class="status done">DONE</div>
+            </div>
+        </div>
+        </div>
+    </div>
 
-</html>
+    <div class="box-shadow">
+        <div class="content-card">
+            <div class="search-bar">
+                <form action="/supervisor/masterlist" method="GET">
+                    <input type="text" name="search" placeholder="Search by student name..." required>
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+
+            <!-- Panels Container -->
+            <div class="panels-container">
+                <div class="list-panel">
+                    <h2>Intern 1</h2>
+                    <h3>SOE</h3>
+                    <ul>
+                        <li><a href="/supervisor/student/{{ student.id }}">{{ student.name }}</a></li>
+                    </ul>
+
+                    <h3>SOCIT</h3>
+                    <ul>
+                        <li><a href="/supervisor/student/{{ student.id }}">{{ student.name }}</a></li>
+                    </ul>
+                </div>
+
+                <div class="information-panel">
+                    <h2>Intern 1 SOE</h2>
+                    <a href="/supervisor/student/{{ student.id }}">{{ student.name }}</a>
+                    <p><strong>Student ID:</strong> {{ student.student_id }}</p>
+                    <p><strong>Program:</strong> {{ student.program }}</p>
+                    <p><strong>Supervisor:</strong> {{ student.supervisor }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="backToTopBtn" onclick="scrollToTop()">↑ Back to Top</button>
+
+</div>
+
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/static/css/components.css">
+<link rel="stylesheet" href="masterlist.css">
+<link rel="stylesheet" href="stylus.css">
+
+<script src="/templates/supervisor/masterlist.js"></script>
