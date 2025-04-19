@@ -19,6 +19,7 @@ h1 {
   padding-left: 20px;
   color: #555;
   user-select: none;
+  margin-left: 0;
 }
 
 h2 {

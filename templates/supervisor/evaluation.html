@@ -1,185 +1,111 @@
-<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
-
-<html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Internship Assessment System</title>
-    <link rel="stylesheet" href="/static/css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
     
-    <style>
-        .header {
-            background-color: #FFF3E2;
-            padding: 20px;
-            margin: 0;
-            height: auto; /* Adjust to content height */
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column; /* Align child elements horizontally */
-            justify-content: flex-start;
-            align-items: flex-start;
-            width: 100%; /* Make sure it takes full width */
-            position: relative; /* Position relative for absolute children */
-        }
-        .date-container{
-            display: absolute;
-            justify-content: flex-end; /* Align search bar to the right */
-            margin-bottom: 5px;
-        }
-        .information-panel{
-            background-color: #ffffff;
-                padding: 10px;
-                width: 185vh;
-                height: auto;
-                border-top-right-radius: 10px;
-                border-bottom-right-radius: 10px;
-                border-top-left-radius: 10px;
-                border-bottom-left-radius: 10px;
-                flex-direction: row;
-                align-items: stretch;
-        }
-        .information-card{
-            background-color: #d9d9d9;
-                padding: 10px;
-                width: 65vh;
-                height: 30vh;
-                border-top-right-radius: 10px;
-                border-bottom-right-radius: 10px;
-                border-top-left-radius: 10px;
-                border-bottom-left-radius: 10px;
-                flex-direction: column;
-        }
-        .grading-panel{
-            background-color: #d9d9d9;
-            padding: 10px;
-            margin-left: 2vh;
-                width: 180vh;
-                height: 100vh;
-                display: flex;
-                flex-direction: row;
-                border-top-right-radius: 10px;
-                border-bottom-right-radius: 10px;
-                border-top-left-radius: 10px;
-                border-bottom-left-radius: 10px;
-        }
-        .rubrics-questions{
-                padding: 10px;
-                width: 30vh;
-                height: 100vh;
-                border-top-right-radius: 10px;
-                border-bottom-right-radius: 10px;
-                border-top-left-radius: 10px;
-                border-bottom-left-radius: 10px;
-        }
-        .rubrics-grade{
-                padding: 10px;
-                margin-left: 50vh;
-                width: 30vh;
-                height: 100vh;
-                border-top-right-radius: 10px;
-                border-bottom-right-radius: 10px;
-                border-top-left-radius: 10px;
-                border-bottom-left-radius: 10px;
-        }
-        .button-panel{
-            display: flex;
-            justify-content: left; /* Center the button panel */
-            margin-top: 20px; /* Add some space above the button panel */
-            flex-direction: row; /* Align child elements horizontally */
-        }
-        .submit-buttons{
-            padding: 8px 15px;
-            background-color: #00e05d;
-            color: rgb(0, 0, 0);
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-left: 15px;
-        }
-        .save-buttons{
-            padding: 8px 15px;
-            background-color: #ffef0a;
-            color: rgb(0, 0, 0);
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-left: 15px;
-        }
-        .cancel-buttons{
-            padding: 8px 15px;
-            background-color: #949494;
-            color: rgb(0, 0, 0);
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-left: 15px;
-        }
-    </style>
+    <link rel="stylesheet" href="/static\css\components.css">
+    <!-- <link rel="stylesheet" href="evaluation2.css" /> -->
+    <link rel="stylesheet" href="evaluation.css" />
 </head>
-<script>
-    function confirmAction(event) {
-        let userResponse = confirm("Are you sure you want to proceed? 😔");
-        if (!userResponse) {
-            event.preventDefault(); // Prevent the default action if the user clicks 'Cancel'
-        }
-    }
-</script>
-<body> 
-    <header class="header">
-        <h1>EVALUATION FORM</h1>
-        <div class="date-container">
-            <h2>DATE: {{ date }}</h2>
-        </div>
-        <div class="information-panel">
-            <div class="information-card">
-                <h2>Student Information</h2>
-                <p><strong>Name:</strong> {{ student.name }}</p>
-                <p><strong>Email:</strong> {{ student.student_email }}</p>
-            </div>
-            <p>RATING SCALE: 5-Highest, 0-Lowest, N/A-Not Applicable</p>
-            <div class="grading-panel">
-                <div class="rubrics-questions">
-                <h2>Rubrics Evaluation</h2>
-                <p>#1</p>
-                <p>Quality of Work</p>
+
+<body class="content">
+    <p class="date">Wednesday, March 12, 2025</p>
+    <script src="/templates/_components/date.js"></script>
+
+    <div class="box-shadow">
+        <div class="content-card">
+            <h1>EVALUATION FORM</h1>
+
+            <article class="card">
+                <img src="https://th.bing.com/th/id/OIP.UvgAzpk1q-n7gqp0r45KXgHaEK?rs=1&pid=ImgDetMain"
+                    alt="Profile picture of ABONITA, RONIN N." />
+                <div class="card-content">
+                    <h3 class="name">ABONITA, RONIN N.</h3>
+                    <p class="course">BS Computer Engineering</p>
+                    <p class="intern-id">INTERN1</p>
                 </div>
-                    <div class="rubrics-grade">
-                        <h2>Grade</h2>
-                        <ul>
-                         {% for question in questions %}
-                              {{ question }}: 
-                               <select name="grade_{{ loop.index }}" required>
-                                <option value="5">5</option>
-                                <option value="4">4</option>
-                                <option value="3">3</option>
-                                <option value="2">2</option>
-                                <option value="1">1</option>
-                                <option value="0">0</option>
-                                <option value="N/A">N/A</option>
-                               </select>
-                        {% endfor %}
-                        </ul>
+            </article>
+
+            <p>RATING SCALE: 5 - Highest, 0 - Lowest, N/A - Not Applicable</p>
+
+            <table border="1">
+                <thead>
+                    <colgroup>
+                        <col style="width: 50px">
+                        <col>
+                        <col style="width: 50px">
+                        <col style="width: 50px">
+                        <col style="width: 50px">
+                        <col style="width: 50px">
+                        <col style="width: 50px">
+                        <col style="width: 50px">
+                        <col style="width: 50px">
+                    </colgroup>
+                    <tr>
+                        <th rowspan="2" class="table-header">#</th>
+                        <th rowspan="2" class="table-header">Criteria</th>
+                        <th colspan="7" class="table-header">Rating</th>
+                    </tr>
+                    <tr>
+                        <th class="table-header">5</th>
+                        <th class="table-header">4</th>
+                        <th class="table-header">3</th>
+                        <th class="table-header">2</th>
+                        <th class="table-header">1</th>
+                        <th class="table-header">0</th>
+                        <th class="table-header">N/A</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td class="criteria-item">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.   </td>
+                        <td class="rating-item"><label><input type="radio" name="grade_1" value="5" required><span>5</span></label></td>
+                        <td class="rating-item"><label><input type="radio" name="grade_1" value="4"><span>4</span></label></td>
+                        <td class="rating-item"><label><input type="radio" name="grade_1" value="3"><span>3</span></label></td>
+                        <td class="rating-item"><label><input type="radio" name="grade_1" value="2"><span>2</span></label></td>
+                        <td class="rating-item"><label><input type="radio" name="grade_1" value="1"><span>1</span></label></td>
+                        <td class="rating-item"><label><input type="radio" name="grade_1" value="0"><span>0</span></label></td>
+                        <td class="rating-item"><label><input type="radio" name="grade_1" value="N/A"><span>N/A</span></label></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="criteria-item">Initiative</td>
+                        <td class="rating-item"><label><input type="radio" name="grade_2" value="5" required><span>5</span></label></td>
+                        <td class="rating-item"><label><input type="radio" name="grade_2" value="4"><span>4</span></label></td>
+                        <td class="rating-item"><label><input type="radio" name="grade_2" value="3"><span>3</span></label></td>
+                        <td class="rating-item"><label><input type="radio" name="grade_2" value="2"><span>2</span></label></td>
+                        <td class="rating-item"><label><input type="radio" name="grade_2" value="1"><span>1</span></label></td>
+                        <td class="rating-item"><label><input type="radio" name="grade_2" value="0"><span>0</span></label></td>
+                        <td class="rating-item"><label><input type="radio" name="grade_2" value="N/A"><span>N/A</span></label></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td class="criteria-item">Teamwork</td>
+                        <td class="rating-item"><label><input type="radio" name="grade_3" value="5" required><span>5</span></label></td>
+                        <td class="rating-item"><label><input type="radio" name="grade_3" value="4"><span>4</span></label></td>
+                        <td class="rating-item"><label><input type="radio" name="grade_3" value="3"><span>3</span></label></td>
+                        <td class="rating-item"><label><input type="radio" name="grade_3" value="2"><span>2</span></label></td>
+                        <td class="rating-item"><label><input type="radio" name="grade_3" value="1"><span>1</span></label></td>
+                        <td class="rating-item"><label><input type="radio" name="grade_3" value="0"><span>0</span></label></td>
+                        <td class="rating-item"><label><input type="radio" name="grade_3" value="N/A"><span>N/A</span></label></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="button-panel">
+                <form action="/supervisor/evaluation" method="POST">
+                    <input type="hidden" name="student_id" value="12345">
+                    <input type="hidden" name="supervisor_id" value="99999">
+                    <input type="hidden" name="internship_id" value="56789">
+
+                    <button type="button" class="cancel-buttons">Cancel Evaluation</button>
+                    <button type="submit" name="action" value="save" class="save-buttons">Save Evaluation</button>
+                    <button type="submit" name="action" value="submit" class="submit-buttons"
+                        onclick="confirmAction(event)">Submit Evaluation</button>
                 </form>
             </div>
-        </div> 
-        <div class="button-panel">
-            <form action="/supervisor/evaluation" method="POST">
-                <input type="hidden" name="student_id" value="{{ student.id }}">
-                <input type="hidden" name="supervisor_id" value="{{ supervisor_id }}">
-                <input type="hidden" name="internship_id" value="{{ internship_id }}">
-                <button type="button" class="cancel-buttons">Cancel Evaluation</button>
-                <button type="save" class="save-buttons">Save Evaluation</button>
-                <button type="submit" class="submit-buttons" onclick="confirmAction(event)">Submit Evaluation</button>
-            </form>
         </div>
-        
-        
-    </header>
-    
+    </div>
 </body>
+
+<script src="evaluation.js"></script>
