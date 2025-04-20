@@ -1,17 +1,13 @@
+<head>
+  <link rel="stylesheet" href="/static\css\components.css">
+  <link rel="stylesheet" href="home.css">
+</head>
+
 <body class="content">
   <h1 id="greeting">Good day, Mr. John Park!</h1>
 
-  <script>
-    window.onload = function() {
-      const hour = new Date().getHours();
-      let greeting = "Good evening";
-      if (hour < 12) greeting = "Good morning";
-      else if (hour < 18) greeting = "Good afternoon";
-      document.getElementById("greeting").textContent = `${greeting}, Mr. John Park!`;
-    };
-  </script>
-
   <p class="date">Wednesday, March 12, 2025</p>
+  <script src="/templates/_components/date.js"></script>
 
   <div class="box-shadow">
     <div class="content-card">
@@ -63,7 +59,5 @@
   </div>
 </body>
 
-<link rel="stylesheet" href="/static\css\components.css">
-<link rel="stylesheet" href="home.css">
-
 <script src="/templates/_components/_components.js"></script>
+<script src="/templates/_components/content.js"></script>

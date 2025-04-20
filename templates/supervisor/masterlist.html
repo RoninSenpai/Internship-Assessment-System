@@ -1,100 +1,76 @@
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/css/components.css">
+    <link rel="stylesheet" href="masterlist.css">
+</head>
+
 <div class="content">
-    <div class="box-shadow">
-        <div class="content-card">
-        <div class="title-container">
-            <div class="title">Intern Masterlist</div>
-            <div class="date">Wednesday, March 12, 2025</div>
-        </div>
-    
-        <div class="top-bar">
-            <button>See Masterlist</button>
-            <div class="search-bar">
-            <input type="text" placeholder="SEARCH FOR USERS..." />
-            </div>
-        </div>
-    
-        <div class="section-title">Your Interns for the School Year 2025 - 2026:</div>
-    
-        <div class="cards">
-            <div class="card">
-            <img src="https://th.bing.com/th/id/OIP.UvgAzpk1q-n7gqp0r45KXgHaEK?rs=1&pid=ImgDetMain" alt="Profile" />
-            <div class="name">ABONITA, RONIN N.</div>
-            <div class="email">rnabonita@student.apc.edu.ph</div>
-            <div class="course">BS Computer Engineering</div>
-            <div class="status done">DONE</div>
-            </div>
-    
-            <div class="card">
-            <img src="https://media.licdn.com/dms/image/D4E03AQEes9AcIWMQDg/profile-displayphoto-shrink_800_800/0/1689101833460?e=2147483647&v=beta&t=MBWkYHGpsytIqBriewSdf8F0ZNPeXdaP_GQge1oD18M" alt="Profile" />
-            <div class="name">AQUINO, JULIUS V.</div>
-            <div class="email">jvaquino@student.apc.edu.ph</div>
-            <div class="course">BS Computer Engineering</div>
-            <div class="status continue">CONTINUE</div>
-            </div>
-    
-            <div class="card">
-            <img src="https://media.licdn.com/dms/image/D5603AQEpqwMqh9jHlw/profile-displayphoto-shrink_800_800/0/1683843112568?e=2147483647&v=beta&t=rq6dM8Hta2H1C1JLv242KR3d3F1ap_PApaB7e9SRqgY" alt="Profile" />
-            <div class="name">KURUMPHANG, MARVIN J.</div>
-            <div class="email">mjkurumphang@student.apc.edu.ph</div>
-            <div class="course">BS Computer Engineering</div>
-            <div class="status done">DONE</div>
-            </div>
-    
-            <div class="card">
-            <img src="https://media.licdn.com/dms/image/v2/C4E03AQE7H_T72rXTvQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1650170111817?e=2147483647&v=beta&t=-WTKyIVoe5Bi5P3o_tHP__u_awv-qxoKy92IwazQjiY" alt="Profile" />
-            <div class="name">VELORIA, DENBERT J.</div>
-            <div class="email">djveloria@student.apc.edu.ph</div>
-            <div class="course">BS Computer Engineering</div>
-            <div class="status done">DONE</div>
-            </div>
-        </div>
-        </div>
-    </div>
+    <p class="date">Wednesday, March 12, 2025</p>
+    <script src="/templates/_components/date.js"></script>
 
     <div class="box-shadow">
         <div class="content-card">
-            <div class="search-bar">
-                <form action="/supervisor/masterlist" method="GET">
-                    <input type="text" name="search" placeholder="Search by student name..." required>
-                    <button type="submit">Search</button>
-                </form>
-            </div>
+            <!-- <section class="title-container">
+                <h1 class="title">Intern Masterlist</h1>
+                <p>Thank you for evaluating the student-intern objectively and completely.</p>
+            </section> -->
+            
+            <!-- <hr style="border: none; border-top: 2px solid #d3d3d3; margin: 20px 0;"> -->
+            
+            <h2 class="section-title">Your Interns for the School Year 2025 - 2026:</h2>
 
-            <!-- Panels Container -->
-            <div class="panels-container">
-                <div class="list-panel">
-                    <h2>Intern 1</h2>
-                    <h3>SOE</h3>
-                    <ul>
-                        <li><a href="/supervisor/student/{{ student.id }}">{{ student.name }}</a></li>
-                    </ul>
-
-                    <h3>SOCIT</h3>
-                    <ul>
-                        <li><a href="/supervisor/student/{{ student.id }}">{{ student.name }}</a></li>
-                    </ul>
+            <section class="top-bar">
+            <form class="search-bar" role="search" onsubmit="return false;">
+                <input type="text" id="userFilter" placeholder="FILTER INTERNS..." />
+            </form>
+            <!-- <button type="button">Switch to Table View</button> -->
+            </section>
+            
+            <section class="cards">
+            <article class="card">
+                <img src="https://th.bing.com/th/id/OIP.UvgAzpk1q-n7gqp0r45KXgHaEK?rs=1&pid=ImgDetMain" alt="Profile picture of ABONITA, RONIN N." />
+                <h3 class="name">ABONITA, RONIN N.</h3>
+                <p class="course">BS Computer Engineering</p>
+                <p class="intern-id">INTERN1</p>
+                <div class="evaluation-button-container">
+                    <a onclick="changeIframe('evaluation.html')" class="evaluation-btn" data-status="evaluate">EVALUATE</a>
                 </div>
-
-                <div class="information-panel">
-                    <h2>Intern 1 SOE</h2>
-                    <a href="/supervisor/student/{{ student.id }}">{{ student.name }}</a>
-                    <p><strong>Student ID:</strong> {{ student.student_id }}</p>
-                    <p><strong>Program:</strong> {{ student.program }}</p>
-                    <p><strong>Supervisor:</strong> {{ student.supervisor }}</p>
-                </div>
-            </div>
+            </article>
+                <article class="card">
+                    <img src="https://th.bing.com/th/id/OIP.UvgAzpk1q-n7gqp0r45KXgHaEK?rs=1&pid=ImgDetMain" alt="Profile picture of ABONITA, RONIN N." />
+                    <h3 class="name">AQUINO, JULIUS ANTON V.</h3>
+                    <p class="course">BS Computer Engineering</p>
+                    <p class="intern-id">INTERN2</p>
+                    <div class="evaluation-button-container">
+                        <a onclick="changeIframe('evaluation.html')" class="evaluation-btn" data-status="continue">CONTINUE</a>
+                    </div>
+                </article>
+                <article class="card">
+                    <img src="https://th.bing.com/th/id/OIP.UvgAzpk1q-n7gqp0r45KXgHaEK?rs=1&pid=ImgDetMain" alt="Profile picture of ABONITA, RONIN N." />
+                    <h3 class="name">KURUMPHANG, MARVIN J.</h3>
+                    <p class="course">BS Civil Engineering</p>
+                    <p class="intern-id">INTERN2</p>
+                    <div class="evaluation-button-container">
+                        <a onclick="changeIframe('evaluation.html')" class="evaluation-btn" data-status="done">DONE</a>
+                    </div>
+                </article>
+                <article class="card">
+                    <img src="https://th.bing.com/th/id/OIP.UvgAzpk1q-n7gqp0r45KXgHaEK?rs=1&pid=ImgDetMain" alt="Profile picture of ABONITA, RONIN N." />
+                    <h3 class="name">VELORIA, DENBERT J.</h3>
+                    <p class="course">BS Civil Engineering</p>
+                    <p class="intern-id">INTERN1</p>
+                    <div class="evaluation-button-container">
+                        <a onclick="changeIframe('evaluation.html')" class="evaluation-btn" data-status="done">DONE</a>
+                    </div>
+                </article>
+            </section>
+            <p id="noResults" style="display: none; text-align: center; margin-top: 20px;">No results found.</p>
         </div>
     </div>
-
-    <button id="backToTopBtn" onclick="scrollToTop()">↑ Back to Top</button>
-
 </div>
 
-<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="/static/css/components.css">
-<link rel="stylesheet" href="masterlist.css">
-<link rel="stylesheet" href="stylus.css">
-
-<script src="/templates/supervisor/masterlist.js"></script>
+<script src="/templates/_components/_components.js"></script>
+<script src="/templates/_components/content.js"></script>
+<script src="masterlist.js"></script>

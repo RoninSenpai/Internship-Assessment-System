@@ -116,33 +116,45 @@ sidebar.addEventListener('mouseenter', () => {
 });
 
 function changeIframe(newSrc) {
-    window.parent.document.getElementById("content").src = newSrc;
+    const pagesThatNeedConfirmation = [
+        "evaluation.html"
+    ];
 
-    // update active class from the sidebar
+    const contentFrame = window.parent.document.getElementById("content");
+    const currentSrc = contentFrame?.src || "";
+    
+    const isLeavingImportantPage = pagesThatNeedConfirmation.some(page => currentSrc.includes(page));
+    const isEnteringImportantPage = pagesThatNeedConfirmation.some(page => newSrc.includes(page));
+
+    if (isLeavingImportantPage) {
+        const confirmed = confirm("Are you sure you want to leave this page? Unsaved changes may be lost.");
+
+        if (!confirmed) {
+            console.log("Cowardice detected. Navigation aborted.");
+            return; // 💀 NO FRAME MAGIC FOR YOU
+        }
+    }
+
+    // iframe change
+    contentFrame.src = newSrc;
+
+    // local iframe cleanup
     document.querySelectorAll('.sidebar-item').forEach(el => {
         el.classList.remove("active");
-        console.log("test item", el);
     });
 
-
-    // update active class from the content iframe
-    const targetIframe = window.parent.document.getElementById('sidebarFrame');
-    const targetDoc = targetIframe.contentWindow.document;
-
-    targetDoc.querySelectorAll('.sidebar-item').forEach(el => {
-        el.classList.remove("active");
-        console.log("deactivating sibling sidebar item:", el);
-    });
-
+    // sidebar update
     const sidebarIframe = window.parent.document.getElementById('sidebarFrame');
 
     if (sidebarIframe) {
         const sidebarDoc = sidebarIframe.contentWindow.document;
 
+        sidebarDoc.querySelectorAll('.sidebar-item').forEach(el => {
+            el.classList.remove("active");
+        });
+
         const matchingItem = Array.from(sidebarDoc.querySelectorAll('.sidebar-item'))
             .find(item => item.getAttribute("onclick")?.includes(newSrc));
-        
-        console.log("test matchingItem", matchingItem);
 
         if (matchingItem) {
             matchingItem.classList.add("active");

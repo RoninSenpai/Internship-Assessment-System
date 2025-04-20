@@ -12,3 +12,10 @@ document.getElementById("myForm").addEventListener("submit", function(event) {
     }).then(response => response.json())
       .then(data => console.log("Server says:", data));
 });
+
+function confirmAction(event) {
+    let userResponse = confirm("Are you sure you want to proceed? 😔");
+    if (!userResponse) {
+        event.preventDefault(); // Prevent the default action if the user clicks 'Cancel'
+    }
+}
