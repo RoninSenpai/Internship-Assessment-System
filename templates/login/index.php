@@ -5,9 +5,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=0.75" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Internship Assessment System</title>
-    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
@@ -16,8 +16,8 @@
 
     <header class="header">
       <div class="container header-content">
-        <img src="/static/images/components/header_apclogo2.png" alt="RIAS Logo" class="rias-logo" />
-        <img src="/static/images/components/header_apclogo.png" alt="APC Logo" class="header-logo" />
+        <img src="../../static/images/components/header_apclogo2.png" alt="RIAS Logo" class="rias-logo" />
+        <img src="../../static/images/components/header_apclogo.png" alt="APC Logo" class="header-logo" />
       </div>
     </header>
 
@@ -214,7 +214,8 @@
             <label for="email">Email</label>
             <div class="input-wrapper">
               <input type="email" id="email" placeholder="Enter your email" required />
-              <img src="/static/images/components/email_logo.png" alt="Email Icon" class="input-icon" />
+              <img src="../../static/images/components/email_logo.png" alt="Email Icon" class="input-icon" />
+              <span class="email-tooltip">Allowed: @student.apc.edu.ph, @apc.edu.ph</span>
             </div>
             <span class="error email-error"></span>
           </div>
@@ -222,7 +223,7 @@
             <label for="password">Password</label>
             <div class="input-wrapper">
               <input type="password" id="password" placeholder="Enter your password" required />
-              <img src="/static/images/components/login_password.png" alt="Toggle Password" class="input-icon toggle-password" />
+              <img src="../../static/images/components/login_password.png" alt="Toggle Password" class="input-icon toggle-password" />
             </div>
             <span class="error password-error"></span>
           </div>
@@ -268,6 +269,6 @@
       </div>
     </div>
 
-    <script src="/static/js/app.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>

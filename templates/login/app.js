@@ -1,7 +1,7 @@
 const nav = document.querySelector(".nav");
- 
+
   /* -- (1)  Scroll () -- */
- 
+
 window.addEventListener("scroll", fixNav);
 function fixNav() {
   if (window.scrollY > nav.offsetHeight + 150) {
@@ -10,39 +10,39 @@ function fixNav() {
     nav.classList.remove("active");
   }
 }
- 
+
   /* -- (2)  Navigation Bar (NAV bar replaces the header when scrolled up) -- */
- 
- 
+
+
 window.addEventListener("scroll", function () {
     let nav = document.querySelector(".nav");
     let header = document.querySelector(".header");
- 
+  
     if (window.scrollY > header.offsetHeight) {
       nav.classList.add("fixed");
     } else {
       nav.classList.remove("fixed");
     }
   });
- 
+
 // Add smooth scrolling with offset functionality
 document.querySelectorAll('.nav-list a').forEach((link) => {
   link.addEventListener('click', (e) => {
     e.preventDefault();
     const targetId = link.getAttribute('href').substring(1);
     const targetSection = document.getElementById(targetId);
- 
+
     // Expand the collapsible content first
     const header = targetSection.querySelector('h1');
     if (header) {
       const content = header.parentElement;
       content.classList.add('active'); // Ensure the section is expanded
- 
+
       // Wait for the content to expand before scrolling
       setTimeout(() => {
         const navHeight = document.querySelector('.nav').offsetHeight;
         const targetPosition = targetSection.offsetTop - navHeight;
- 
+
         // Scroll to the adjusted position
         window.scrollTo({
           top: targetPosition,
@@ -52,7 +52,7 @@ document.querySelectorAll('.nav-list a').forEach((link) => {
     }
   });
 });
- 
+
 // Toggle collapsible sections on click
 document.querySelectorAll('.content h1').forEach((header) => {
   header.addEventListener('click', () => {
@@ -60,7 +60,7 @@ document.querySelectorAll('.content h1').forEach((header) => {
     content.classList.toggle('active');
   });
 });
- 
+
 // Wait 3 seconds before showing the scroll indicator initially
 window.addEventListener('load', () => {
   const scrollIndicator = document.querySelector('.scroll-indicator');
@@ -69,7 +69,7 @@ window.addEventListener('load', () => {
     scrollIndicator.style.pointerEvents = 'auto'; // Enable interaction
   }, 3000); // 3 seconds delay
 });
- 
+
 // Show or hide the scroll indicator based on scroll position
 window.addEventListener('scroll', () => {
   const scrollIndicator = document.querySelector('.scroll-indicator');
@@ -83,7 +83,7 @@ window.addEventListener('scroll', () => {
     scrollIndicator.style.pointerEvents = 'none';
   }
 });
- 
+
 // Scroll to the top when the "Sign In" button is clicked
 document.querySelector('.sign-in-btn').addEventListener('click', (e) => {
   e.preventDefault(); // Prevent default link behavior
@@ -92,7 +92,7 @@ document.querySelector('.sign-in-btn').addEventListener('click', (e) => {
     behavior: 'smooth', // Smooth scrolling effect
   });
 });
- 
+
 // Open Privacy Policy Modal
 const signInBtn = document.querySelector('.sign-in-btn');
 const modal = document.getElementById('privacy-policy-modal');
@@ -100,37 +100,91 @@ const closeBtn = document.querySelector('.close-btn');
 const agreeCheckbox = document.getElementById('agree-checkbox');
 const proceedBtn = document.getElementById('proceed-btn');
 const scrollableBoxes = document.querySelectorAll('.scrollable-box');
- 
+
+// Helper to detect if we're already at the top
+function isAtTop() {
+  return window.scrollY === 0;
+}
+
+// Smooth scroll to top and then open modal
+function smoothScrollToTopAndOpenModal() {
+  if (isAtTop()) {
+    openPrivacyPolicyModal();
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Listen for scroll end
+    let checkInterval = setInterval(() => {
+      if (isAtTop()) {
+        clearInterval(checkInterval);
+        openPrivacyPolicyModal();
+      }
+    }, 10);
+  }
+}
+
+// Refactor: openPrivacyPolicyModal logic
+function openPrivacyPolicyModal() {
+  modal.style.display = 'flex';
+  document.body.classList.add('modal-open');
+  agreeCheckbox.disabled = true;
+}
+
+// Update Sign In button event
 signInBtn.addEventListener('click', (e) => {
   e.preventDefault();
-  modal.style.display = 'flex'; // Always show the privacy policy modal
-  agreeCheckbox.disabled = true; // Disable the checkbox initially
+  smoothScrollToTopAndOpenModal();
 });
- 
+
 // Close Privacy Policy Modal
 closeBtn.addEventListener('click', () => {
   modal.style.display = 'none'; // Hide the modal
+  document.body.classList.remove('modal-open'); // Remove class when closing modal
 });
- 
+
 // Enable Proceed Button when Checkbox is Checked
 agreeCheckbox.addEventListener('change', () => {
   proceedBtn.disabled = !agreeCheckbox.checked; // Enable/disable button
 });
- 
+
 // Proceed to Sign In
 proceedBtn.addEventListener('click', () => {
   modal.style.display = 'none'; // Hide the privacy policy modal
   openSignInModal(); // Open the sign-in modal
 });
- 
+
 const heroContent = document.querySelector('.hero-content');
- 
+
+// Function to check viewport width
+function isMobileView() {
+  return window.innerWidth <= 768;
+}
+
+// Update modal position based on viewport
+function updateModalPosition() {
+  const signInModal = document.getElementById('sign-in-modal');
+  const modalContent = signInModal.querySelector('.modal-content');
+  const heroContent = document.querySelector('.hero-content');
+
+  if (isMobileView()) {
+    modalContent.style.left = '50%';
+    modalContent.style.transform = 'translate(-50%, -50%)';
+    heroContent.classList.remove('shift-right');
+  } else {
+    modalContent.style.left = '20px';
+    modalContent.style.transform = 'translateY(-50%)';
+    if (signInModal.style.display === 'flex') {
+      heroContent.classList.add('shift-right');
+    }
+  }
+}
+
 // Open Sign-In Modal
 function openSignInModal() {
   const signInModal = document.getElementById('sign-in-modal');
+  document.body.classList.add('modal-open'); // Add class when opening modal
   const modalContent = signInModal.querySelector('.modal-content');
   const heroContent = document.querySelector('.hero-content'); // Select the hero content
- 
+
   // Restore the original Sign-In modal content
   modalContent.innerHTML = `
     <span class="sign-in-close-btn">&times;</span>
@@ -140,7 +194,8 @@ function openSignInModal() {
         <label for="email">Email</label>
         <div class="input-wrapper">
           <input type="email" id="email" placeholder="Enter your email" required />
-          <img src="/static/images/components/email_logo.png" alt="Email Icon" class="input-icon" />
+          <img src="/static/images/components/email_logo.png" alt="Email Icon" class="input-icon email-icon" />
+          <span class="email-tooltip">Allowed: @student.apc.edu.ph, @apc.edu.ph</span>
         </div>
         <span class="error email-error"></span>
       </div>
@@ -163,50 +218,65 @@ function openSignInModal() {
       <a href="#" id="forgot-password">Forgot Password?</a>
     </div>
   `;
- 
-  // Show the modal
+
+  // Show the modal with fade-in effect
+  signInModal.style.opacity = '0';
   signInModal.style.display = 'flex';
- 
-  // Add the shift-right class to the hero content for the animation
-  heroContent.classList.add('shift-right');
- 
-  // Close Sign-In Modal
+  updateModalPosition();
+  
+  // Trigger reflow for animation
+  void signInModal.offsetWidth;
+  signInModal.style.opacity = '1';
+
+  // Add listeners
+  attachModalListeners(modalContent);
+
+  // Reset to hidden state every time modal opens
+  const passwordInput = document.getElementById('password');
+  const passwordIcon = modalContent.querySelector('.toggle-password');
+  if (passwordInput && passwordIcon) {
+    passwordInput.type = 'password';
+    passwordIcon.src = '/static/images/components/login_password.png';
+  }
+}
+
+function attachModalListeners(modalContent) {
+  // Close button handler
   modalContent.querySelector('.sign-in-close-btn').addEventListener('click', () => {
-    signInModal.style.display = 'none';
-    resetHeroContentPosition(); // Reset the hero content position
+    const signInModal = document.getElementById('sign-in-modal');
+    closeModalWithAnimation(signInModal);
   });
- 
-  // Reattach event listeners for OTP and Forgot Password
+
+  // Reattach other event listeners
   document.getElementById('receive-otp').addEventListener('click', (e) => {
     e.preventDefault();
     openOtpModal();
   });
- 
+
   document.getElementById('forgot-password').addEventListener('click', (e) => {
     e.preventDefault();
     openForgotPasswordModal();
   });
- 
-  // Reattach validation for Sign-In Form
-  document.getElementById('sign-in-form').addEventListener('submit', (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
- 
+
+  modalContent.querySelector('#sign-in-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
- 
+
     let isValid = true;
- 
+
     // Email validation for specific domains
     const validDomains = ['@student.apc.edu.ph', '@apc.edu.ph'];
     const isValidEmail = validDomains.some((domain) => email.endsWith(domain));
- 
+
     if (!isValidEmail) {
       document.querySelector('.email-error').textContent = 'Invalid email address. Please use @student.apc.edu.ph or @apc.edu.ph.';
       isValid = false;
     } else {
       document.querySelector('.email-error').textContent = '';
     }
- 
+
     // Password validation (minimum 12 characters)
     if (password.length < 12) {
       document.querySelector('.password-error').textContent = 'Password must be at least 12 characters.';
@@ -214,29 +284,93 @@ function openSignInModal() {
     } else {
       document.querySelector('.password-error').textContent = '';
     }
- 
-    if (isValid) {
-      alert('Sign-In Successful! Redirecting to the home page...');
-      window.location.href = 'home.html';
+
+    if (!isValid) return;
+
+    // AJAX request to signin.php
+    try {
+      const response = await fetch('signin.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+      });
+      const result = await response.text();
+
+      if (result.trim() === 'success') {
+        // Redirect to home page or dashboard
+        window.location.href = '/schooluser/student/home.html';
+      } else if (result.trim() === 'Invalid password') {
+        document.querySelector('.password-error').textContent = 'Incorrect password. Please try again.';
+      } else if (result.trim() === 'User not found or archived') {
+        document.querySelector('.email-error').textContent = 'No active account found with this email.';
+      } else {
+        alert('An error occurred: ' + result);
+      }
+    } catch (error) {
+      alert('Failed to sign in. Please try again later.');
     }
   });
- 
-  // Reattach toggle password visibility
+
   modalContent.querySelector('.toggle-password').addEventListener('click', (e) => {
     const passwordInput = document.getElementById('password');
     const type = passwordInput.type === 'password' ? 'text' : 'password';
     passwordInput.type = type;
-    e.target.classList.toggle('show'); // Toggle the eye icon
+    // Toggle icon based on visibility
+    if (type === 'text') {
+      e.target.src = '/static/images/components/login_password_show.png'; // Eye open
+    } else {
+      e.target.src = '/static/images/components/login_password.png'; // Eye closed
+    }
+  });
+
+  // Scroll to Privacy Policy and Terms of Use from modal
+  modalContent.querySelectorAll('a[href="#privacy-policy"], a[href="#terms-of-use"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute('href').substring(1);
+      const targetSection = document.getElementById(targetId);
+
+      if (targetSection) {
+        closeModalWithAnimation(document.getElementById('sign-in-modal'));
+        setTimeout(() => {
+          // Remove 'active' from all, then add to target (for collapsible)
+          document.querySelectorAll('.content').forEach(sec => sec.classList.remove('active'));
+          targetSection.classList.add('active');
+
+          // Wait for the content to expand before scrolling (matches nav logic)
+          setTimeout(() => {
+            const navHeight = document.querySelector('.nav').offsetHeight;
+            const targetPosition = targetSection.offsetTop - navHeight;
+            window.scrollTo({
+              top: targetPosition,
+              behavior: 'smooth',
+            });
+          }, 300); // Delay to allow the content to expand (matches CSS transition time)
+        }, 350); // Wait for modal close animation
+      }
+    });
   });
 }
- 
+
+function closeModalWithAnimation(modal) {
+  modal.style.opacity = '0';
+  resetHeroContentPosition();
+  document.body.classList.remove('modal-open'); // Remove class when closing modal
+  setTimeout(() => {
+    modal.style.display = 'none';
+    modal.style.opacity = '1';
+  }, 300);
+}
+
+// Update position on resize
+window.addEventListener('resize', updateModalPosition);
+
 // Close Sign-In Modal
 document.querySelector('.sign-in-close-btn').addEventListener('click', () => {
   const signInModal = document.getElementById('sign-in-modal');
-  signInModal.style.display = 'none'; // Hide the sign-in modal
-  heroContent.classList.remove('shift-right'); // Remove class to reset position
+  closeModalWithAnimation(signInModal);
 });
- 
+
 // Toggle Password Visibility
 document.querySelector('.toggle-password').addEventListener('click', (e) => {
   const passwordInput = document.getElementById('password');
@@ -244,31 +378,31 @@ document.querySelector('.toggle-password').addEventListener('click', (e) => {
   passwordInput.type = type;
   e.target.classList.toggle('show'); // Toggle the eye icon
 });
- 
+
 // Validate Sign-In Form
 document.getElementById('sign-in-form').addEventListener('submit', (e) => {
   e.preventDefault(); // Prevent the default form submission behavior
   console.log('Sign-In Form Submitted'); // Debugging
- 
+
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
- 
+
   console.log('Email:', email); // Debugging
   console.log('Password:', password); // Debugging
- 
+
   let isValid = true;
- 
+
   // Email validation for specific domains
   const validDomains = ['@student.apc.edu.ph', '@apc.edu.ph'];
   const isValidEmail = validDomains.some((domain) => email.endsWith(domain));
- 
+
   if (!isValidEmail) {
     document.querySelector('.email-error').textContent = 'Invalid email address. Please use @student.apc.edu.ph or @apc.edu.ph.';
     isValid = false;
   } else {
     document.querySelector('.email-error').textContent = '';
   }
- 
+
   // Password validation (minimum 12 characters)
   if (password.length < 12) {
     document.querySelector('.password-error').textContent = 'Password must be at least 12 characters.';
@@ -276,28 +410,28 @@ document.getElementById('sign-in-form').addEventListener('submit', (e) => {
   } else {
     document.querySelector('.password-error').textContent = '';
   }
- 
+
   if (isValid) {
     console.log('Validation Passed'); // Debugging
     alert('Sign-In Successful! Redirecting to the home page...');
     window.location.href = 'home.html';
   }
 });
- 
+
 // Close Modal when Clicking Outside
 window.addEventListener('click', (e) => {
   if (e.target === modal) {
     modal.style.display = 'none';
   }
 });
- 
+
 // Enable Checkbox Only After Scrolling Through All Content
 scrollableBoxes.forEach((box) => {
   box.addEventListener('scroll', () => {
     const isAtBottom = box.scrollTop + box.clientHeight >= box.scrollHeight;
     if (isAtBottom) {
       // Check if all scrollable boxes have been scrolled to the bottom
-      const allScrolled = Array.from(scrollableBoxes).every((b) =>
+      const allScrolled = Array.from(scrollableBoxes).every((b) => 
         b.scrollTop + b.clientHeight >= b.scrollHeight
       );
       if (allScrolled) {
@@ -306,21 +440,21 @@ scrollableBoxes.forEach((box) => {
     }
   });
 });
- 
+
 // Open OTP Modal (Reusing the Sign-In Modal)
 document.getElementById('receive-otp').addEventListener('click', (e) => {
   e.preventDefault();
   openOtpModal(); // Open the OTP modal
 });
- 
+
 let failedOtpAttempts = 0; // Track failed OTP attempts
 let otpCooldown = false; // Track if the user is in cooldown
- 
+
 // Open OTP Modal Function
 function openOtpModal() {
   const signInModal = document.getElementById('sign-in-modal');
   const modalContent = signInModal.querySelector('.modal-content');
- 
+
   // Update modal content for OTP
   modalContent.innerHTML = `
     <span class="sign-in-close-btn">&times;</span>
@@ -346,34 +480,34 @@ function openOtpModal() {
       <a href="#" id="back-to-sign-in">Back to Sign In</a>
     </p>
   `;
- 
+
   // Show the modal
   signInModal.style.display = 'flex';
- 
+  updateModalPosition();
+
   // Close OTP Modal
   modalContent.querySelector('.sign-in-close-btn').addEventListener('click', () => {
-    signInModal.style.display = 'none';
-    resetHeroContentPosition(); // Reset the hero content position
+    closeModalWithAnimation(signInModal);
   });
- 
+
   // Back to Sign In
   modalContent.querySelector('#back-to-sign-in').addEventListener('click', (e) => {
     e.preventDefault();
     openSignInModal(); // Reopen the Sign-In modal
   });
- 
+
   // Handle OTP Form Submission
   modalContent.querySelector('#otp-form').addEventListener('submit', (e) => {
     e.preventDefault();
- 
+
     if (otpCooldown) {
       return; // Prevent further attempts during cooldown
     }
- 
+
     const email = document.getElementById('otp-email').value.trim();
     const validDomains = ['@student.apc.edu.ph', '@apc.edu.ph'];
     const isValidEmail = validDomains.some((domain) => email.endsWith(domain));
- 
+
     if (!isValidEmail) {
       modalContent.querySelector('.otp-email-error').textContent = 'Invalid email address. Please use (Eg. @student.apc.edu.ph and @apc.edu.ph).';
     } else {
@@ -381,49 +515,46 @@ function openOtpModal() {
       sendOtp(email); // Simulate sending OTP
     }
   });
- 
+
   // Handle Resend OTP
   modalContent.querySelector('#resend-otp-link').addEventListener('click', (e) => {
     e.preventDefault();
- 
+
     if (otpCooldown) {
       return; // Prevent resending during cooldown
     }
- 
+
     const email = document.getElementById('otp-email').value.trim();
     sendOtp(email); // Simulate resending OTP
   });
-  
- 
+
   function sendOtp(email) {
     // Simulate OTP sending logic
     console.log(`OTP sent to ${email}`);
     alert('OTP has been sent to your email.');
- 
+
     // Replace the button with the "Resend OTP" link
     document.getElementById('send-otp-btn').style.display = 'none';
     document.getElementById('resend-otp-link').style.display = 'inline';
- 
+
     // Simulate OTP verification failure for demonstration
     failedOtpAttempts++;
     if (failedOtpAttempts >= 3) {
       startCooldown();
     }
   }
- 
 
-  
   function startCooldown() {
     otpCooldown = true;
     const errorElement = modalContent.querySelector('.otp-failed-error');
     errorElement.textContent = 'The system has detected too many failed sign-in attempts. Please wait 5 minutes before trying again.';
     errorElement.style.display = 'block';
- 
+
     // Disable the "Resend OTP" link
     const resendLink = document.getElementById('resend-otp-link');
     resendLink.style.pointerEvents = 'none';
     resendLink.style.color = 'gray';
- 
+
     // Start a 5-minute cooldown
     setTimeout(() => {
       otpCooldown = false;
@@ -434,18 +565,18 @@ function openOtpModal() {
     }, 5 * 60 * 1000); // 5 minutes
   }
 }
- 
+
 // Open Forgot Password Modal (Reusing the Sign-In Modal)
 document.getElementById('forgot-password').addEventListener('click', (e) => {
   e.preventDefault();
   openForgotPasswordModal(); // Open the Forgot Password modal
 });
- 
+
 // Open Forgot Password Modal Function
 function openForgotPasswordModal() {
   const signInModal = document.getElementById('sign-in-modal');
   const modalContent = signInModal.querySelector('.modal-content');
- 
+
   // Update modal content for Forgot Password
   modalContent.innerHTML = `
     <span class="sign-in-close-btn">&times;</span>
@@ -469,30 +600,30 @@ function openForgotPasswordModal() {
       <a href="#" id="back-to-sign-in">Back to Sign In</a>
     </p>
   `;
- 
+
   // Show the modal
   signInModal.style.display = 'flex';
- 
+  updateModalPosition();
+
   // Close Forgot Password Modal
   modalContent.querySelector('.sign-in-close-btn').addEventListener('click', () => {
-    signInModal.style.display = 'none';
-    resetHeroContentPosition(); // Reset the hero content position
+    closeModalWithAnimation(signInModal);
   });
- 
+
   // Back to Sign In
   modalContent.querySelector('#back-to-sign-in').addEventListener('click', (e) => {
     e.preventDefault();
     openSignInModal(); // Reopen the Sign-In modal
   });
- 
+
   // Validate Forgot Password Form
   modalContent.querySelector('#forgot-password-form').addEventListener('submit', (e) => {
     e.preventDefault();
- 
+
     const email = document.getElementById('forgot-email').value.trim();
     const validDomains = ['@student.apc.edu.ph', '@apc.edu.ph'];
     const isValidEmail = validDomains.some((domain) => email.endsWith(domain));
- 
+
     if (!isValidEmail) {
       modalContent.querySelector('.forgot-email-error').textContent = 'Invalid email address. Please use (Eg. @student.apc.edu.ph and @apc.edu.ph).';
     } else {
@@ -501,9 +632,17 @@ function openForgotPasswordModal() {
     }
   });
 }
- 
+
 // Reset Hero Content Position
 function resetHeroContentPosition() {
   const heroContent = document.querySelector('.hero-content');
   heroContent.classList.remove('shift-right'); // Remove the shift-right class to reset the position
 }
+
+// Add float-in class to hero content on DOMContentLoaded
+window.addEventListener('DOMContentLoaded', () => {
+  const heroContent = document.querySelector('.hero-content');
+  if (heroContent) {
+    heroContent.classList.add('float-in');
+  }
+});
