@@ -17,8 +17,8 @@ html, body {
 body {
   font-family: 'Lora' , serif;
   color: #222;
-  padding-bottom: 50px;
-  padding-top: 80px; /* Match the header height */
+  padding-top: 80px; /* Keep header space */
+  padding-bottom: 0; /* Remove bottom padding */
 }
 
 .container {
@@ -192,10 +192,12 @@ body {
 /* -- (3.1) Landing Page (Background) -- */
 
 .hero {
-  background: url(/static/images/bg_login.png) no-repeat center center; /* Center the image */
-  background-size: cover; /* Ensure the image covers the container without stretching */
-  background-attachment: fixed; /* Optional: Fix the background for a parallax effect */
-  height: 120vh;
+  background: url(../../static/images/components/bg_login.png) no-repeat center center; /* Center the image */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;  background-attachment: fixed; /* Optional: Fix the background for a parallax effect */
+  min-height: 85vh;
+  width: 100%;
   color: #fff;
   display: flex;
   justify-content: center;
@@ -204,6 +206,7 @@ body {
   position: relative;
   margin-bottom: 60px;
   transition: background 0.3s ease-in-out; /* Smooth transition for background changes */
+  
 }
 
 .hero .hero-content {
@@ -238,7 +241,11 @@ body {
   z-index: -1;
 }
 
-  /* -- (3.2) Landing Page (Subtitle) -- */
+.hero-content.float-in {
+  animation: floatInHero 1.2s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+/* -- (3.2) Landing Page (Subtitle) -- */
 
 .hero h1 {
   font-size: 250px;
@@ -308,6 +315,22 @@ body {
   }
   60% {
     transform: translateY(5px) rotate(-45deg);
+  }
+}
+
+/* Float In Animation */
+@keyframes floatInHero {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-10px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -473,6 +496,8 @@ body {
   justify-content: center;
   align-items: center;
   transition: opacity 0.3s ease-in-out; /* Smooth fade-in and fade-out */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal-content {
@@ -485,6 +510,7 @@ body {
   overflow-y: auto; /* Scrollable container */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: relative;
+  margin: 20px;
 }
 
 .modal-header {
@@ -553,19 +579,21 @@ body {
 #sign-in-modal .modal-content {
   text-align: center;
   font-family: 'Roboto', sans-serif;
-  width: 50%; /* Portrait orientation */
-  max-width: 400px;
-  padding: 30px; /* Add padding for spacing */
-  position: relative;
-  height: 400px; /* Adjust height */
-  max-height: 75%; /* Ensure it doesn't exceed the viewport height */
-  overflow-y: auto; /* Add scrolling if content overflows */
-  position: absolute; /* Position it relative to the viewport */
-  bottom: 105px; /* Move it slightly down */
-  left: 20px; /* Move it slightly to the left */
-  background-color: rgba(255, 255, 255, 0.9); /* 90% transparent white background */
+  position: fixed; /* Change to fixed positioning */
+  top: 60%; /* Center vertically */
+  left: 20%; /* Position from the left */
+  transform: translate(-50%, -50%); /* Center the element itself */
+  width: 400px; /* Fixed width */
+  max-width: 90%; /* Responsive max-width */
+  height: auto; /* Auto height */
+  min-height: 400px; /* Minimum height */
+  bottom: auto; /* Remove bottom positioning */
+  margin: 0; /* Remove margins */
+  background-color: rgba(255, 255, 255, 0.95); /* Slightly less transparent */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow for better visibility */
   border-radius: 10px; /* Rounded corners for a modern look */
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 #sign-in-modal .modal-title {
@@ -607,10 +635,42 @@ body {
   right: 15px;
   top: 50%;
   transform: translateY(-50%);
-  width: 20px; /* Slightly larger icons */
+  width: 20px;
   height: 20px;
-  pointer-events: none; /* Make icons non-clickable */
+  pointer-events: auto; /* Allow clicking */
+  cursor: pointer;      /* Show pointer cursor on hover */
 }
+
+.input-icon.email-icon {
+  pointer-events: auto; /* Allow hover events */
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.input-icon.email-icon:hover + .email-tooltip {
+  display: block;
+}
+
+.input-wrapper .email-tooltip {
+  display: none;
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #213B9A;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
 
 .input-group label {
   display: block; /* Ensure the label is on its own line */
@@ -673,7 +733,7 @@ body {
 
 /* Prevent background reset when modal closes */
 body.modal-open .hero {
-  background: url(/static/images/bg_login.png) no-repeat center center;
+  background: url(../../static/images/components/bg_login.png) no-repeat center center;
   background-size: cover;
   background-attachment: fixed;
 
@@ -691,6 +751,24 @@ body.modal-open .hero {
   font-size: 12px; /* Smaller font size */
   color: red; /* Red text for errors */
   margin-top: 5px; /* Add spacing above the error message */
+}
+
+/* Add media query for smaller screens */
+@media screen and (max-width: 768px) {
+  #sign-in-modal .modal-content {
+    left: 50%; /* Center horizontally on small screens */
+    width: 90%; /* Take up most of the width */
+    max-height: 80vh; /* Limit height on small screens */
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* Add these styles after the modal styles */
+body.modal-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
 }
 
 

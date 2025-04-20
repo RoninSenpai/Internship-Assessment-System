@@ -2,7 +2,6 @@
     margin: 0;
     padding: 0;
     border: none;
-    overflow: hidden;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
@@ -10,99 +9,101 @@
 
 .header-container {
     height: 100%;
-    display: flex; /* Arrange logos in a row */
-    justify-content: left; /* Center them */
-    padding: 10px; /* Add breathing room */
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
     align-items: center;
     position: relative;
     box-shadow: 0px 4px 10px rgb(0, 0, 0);
+    width: 100%;
 }
 
 .vertical-line {
-    width: 2px; /* Adjust thickness */
-    height: 100%; /* Full height of parent */
-    background-color: rgb(255, 255, 255); /* Line color */
-    transform: translateX(-50%); /* Center it */
-    border-radius: 9999px; /* THIS MAKES IT ROUNDED!! */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* THE SHADOW YOU CRAVE!! */
+    width: 2px;
+    height: 100%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 9999px;
 }
 
 .header-logo {
     display: flex;
     margin-right: auto;
-    justify-content: center; /* Center each logo */
+    justify-content: center;
     overflow: visible;
-    padding-left: 10px; /* Add breathing room */
+    padding-left: 10px;
+    min-width: 50px;
 }
 
 .header-item {
     height: 100%;
-    display: flex; /* Arrange logos in a row */
-    justify-content: left; /* Center them */
-    padding: 10px; /* Add breathing room */
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
     align-items: center;
     position: relative;
     overflow: visible;
-    gap: 20px; /* Space between logos */
+    gap: 20px;
+    flex-shrink: 0;
 }
 
 .role {
-    font-size: 20px; /* Adjust font size */
-    color: #fff; /* Text color */
-    margin-right: 15px; /* Space between logo and text */
-    font-weight: bold; /* Make it bold */
-    letter-spacing: 2px; /* Adjust the number to increase spacing */
+    font-size: 20px;
+    color: #fff;
+    margin-right: 15px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    white-space: nowrap;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    user-select: none; /* Standard */
+    user-select: none;
 }
 
 .logo {
-    height: 50px; /* Adjust logo size */
-    width: auto; /* Maintain aspect ratio */
-    transition: transform 0.3s ease-in-out; /* Smooth effect */
-    transform-origin: left; /* CHANGES ZOOM ORIGIN */
+    height: 50px;
+    width: auto;
+    transition: transform 0.3s ease-in-out;
+    transform-origin: left;
     cursor: pointer;
 }
 
 .logo:hover {
-    transform: scale(1.1); /* Slight zoom on hover */
-    transform-origin: left; /* CHANGES ZOOM ORIGIN */
+    transform: scale(1.1);
+    transform-origin: left;
 }
 
 .icon {
-    height: 30px; /* Adjust logo size */
-    width: auto; /* Maintain aspect ratio */
-    transition: transform 0.3s ease-in-out; /* Smooth effect */
+    height: 30px;
+    width: auto;
+    transition: transform 0.3s ease-in-out;
     cursor: pointer;
 }
 
 .icon:hover {
-    transform: scale(1.2); /* Slight zoom on hover */
+    transform: scale(1.2);
 }
 
 .profile-pic {
-    height: 40px; /* Adjust logo size */
-    width: auto; /* Maintain aspect ratio */
-    border-radius: 50%; /* THIS MAKES IT A CIRCLE!! */
-    object-fit: cover; /* Prevents weird stretching */
-    border: 1px solid #ffffff; /* Optional: Fancy border */
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5); /* Optional: Soft shadow */
-    transition: transform 0.3s ease-in-out; /* Smooth effect */
+    height: 40px;
+    width: auto;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ffffff;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease-in-out;
     cursor: pointer;
 }
 
 .profile-pic:hover {
-    transform: scale(1.1); /* Slight zoom on hover */
+    transform: scale(1.1);
 }
 
 .footer-container {
-    font-size: 12px; /* Adjust font size */
+    font-size: 12px;
     height: 100%;
     color: #ffffff;
     display: flex;
-    justify-content: left; /* Center the list */
-    align-items: center; /* Center vertically */
-    padding: 20px; /* Add breathing room */
+    justify-content: left;
+    align-items: center;
+    padding: 20px;
 }
 
 .footer-container a {
@@ -112,12 +113,29 @@
 .footer-list {
     text-decoration: none;
     display: flex;
-    align-items: center; /* Center vertically */
+    align-items: center;
     margin-right: auto;
-    gap: 30px; /* Space between items */
-    user-select: none; /* Standard */
+    gap: 30px;
+    user-select: none;
 }
 
 .copyright {
     font-family: 'Josefin Sans', sans-serif;
+}
+
+/* Make header responsive */
+@media screen and (max-width: 768px) {
+    .header-container {
+        padding: 5px;
+    }
+
+    .role {
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+
+    .header-item {
+        gap: 10px;
+        padding: 5px;
+    }
 }
