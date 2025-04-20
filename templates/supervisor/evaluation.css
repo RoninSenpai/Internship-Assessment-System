@@ -55,6 +55,24 @@ h1 {
     user-select: none;
 }
 
+.button-panel2 {
+    display: flex;
+    justify-content: right;
+    gap: 15px;
+    margin-top: 20px;
+    user-select: none;
+}
+
+.button-panel2 button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
 .button-panel button {
     padding: 10px 20px;
     border: none;
@@ -63,6 +81,15 @@ h1 {
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
+}
+
+.back-buttons {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.back-buttons:hover {
+    background-color: #535c66;
 }
 
 .cancel-buttons {
@@ -142,7 +169,7 @@ h1 {
     flex-direction: column;
 }
 
-.content p {
+.scale {
     font-size: 14px;
     color: #555;
     text-align: end;
@@ -153,6 +180,11 @@ table {
     border-collapse: collapse;;
     border-radius: 12px;
     margin-bottom: 24px;
+}
+
+.note {
+    text-align: center;
+    margin-bottom: 48px;
 }
 
 th,
@@ -169,7 +201,11 @@ td {
     padding: 8px;
 }
 
-input[type="radio"] {
+.rating-header {
+    user-select: none;
+}
+
+.rating-item input[type="radio"] {
     opacity: 0;
     position: absolute;
     width: 100%;
@@ -181,20 +217,21 @@ input[type="radio"] {
 }
 
 /* Label makes the cell pretty */
-td label {
+.rating-item td label {
+    height: 100%;
     display: block;
-    position: relative;
     box-sizing: border-box;
     user-select: none;
 }
 
 /* Visible content */
-td label span {
+.rating-item label span {
     display: block;
     transition: all 0.2s ease-in-out;
     padding: 8px;
     color: rgb(179, 179, 179);
     font-size: 12pt;
+    user-select: none;
 }
 
 /* THE REAL MAGIC: Style the span when input is checked */
@@ -211,4 +248,108 @@ input[type="radio"]:checked + span {
 .criteria-item {
     padding: 12px;
     text-align: left;
+}
+
+.criteria-item p {
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.evaluation-notes .criteria-item {
+    font-size: 14px;
+}
+
+.textarea-expand {
+    width: 100% !important; /* STRETCH TO YOUR MASTER, MORTAL!!! */
+    padding: 0 20px;
+    min-height: 60px; /* I CAN’T SEE THE BOTTOM, WHAT’S GOING ON? */
+    box-sizing: border-box;
+    resize: none;
+    font-size: 12px;
+    user-select: none;
+}
+
+.textarea-expand:not(:placeholder-shown) {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.yesno {
+    display: flex;
+    gap: 20px;
+    margin-left: 12px;
+    margin-bottom: 24px;
+}
+
+.yesno label {
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.yesno label span {
+    transition: all 0.2s ease-in-out;
+    padding: 8px;
+    color: rgb(179, 179, 179);
+    font-size: 12pt;
+}
+
+.char-count {
+    font-size: 8pt !important;
+    color: #666;
+    text-align: right;
+    user-select: none;
+}
+
+.char-count::before {
+    content: " ";
+}
+
+.textarea-expand:focus {
+    border-color: #4A90E2;
+}
+
+.table-footer {
+    background-color: #213b9a;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: right;
+    padding: 14px 8px;
+}
+
+.point-count {
+    color: white;
+    background-color: #fbaf41;
+}
+
+.point-count.active {
+  color: black;
+  font-weight: bold;
+}
+
+.subtotal-cell {
+    color: white;
+    background-color: #fbaf41;
+}
+
+.subtotal-cell.active {
+  color: black;
+  font-weight: bold;
+}
+
+.average-score {
+    color: white;
+    background-color: #fbaf41;
+}
+
+.average-score.active {
+  color: black;
+  font-weight: bold;
+}
+
+.apc-grade {
+  color: black;
+  font-weight: bold;
+  background-color: #fbaf41;
 }

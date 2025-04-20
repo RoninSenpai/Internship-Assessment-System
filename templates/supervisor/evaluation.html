@@ -25,87 +25,153 @@
                 </div>
             </article>
 
-            <p>RATING SCALE: 5 - Highest, 0 - Lowest, N/A - Not Applicable</p>
+            <p class="scale">RATING SCALE: 5 - Highest, 0 - Lowest, N/A - Not Applicable</p>
 
-            <table border="1">
-                <thead>
-                    <colgroup>
-                        <col style="width: 50px">
-                        <col>
-                        <col style="width: 50px">
-                        <col style="width: 50px">
-                        <col style="width: 50px">
-                        <col style="width: 50px">
-                        <col style="width: 50px">
-                        <col style="width: 50px">
-                        <col style="width: 50px">
-                    </colgroup>
-                    <tr>
-                        <th rowspan="2" class="table-header">#</th>
-                        <th rowspan="2" class="table-header">Criteria</th>
-                        <th colspan="7" class="table-header">Rating</th>
-                    </tr>
-                    <tr>
-                        <th class="table-header">5</th>
-                        <th class="table-header">4</th>
-                        <th class="table-header">3</th>
-                        <th class="table-header">2</th>
-                        <th class="table-header">1</th>
-                        <th class="table-header">0</th>
-                        <th class="table-header">N/A</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td class="criteria-item">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.   </td>
-                        <td class="rating-item"><label><input type="radio" name="grade_1" value="5" required><span>5</span></label></td>
-                        <td class="rating-item"><label><input type="radio" name="grade_1" value="4"><span>4</span></label></td>
-                        <td class="rating-item"><label><input type="radio" name="grade_1" value="3"><span>3</span></label></td>
-                        <td class="rating-item"><label><input type="radio" name="grade_1" value="2"><span>2</span></label></td>
-                        <td class="rating-item"><label><input type="radio" name="grade_1" value="1"><span>1</span></label></td>
-                        <td class="rating-item"><label><input type="radio" name="grade_1" value="0"><span>0</span></label></td>
-                        <td class="rating-item"><label><input type="radio" name="grade_1" value="N/A"><span>N/A</span></label></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td class="criteria-item">Initiative</td>
-                        <td class="rating-item"><label><input type="radio" name="grade_2" value="5" required><span>5</span></label></td>
-                        <td class="rating-item"><label><input type="radio" name="grade_2" value="4"><span>4</span></label></td>
-                        <td class="rating-item"><label><input type="radio" name="grade_2" value="3"><span>3</span></label></td>
-                        <td class="rating-item"><label><input type="radio" name="grade_2" value="2"><span>2</span></label></td>
-                        <td class="rating-item"><label><input type="radio" name="grade_2" value="1"><span>1</span></label></td>
-                        <td class="rating-item"><label><input type="radio" name="grade_2" value="0"><span>0</span></label></td>
-                        <td class="rating-item"><label><input type="radio" name="grade_2" value="N/A"><span>N/A</span></label></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td class="criteria-item">Teamwork</td>
-                        <td class="rating-item"><label><input type="radio" name="grade_3" value="5" required><span>5</span></label></td>
-                        <td class="rating-item"><label><input type="radio" name="grade_3" value="4"><span>4</span></label></td>
-                        <td class="rating-item"><label><input type="radio" name="grade_3" value="3"><span>3</span></label></td>
-                        <td class="rating-item"><label><input type="radio" name="grade_3" value="2"><span>2</span></label></td>
-                        <td class="rating-item"><label><input type="radio" name="grade_3" value="1"><span>1</span></label></td>
-                        <td class="rating-item"><label><input type="radio" name="grade_3" value="0"><span>0</span></label></td>
-                        <td class="rating-item"><label><input type="radio" name="grade_3" value="N/A"><span>N/A</span></label></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="button-panel">
-                <form action="/supervisor/evaluation" method="POST">
-                    <input type="hidden" name="student_id" value="12345">
-                    <input type="hidden" name="supervisor_id" value="99999">
-                    <input type="hidden" name="internship_id" value="56789">
-
-                    <button type="button" class="cancel-buttons">Cancel Evaluation</button>
-                    <button type="submit" name="action" value="save" class="save-buttons">Save Evaluation</button>
-                    <button type="submit" name="action" value="submit" class="submit-buttons"
-                        onclick="confirmAction(event)">Submit Evaluation</button>
-                </form>
-            </div>
+            <form id="evaluationForm" onsubmit="return handleEvaluationSubmit(event)">
+                <table border="1">
+                    <thead>
+                        <colgroup>
+                            <col style="width: 50px">
+                            <col>
+                            <col style="width: 50px">
+                            <col style="width: 50px">
+                            <col style="width: 50px">
+                            <col style="width: 50px">
+                            <col style="width: 50px">
+                            <col style="width: 50px">
+                            <col style="width: 50px">
+                        </colgroup>
+                        <tr>
+                            <th rowspan="2" class="table-header">#</th>
+                            <th rowspan="2" class="table-header">Criteria</th>
+                            <th colspan="7" class="table-header">Rating</th>
+                        </tr>
+                        <tr class="rating-header">
+                            <th class="table-header">5</th>
+                            <th class="table-header">4</th>
+                            <th class="table-header">3</th>
+                            <th class="table-header">2</th>
+                            <th class="table-header">1</th>
+                            <th class="table-header">0</th>
+                            <th class="table-header">N/A</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="number">1</td>
+                            <td class="criteria-item">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua. </td>
+                            <td class="rating-item"><label><input type="radio" name="grade_1" value="5" required><span>5</span></label>
+                            </td>
+                            <td class="rating-item"><label><input type="radio" name="grade_1" value="4"><span>4</span></label></td>
+                            <td class="rating-item"><label><input type="radio" name="grade_1" value="3"><span>3</span></label></td>
+                            <td class="rating-item"><label><input type="radio" name="grade_1" value="2"><span>2</span></label></td>
+                            <td class="rating-item"><label><input type="radio" name="grade_1" value="1"><span>1</span></label></td>
+                            <td class="rating-item"><label><input type="radio" name="grade_1" value="0"><span>0</span></label></td>
+                            <td class="rating-item"><label><input type="radio" name="grade_1" value="N/A"><span>N/A</span></label></td>
+                        </tr>
+                        <tr>
+                            <td class="number">2</td>
+                            <td class="criteria-item">Initiative</td>
+                            <td class="rating-item"><label><input type="radio" name="grade_2" value="5" required><span>5</span></label>
+                            </td>
+                            <td class="rating-item"><label><input type="radio" name="grade_2" value="4"><span>4</span></label></td>
+                            <td class="rating-item"><label><input type="radio" name="grade_2" value="3"><span>3</span></label></td>
+                            <td class="rating-item"><label><input type="radio" name="grade_2" value="2"><span>2</span></label></td>
+                            <td class="rating-item"><label><input type="radio" name="grade_2" value="1"><span>1</span></label></td>
+                            <td class="rating-item"><label><input type="radio" name="grade_2" value="0"><span>0</span></label></td>
+                            <td class="rating-item"><label><input type="radio" name="grade_2" value="N/A"><span>N/A</span></label></td>
+                        </tr>
+                        <tr>
+                            <td class="number">3</td>
+                            <td class="criteria-item">Teamwork</td>
+                            <td class="rating-item"><label><input type="radio" name="grade_3" value="5" required><span>5</span></label>
+                            </td>
+                            <td class="rating-item"><label><input type="radio" name="grade_3" value="4"><span>4</span></label></td>
+                            <td class="rating-item"><label><input type="radio" name="grade_3" value="3"><span>3</span></label></td>
+                            <td class="rating-item"><label><input type="radio" name="grade_3" value="2"><span>2</span></label></td>
+                            <td class="rating-item"><label><input type="radio" name="grade_3" value="1"><span>1</span></label></td>
+                            <td class="rating-item"><label><input type="radio" name="grade_3" value="0"><span>0</span></label></td>
+                            <td class="rating-item"><label><input type="radio" name="grade_3" value="N/A"><span>N/A</span></label></td>
+                        </tr>
+                        <tr>
+                            <td class="number">4</td>
+                            <td colspan="8" class="criteria-item">
+                                <p>Please enumerate here the task items as purported in the Intern’s Job Description for Criteria #3.
+                                </p>
+                                <textarea class="textarea-expand" rows="4" cols="50"
+                                    placeholder="Software development, Database management, Data visualization and reporting, etc..."
+                                    maxlength="512"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="number">5</td>
+                            <td colspan="8" class="criteria-item">
+                                <p>Since your previous evaluation, did the Intern’s over-all performance improve?</p>
+                                <div class="yesno">
+                                    <label><input type="radio" name="grade_5" value="Yes" required><span>Yes</span></label>
+                                    <label><input type="radio" name="grade_5" value="No"><span>No</span></label>
+                                </div>
+                                <p>Why? (Provide justification & indicate intern’s strong and weak points)</p>
+                                <textarea class="textarea-expand" rows="4" cols="50"
+                                    placeholder="The intern has shown significant improvement in software development, especially in debugging and writing cleaner code. They now complete tasks more efficiently and communicate more proactively with the team. However, they still need to work on time management and meeting deadlines consistently."
+                                    maxlength="512"></textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr class="point-count-row">
+                            <td colspan="2" class="table-footer">Point Count:</td>
+                            <td id="count-5" class="point-count"><span>0</span></td>
+                            <td id="count-4" class="point-count"><span>0</span></td>
+                            <td id="count-3" class="point-count"><span>0</span></td>
+                            <td id="count-2" class="point-count"><span>0</span></td>
+                            <td id="count-1" class="point-count"><span>0</span></td>
+                            <td id="count-0" class="point-count"><span>0</span></td>
+                            <td id="count-na" class="point-count"><span>0</span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="table-footer">Subtotal:</td>
+                            <td id="subtotal-5" class="subtotal-cell"><span>0</span></td>
+                            <td id="subtotal-4" class="subtotal-cell"><span>0</span></td>
+                            <td id="subtotal-3" class="subtotal-cell"><span>0</span></td>
+                            <td id="subtotal-2" class="subtotal-cell"><span>0</span></td>
+                            <td id="subtotal-1" class="subtotal-cell"><span>0</span></td>
+                            <td id="subtotal-0" class="subtotal-cell"><span>0</span></td>
+                            <td id="subtotal-na" class="subtotal-cell"><span>0</span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="table-footer">Total Grade:</td>
+                            <td colspan="2" class="average-score" id="average-score"><span>0</span></td>
+                            <td colspan="5" class="average-score"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="table-footer">APC Grade Equivalent:</td>
+                            <td colspan="2" class="apc-grade" id="apc-grade">0</td>
+                            <td colspan="5" class="apc-grade"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                
+                <p class="note">Thank you for evaluating the student-intern objectively and completely.</p>
+                
+                <div class="button-panel">
+                    <button type="button" class="cancel-buttons"
+                        onclick="changeIframe('masterlist.html', 'Are you sure you want to discard your latest changes?')">Discard
+                        Changes</button>
+                    <button type="button" name="action" value="save" class="save-buttons"
+                        onclick="changeIframe('masterlist.html', 'You may continue your evaluation later after saving. Press OK to go back to the Intern list.')">Save
+                        Changes</button>
+                    <button type="submit" name="action" value="submit" class="submit-buttons">Submit Evaluation</button>
+                </div>
+                <div class="button-panel2">
+                    <button type="button" class="back-buttons" onclick="changeIframe('masterlist.html', null, force=true)">Back to
+                        Intern list</button>
+                </div>
+            </form>
         </div>
     </div>
 </body>
 
+<script src="/templates/_components/_components.js"></script>
 <script src="evaluation.js"></script>
