@@ -1,33 +1,62 @@
 <?php
+session_start();
 include 'connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
+    $email = trim($_POST['email']);
     $password = $_POST['password'];
-
-    // Check if user exists and is not archived
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? AND is_archived = '0' LIMIT 1");
+    
+    // First check if user exists in users table
+    $stmt = $conn->prepare("SELECT u.*, s.schooluser_password, s.schooluser_id 
+                           FROM users u 
+                           JOIN schoolusers s ON u.user_id = s.user_id 
+                           WHERE u.user_email = ? AND u.user_is_archived = 0 
+                           LIMIT 1");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows === 1) {
         $user = $result->fetch_assoc();
-        if (password_verify($password, $user['password'])) {
-            // Successful login
-            session_start();
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['role'] = $user['role'];
-            echo "success";
+        
+        // Use password_verify to check the hashed password
+        if (password_verify($password, $user['schooluser_password'])) {
+            // Password is correct, create session
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['schooluser_id'] = $user['schooluser_id'];
+            $_SESSION['role'] = $user['user_role'];
+            $_SESSION['name'] = $user['user_first_name'] . ' ' . $user['user_last_name'];
+            
+            // Log the successful login in login_logs table
+            $log_stmt = $conn->prepare("INSERT INTO login_logs (user_id) VALUES (?)");
+            $log_stmt->bind_param("i", $user['user_id']);
+            $log_stmt->execute();
+            $log_stmt->close();
+
+            echo json_encode([
+                'status' => 'success',
+                'role' => $user['user_role']
+            ]);
         } else {
-            echo "Invalid password";
+            error_log("Password verification failed for user: " . $email);
+            error_log("Stored hash: " . $user['schooluser_password']);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Invalid password'
+            ]);
         }
     } else {
-        echo "User not found or archived";
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'User not found or account is archived'
+        ]);
     }
     $stmt->close();
 } else {
-    echo "Invalid request method";
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Invalid request method'
+    ]);
 }
 $conn->close();
 ?>

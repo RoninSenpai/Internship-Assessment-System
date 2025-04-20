@@ -32,8 +32,8 @@
           <li><a href="#faq">FAQ</a></li>
           <div class="nav-divider"></div> <!-- Floating line -->
           <li class="sign-in-container">
-            <a href="/sign-in" class="sign-in-btn">SIGN IN</a>
-            <img src="/static/images/components/signin_arrow.png" alt="Sign In Arrow" class="signin-arrow" />
+            <a href="#" class="sign-in-btn">SIGN IN</a>
+            <img src="../../static/images/components/signin_arrow.png" alt="Sign In Arrow" class="signin-arrow" />
           </li>
         </ul>
       </div>
@@ -214,7 +214,7 @@
             <label for="email">Email</label>
             <div class="input-wrapper">
               <input type="email" id="email" placeholder="Enter your email" required />
-              <img src="../../static/images/components/email_logo.png" alt="Email Icon" class="input-icon" />
+              <img src="/Internship-Assessment-System/static/images/components/email_logo.png" alt="Email Icon" class="input-icon email-icon" />
               <span class="email-tooltip">Allowed: @student.apc.edu.ph, @apc.edu.ph</span>
             </div>
             <span class="error email-error"></span>
@@ -223,7 +223,7 @@
             <label for="password">Password</label>
             <div class="input-wrapper">
               <input type="password" id="password" placeholder="Enter your password" required />
-              <img src="../../static/images/components/login_password.png" alt="Toggle Password" class="input-icon toggle-password" />
+              <img src="/Internship-Assessment-System/static/images/components/login_password.png" alt="Toggle Password" class="input-icon toggle-password" />
             </div>
             <span class="error password-error"></span>
           </div>
