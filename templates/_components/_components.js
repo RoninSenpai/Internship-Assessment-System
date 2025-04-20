@@ -114,7 +114,7 @@ sidebar.addEventListener('mouseenter', () => {
   clearTimeout(timeout); // cancel if they come back in
 });
 
-function changeIframe(newSrc) {
+function changeIframe(newSrc, text="Are you sure you want to leave this page? Unsaved changes may be lost!", force=false) {
     const pagesThatNeedConfirmation = [
         "evaluation.html"
     ];
@@ -125,8 +125,9 @@ function changeIframe(newSrc) {
     const isLeavingImportantPage = pagesThatNeedConfirmation.some(page => currentSrc.includes(page));
     const isEnteringImportantPage = pagesThatNeedConfirmation.some(page => newSrc.includes(page));
 
-    if (isLeavingImportantPage) {
-        const confirmed = confirm("Are you sure you want to leave this page? Unsaved changes may be lost.");
+    console.log("Text: ", text);
+    if (!force && isLeavingImportantPage) {
+        const confirmed = confirm(text);
 
         if (!confirmed) {
             console.log("Cowardice detected. Navigation aborted.");
