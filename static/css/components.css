@@ -9,6 +9,14 @@
     letter-spacing: 2px; /* Adjust the number to increase spacing */
 }
 
+h1 {
+    color: #343a40;
+    padding: 20px;
+    margin-bottom: -20px;
+    overflow: visible;
+    user-select: none;
+}
+
 /* Body Styling */
 body {
     display: flex;

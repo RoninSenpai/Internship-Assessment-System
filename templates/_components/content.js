@@ -12,7 +12,7 @@ style.textContent = `
     #backToTopBtn {
         position: fixed;
         bottom: 20px;
-        right: 20px;
+        right: 32px;
         z-index: 9999;
         background-color: #66666680;
         transition: background-color 0.1s ease;
@@ -26,11 +26,19 @@ style.textContent = `
     #backToTopBtn:hover {
         background-color: #666;
     }
+
+    .spacer {
+        height: 50px; /* Same height as the "Back to Top" button */
+        width: 100%;
+        display: block;
+        margin-bottom: 80px;
+    }
 `;
 document.head.appendChild(style);
 
-// Step 3: Keep your old demon code, but let it vibe with the summoned button
+// Step 3: Keep your old demon code, but let it vibe with the summoned button and spacer
 const scrollContainer = document.querySelector(".content");
+let spacerEl = null;
 
 scrollContainer.addEventListener("scroll", function () {
     console.log("Scrolling detected inside .content (aka hell's scroll zone)");
@@ -40,8 +48,21 @@ scrollContainer.addEventListener("scroll", function () {
 function toggleButton(el) {
     if (el.scrollTop > 200) {
         document.getElementById("backToTopBtn").style.display = "block";
+
+        // Create the spacer if it's not already there
+        if (!spacerEl) {
+            spacerEl = document.createElement('div');
+            spacerEl.className = 'spacer';
+            scrollContainer.appendChild(spacerEl);
+        }
     } else {
         document.getElementById("backToTopBtn").style.display = "none";
+
+        // Remove the spacer when the button is hidden
+        if (spacerEl) {
+            scrollContainer.removeChild(spacerEl);
+            spacerEl = null;
+        }
     }
 }
 
@@ -50,19 +71,19 @@ function scrollToTop() {
 }
 
 const greetingEl = document.getElementById('greeting');
-  const now = new Date();
-  const hour = now.getHours();
+const now = new Date();
+const hour = now.getHours();
 
-  let greeting = "Hello";
+let greeting = "Hello";
 
-  if (hour >= 5 && hour < 12) {
+if (hour >= 5 && hour < 12) {
     greeting = "Good morning";
-  } else if (hour >= 12 && hour < 18) {
+} else if (hour >= 12 && hour < 18) {
     greeting = "Good afternoon";
-  } else if (hour >= 18 && hour < 22) {
+} else if (hour >= 18 && hour < 22) {
     greeting = "Good evening";
-  } else {
+} else {
     greeting = "Go to sleep you crusty goblin";
-  }
+}
 
-  greetingEl.textContent = `${greeting}, Mr. John Park!`;
+greetingEl.textContent = `${greeting}, Mr. John Park!`;
