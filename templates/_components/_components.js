@@ -1,14 +1,26 @@
 
-function toggleSidebar() {
-    console.log("Sidebar toggled");
-    window.parent.document.querySelector(".sidebar").classList.toggle("open");
-    document.querySelectorAll(".sidebar-item").forEach(item => {
-        item.classList.toggle("open");
-    });
-}
+function toggleSidebar(forceState = null) {
+    const sidebar = window.parent.document.querySelector(".sidebar");
+    const sidebarItems = document.querySelectorAll(".sidebar-item");
 
-function changeIframe(newSrc) {
-    window.parent.document.getElementById("content").src = newSrc;
+    console.log("Sidebar toggle triggered. State:", forceState);
+
+    if (!sidebar) {
+        console.warn("Sidebar not found!! YOU FOOL!!");
+        return;
+    }
+
+    if (forceState === "open") {
+        sidebar.classList.add("open");
+        sidebarItems.forEach(item => item.classList.add("open"));
+    } else if (forceState === "close") {
+        sidebar.classList.remove("open");
+        sidebarItems.forEach(item => item.classList.remove("open"));
+    } else {
+        // default toggle mode if no forceState specified
+        sidebar.classList.toggle("open");
+        sidebarItems.forEach(item => item.classList.toggle("open"));
+    }
 }
 
 const ICON_DIR = "/static/images/components/";
@@ -41,25 +53,31 @@ const sidebarItems = {
 
 function loadSidebar(role) {
     const sidebar = document.querySelector(".sidebar-content");
-    sidebar.innerHTML = ""; // Clear existing items
+    sidebar.innerHTML = "";
 
-    // **💀 ADD THE BURGER BUTTON FIRST!**
+    const currentSrc = window.parent.document.getElementById("content").src;
+
+    // BURGER ITEM
     const burger = document.createElement("div");
     burger.className = "sidebar-item";
     burger.setAttribute("onclick", "toggleSidebar()");
-
     const burgerImg = document.createElement("img");
     burgerImg.src = ICON_DIR + "burger_icon.png";
     burgerImg.alt = "Menu";
     burgerImg.className = "icon";
-
     burger.appendChild(burgerImg);
-    sidebar.appendChild(burger); // **Always first!**
+    sidebar.appendChild(burger);
 
-    // **💀 THEN ADD USER-SPECIFIC ITEMS!**
+    // USER ROLE ITEMS
     sidebarItems[role].forEach(item => {
         const div = document.createElement("div");
         div.className = "sidebar-item";
+
+        // CHECK IF IT'S THE CURRENT PAGE
+        if (currentSrc.includes(item.link)) {
+            div.classList.add("active"); // 👈 ADD ACTIVE CLASS
+        }
+
         div.setAttribute("onclick", `changeIframe('${item.link}')`);
 
         const span = document.createElement("span");
@@ -81,3 +99,65 @@ window.addEventListener("message", (event) => {
         loadSidebar(event.data.role);
     }
 });
+
+const sidebar = document.getElementById('sidebar-content');
+
+let timeout;
+
+sidebar.addEventListener('mouseleave', () => {
+  timeout = setTimeout(() => {
+    toggleSidebar("close");
+  }, 100); // wait 300ms before closing
+});
+
+sidebar.addEventListener('mouseenter', () => {
+  clearTimeout(timeout); // cancel if they come back in
+});
+
+function changeIframe(newSrc, text="Are you sure you want to leave this page? Unsaved changes may be lost!", force=false) {
+    const pagesThatNeedConfirmation = [
+        "evaluation.html"
+    ];
+
+    const contentFrame = window.parent.document.getElementById("content");
+    const currentSrc = contentFrame?.src || "";
+    
+    const isLeavingImportantPage = pagesThatNeedConfirmation.some(page => currentSrc.includes(page));
+    const isEnteringImportantPage = pagesThatNeedConfirmation.some(page => newSrc.includes(page));
+
+    console.log("Text: ", text);
+    if (!force && isLeavingImportantPage) {
+        const confirmed = confirm(text);
+
+        if (!confirmed) {
+            console.log("Cowardice detected. Navigation aborted.");
+            return; // 💀 NO FRAME MAGIC FOR YOU
+        }
+    }
+
+    // iframe change
+    contentFrame.src = newSrc;
+
+    // local iframe cleanup
+    document.querySelectorAll('.sidebar-item').forEach(el => {
+        el.classList.remove("active");
+    });
+
+    // sidebar update
+    const sidebarIframe = window.parent.document.getElementById('sidebarFrame');
+
+    if (sidebarIframe) {
+        const sidebarDoc = sidebarIframe.contentWindow.document;
+
+        sidebarDoc.querySelectorAll('.sidebar-item').forEach(el => {
+            el.classList.remove("active");
+        });
+
+        const matchingItem = Array.from(sidebarDoc.querySelectorAll('.sidebar-item'))
+            .find(item => item.getAttribute("onclick")?.includes(newSrc));
+
+        if (matchingItem) {
+            matchingItem.classList.add("active");
+        }
+    }
+}

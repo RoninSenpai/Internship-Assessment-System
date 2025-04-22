@@ -1,124 +1,76 @@
+<head>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
 
-    <html lang="en">
+    <link rel="stylesheet" href="/static/css/components.css">
+    <link rel="stylesheet" href="masterlist.css">
+</head>
 
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Internship Assessment System</title>
-        <link rel="stylesheet" href="/static/css/style.css" />
-    
-        <style>
-            .header {
-                background-color: #FFF3E2;
-            padding: 20px;
-            margin: 0;
-            height: 100vh; /* Adjust to content height */
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column; /* Align child elements horizontally */
-            justify-content: flex-start;
-            align-items: flex-start;
-            width: 100%; /* Make sure it takes full width */
-            }
+<div class="content">
+    <p class="date">Wednesday, March 12, 2025</p>
+    <script src="/templates/_components/date.js"></script>
 
-    .search-bar {
-        margin-top: 50px;
-        margin-left: 30px;
-            width: 50vh;
-            display: flex;
-            justify-content: left;
-    }
-    .search-bar input {
-        flex: 1;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
+    <div class="box-shadow">
+        <div class="content-card">
+            <!-- <section class="title-container">
+                <h1 class="title">Intern Masterlist</h1>
+                <p>Thank you for evaluating the student-intern objectively and completely.</p>
+            </section> -->
+            
+            <!-- <hr style="border: none; border-top: 2px solid #d3d3d3; margin: 20px 0;"> -->
+            
+            <h2 class="section-title">Your Interns for the School Year 2025 - 2026:</h2>
 
-        .search-bar button {
-            padding: 8px 15px;
-            background-color: #FF8C42;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-
-        .panels-container {
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-        }
-
-        .list-panel{
-            background-color: #ffffff; 
-            margin-left: 30px;
-                padding: 10;
-                width: 40vh;
-                height: 50vh;
-                border-top-right-radius: 10px;
-                border-bottom-right-radius: 10px;
-                border-top-left-radius: 10px;
-                border-bottom-left-radius: 10px;
-                align-items: stretch;
-        }
-
-        .information-panel{
-            background-color: #ffffff; 
-            margin-left: 30px;
-                padding: 10;
-                width: 120vh;
-                height: 50vh;
-                border-top-right-radius: 10px;
-                border-bottom-right-radius: 10px;
-                border-top-left-radius: 10px;
-                border-bottom-left-radius: 10px;
-                align-items: stretch;
-        }
-        </style>
-    </head>
-
-    <body>
-        <!-- (1) Header (RIAS) -->
-        <header class="header">
-        <div class="search-bar">
-            <form action="/supervisor/masterlist" method="GET">
-                <input type="text" name="search" placeholder="Search by student name..." required>
-                <button type="submit">Search</button>
+            <section class="top-bar">
+            <form class="search-bar" role="search" onsubmit="return false;">
+                <input type="text" id="userFilter" placeholder="FILTER INTERNS..." />
             </form>
+            <!-- <button type="button">Switch to Table View</button> -->
+            </section>
+            
+            <section class="cards">
+            <article class="card">
+                <img src="https://th.bing.com/th/id/OIP.UvgAzpk1q-n7gqp0r45KXgHaEK?rs=1&pid=ImgDetMain" alt="Profile picture of ABONITA, RONIN N." />
+                <h3 class="name">ABONITA, RONIN N.</h3>
+                <p class="course">BS Computer Engineering</p>
+                <p class="intern-id">INTERN1</p>
+                <div class="evaluation-button-container">
+                    <a onclick="changeIframe('evaluation.html')" class="evaluation-btn" data-status="evaluate">EVALUATE</a>
+                </div>
+            </article>
+                <article class="card">
+                    <img src="https://th.bing.com/th/id/OIP.UvgAzpk1q-n7gqp0r45KXgHaEK?rs=1&pid=ImgDetMain" alt="Profile picture of ABONITA, RONIN N." />
+                    <h3 class="name">AQUINO, JULIUS ANTON V.</h3>
+                    <p class="course">BS Computer Engineering</p>
+                    <p class="intern-id">INTERN2</p>
+                    <div class="evaluation-button-container">
+                        <a onclick="changeIframe('evaluation.html')" class="evaluation-btn" data-status="continue">CONTINUE</a>
+                    </div>
+                </article>
+                <article class="card">
+                    <img src="https://th.bing.com/th/id/OIP.UvgAzpk1q-n7gqp0r45KXgHaEK?rs=1&pid=ImgDetMain" alt="Profile picture of ABONITA, RONIN N." />
+                    <h3 class="name">KURUMPHANG, MARVIN J.</h3>
+                    <p class="course">BS Civil Engineering</p>
+                    <p class="intern-id">INTERN2</p>
+                    <div class="evaluation-button-container">
+                        <a onclick="changeIframe('evaluation.html')" class="evaluation-btn" data-status="done">DONE</a>
+                    </div>
+                </article>
+                <article class="card">
+                    <img src="https://th.bing.com/th/id/OIP.UvgAzpk1q-n7gqp0r45KXgHaEK?rs=1&pid=ImgDetMain" alt="Profile picture of ABONITA, RONIN N." />
+                    <h3 class="name">VELORIA, DENBERT J.</h3>
+                    <p class="course">BS Civil Engineering</p>
+                    <p class="intern-id">INTERN1</p>
+                    <div class="evaluation-button-container">
+                        <a onclick="changeIframe('evaluation.html')" class="evaluation-btn" data-status="done">DONE</a>
+                    </div>
+                </article>
+            </section>
+            <p id="noResults" style="display: none; text-align: center; margin-top: 20px;">No results found.</p>
         </div>
+    </div>
+</div>
 
-         <!-- Panels Container -->
-         <div class="panels-container">
-            <div class="list-panel">
-                <h2>Intern 1</h2>
-                <h3>SOE</h3>
-                <ul>
-                    <li><a href="/supervisor/student/{{ student.id }}">{{ student.name }}</a></li>
-                </ul>
-
-                <h3>SOCIT</h3>
-                <ul>
-                    <li><a href="/supervisor/student/{{ student.id }}">{{ student.name }}</a></li>
-                </ul>
-            </div>
-
-            <div class="information-panel">
-                <h2>Intern 1 SOE</h2>
-                <a href="/supervisor/student/{{ student.id }}">{{ student.name }}</a>
-                <p><strong>Student ID:</strong> {{ student.student_id }}</p>
-                <p><strong>Program:</strong> {{ student.program }}</p>
-                <p><strong>Supervisor:</strong> {{ student.supervisor }}</p>
-            </div>
-        </div>
-    </header>
-</body>
-
-</html>
+<script src="/templates/_components/_components.js"></script>
+<script src="/templates/_components/content.js"></script>
+<script src="masterlist.js"></script>

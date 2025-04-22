@@ -1,61 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Intern Dashboard</title>
-  <link rel="stylesheet" href="stylus.css" />
+  <link rel="stylesheet" href="/static\css\components.css">
+  <link rel="stylesheet" href="home.css">
 </head>
-<body>
-  <div class="dashboard">
-    <div class="header">
-      <div class="title">Dashboard</div>
-      <div class="date">Wednesday, March 12, 2025</div>
-    </div>
 
-    <div class="top-bar">
-      <button>See Masterlist</button>
-      <div class="search-bar">
-        <input type="text" placeholder="SEARCH FOR USERS..." />
-      </div>
-    </div>
+<body class="content">
+  <h1 id="greeting">Good day, Mr. John Park!</h1>
 
-    <div class="section-title">Your Interns for the School Year 2025 - 2026:</div>
+  <p class="date">Wednesday, March 12, 2025</p>
+  <script src="/templates/_components/date.js"></script>
 
-    <div class="cards">
-      <div class="card">
-        <img src="https://th.bing.com/th/id/OIP.UvgAzpk1q-n7gqp0r45KXgHaEK?rs=1&pid=ImgDetMain" alt="Profile" />
-        <div class="name">ABONITA, RONIN N.</div>
-        <div class="email">rnabonita@student.apc.edu.ph</div>
-        <div class="course">BS Computer Engineering</div>
-        <div class="status done">DONE</div>
-      </div>
+  <div class="box-shadow">
+    <div class="content-card">
+      <div class="info-card">
+        <h2>SUPERVISOR INFORMATION</h2>
+        <ul>
+          <li><strong>Name: </strong>John Park</li>
+          <li><strong>Email: </strong><span class="censor-email">johnporkcubes@bigcorp.fake</span></li>
 
-      <div class="card">
-        <img src="https://media.licdn.com/dms/image/D4E03AQEes9AcIWMQDg/profile-displayphoto-shrink_800_800/0/1689101833460?e=2147483647&v=beta&t=MBWkYHGpsytIqBriewSdf8F0ZNPeXdaP_GQge1oD18M" alt="Profile" />
-        <div class="name">AQUINO, JULIUS V.</div>
-        <div class="email">jvaquino@student.apc.edu.ph</div>
-        <div class="course">BS Computer Engineering</div>
-        <div class="status continue">CONTINUE</div>
-      </div>
+          <script>
+            function censorEmail(text) {
+              return text.replace(/(.{2})(.*)(?=@)/, (_, a, b) => a + "*".repeat(b.length));
+            }
+          
+            document.querySelectorAll('.censor-email').forEach(el => {
+              const original = el.textContent.trim();
+              el.textContent = censorEmail(original);
+            });
+          </script>
 
-      <div class="card">
-        <img src="https://media.licdn.com/dms/image/D5603AQEpqwMqh9jHlw/profile-displayphoto-shrink_800_800/0/1683843112568?e=2147483647&v=beta&t=rq6dM8Hta2H1C1JLv242KR3d3F1ap_PApaB7e9SRqgY" alt="Profile" />
-        <div class="name">KURUMPHANG, MARVIN J.</div>
-        <div class="email">mjkurumphang@student.apc.edu.ph</div>
-        <div class="course">BS Computer Engineering</div>
-        <div class="status done">DONE</div>
-      </div>
-
-      <div class="card">
-        <img src="https://media.licdn.com/dms/image/v2/C4E03AQE7H_T72rXTvQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1650170111817?e=2147483647&v=beta&t=-WTKyIVoe5Bi5P3o_tHP__u_awv-qxoKy92IwazQjiY" alt="Profile" />
-        <div class="name">VELORIA, DENBERT J.</div>
-        <div class="email">djveloria@student.apc.edu.ph</div>
-        <div class="course">BS Computer Engineering</div>
-        <div class="status done">DONE</div>
+          <li><strong>Position: </strong>Head of Intern Oppression</li>
+          <li><strong>Department: </strong>Intern Oppression</li>
+          <li><strong>Company: </strong>BigCorp Industries</li>
+        </ul>
+        <div style="text-align: end;">
+          <a href="#">Is the information incorrect? Click here to request an edit</a>
+        </div>
       </div>
     </div>
   </div>
-</body>
-</html>
+  <div class="box-shadow">
+    <div class="content-card">
+      <section class="dashboard-options">
+        <button class="main-btn" onclick="changeIframe('masterlist.html')">🔍 View Assigned Interns</button>
+        <p>You have <strong>4</strong> interns under your supervision.</p>
+        
+        <hr style="border: none; border-top: 2px dashed gray; margin: 20px 0;">
 
+        <div class="quick-links">
+          <h2>QUICK ACTIONS</h2>
+          <ul>
+            <li><a href="#">📞 Internship Officer</a></li>
+            <li><a href="#">📖 Evaluation Guide</a></li>
+            <li><a href="#">🦆 Website Feedback</a></li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+
+<script src="/templates/_components/_components.js"></script>
+<script src="/templates/_components/content.js"></script>
