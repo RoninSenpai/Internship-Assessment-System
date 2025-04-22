@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="style_admin.css" />
   <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
 </head>
 <body>
   <div class="admin-container">
@@ -31,21 +33,62 @@
 
     <section class="calendar-section">
       <h2>Internship Calendar Events for the Academic Year <strong>2024-2025</strong></h2>
+      
+      <!-- Calendar Component -->
+      <div id="calendar" style="max-width: 100%; margin-bottom: 1rem; padding: 1rem; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);"></div>
+
+    
+      <!-- Event Table -->
       <table>
         <thead>
           <tr><th>Date</th><th>Event</th></tr>
         </thead>
-        <tbody>
-          <tr class="event-yellow"><td>September 1</td><td>INTERN2 End</td></tr>
-          <tr class="event-yellow"><td>August 30</td><td>INTERN1 End</td></tr>
-          <tr class="event-purple"><td>December 16</td><td>Internship consultation</td></tr>
+        <tbody id="event-table-body">
+          <!-- Events will be injected here dynamically -->
         </tbody>
       </table>
+    
+      <!-- Calendar Options -->
       <div class="calendar-options">
-        <a href="#">📅 Set Event</a>
-        <a href="#">📅 Change Academic Year</a>
+        <button id="openSetEvent">📅 Set Event</button>
+        <a href="#" id="openChangeYear">📅 Change Academic Year</a>
+
       </div>
     </section>
+    
+    <!-- Set Event Modal -->
+    <div id="setEventModal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close" id="closeSetEvent">&times;</span>
+        <h3>Set New Event</h3>
+        <form id="eventForm">
+          <label for="eventDate">Date:</label>
+          <input type="date" id="eventDate" name="eventDate" required>
+          <label for="eventTitle">Title:</label>
+          <input type="text" id="eventTitle" name="eventTitle" required>
+          <button type="submit">Add Event</button>
+        </form>
+      </div>
+    </div>
+
+<!-- Change Academic Year Modal -->
+<div id="changeYearModal" class="modal hidden">
+  <div class="modal-content">
+    <span class="close" id="closeChangeYear">&times;</span>
+    <h3>Change Academic Year</h3>
+    <form id="yearForm">
+      <label for="startDate">Start Date:</label>
+      <input type="date" id="startDate" required>
+      <label for="endDate">End Date:</label>
+      <input type="date" id="endDate" required>
+      <button type="submit">Set Academic Year</button>
+      <p id="yearWarning" style="color: red; display: none;">Start and end year must be different.</p>
+    </form>
+  </div>
+</div>
+
+
+    
 
     <section class="activity-login-section">
       <div class="log-activity">
@@ -125,6 +168,130 @@
       }
     });
   </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const calendarEl = document.getElementById('calendar');
+    const eventTableBody = document.getElementById('event-table-body');
+    const modal = document.getElementById('setEventModal');
+    const openBtn = document.getElementById('openSetEvent');
+    const closeBtn = document.getElementById('closeSetEvent');
+    const eventForm = document.getElementById('eventForm');
+    const titleInput = document.getElementById('eventTitle');
+    const dateInput = document.getElementById('eventDate');
+
+    const openChangeBtn = document.getElementById('openChangeYear');
+    const closeChangeBtn = document.getElementById('closeChangeYear');
+    const changeYearModal = document.getElementById('changeYearModal');
+    const yearForm = document.getElementById('yearForm');
+    const startDateInput = document.getElementById('startDate');
+    const endDateInput = document.getElementById('endDate');
+    const yearHeader = document.querySelector('.calendar-section h2 strong');
+    const warning = document.getElementById('yearWarning');
+
+    let events = [];
+
+    // Load stored academic year
+    const storedStart = localStorage.getItem('startDate');
+    const storedEnd = localStorage.getItem('endDate');
+    if (storedStart && storedEnd) {
+      yearHeader.textContent = formatAcademicYear(storedStart, storedEnd);
+    }
+
+    // Initialize FullCalendar
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      height: 'auto',
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,listMonth'
+      },
+      events: events,
+    });
+
+    calendar.render();
+
+    // Set Event Modal
+    openBtn.addEventListener('click', () => {
+      modal.classList.remove('hidden');
+      titleInput.focus();
+    });
+
+    closeBtn.addEventListener('click', () => {
+      modal.classList.add('hidden');
+      eventForm.reset();
+    });
+
+    // Add Event
+    eventForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const title = titleInput.value.trim();
+      const date = dateInput.value;
+
+      if (title && date) {
+        const newEvent = { title, start: date, color: '#e2f5dc' };
+        events.push(newEvent);
+        calendar.addEvent(newEvent);
+        renderEventTable(events);
+        modal.classList.add('hidden');
+        eventForm.reset();
+      }
+    });
+
+    // Change Academic Year Modal
+    openChangeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      changeYearModal.classList.remove('hidden');
+    });
+
+    closeChangeBtn.addEventListener('click', () => {
+      changeYearModal.classList.add('hidden');
+    });
+
+    yearForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const start = startDateInput.value;
+      const end = endDateInput.value;
+
+      const startYear = new Date(start).getFullYear();
+      const endYear = new Date(end).getFullYear();
+
+      if (startYear === endYear) {
+        warning.style.display = 'block';
+        return;
+      }
+
+      warning.style.display = 'none';
+      localStorage.setItem('startDate', start);
+      localStorage.setItem('endDate', end);
+      yearHeader.textContent = formatAcademicYear(start, end);
+      changeYearModal.classList.add('hidden');
+    });
+
+    function formatAcademicYear(start, end) {
+      const startYear = new Date(start).getFullYear();
+      const endYear = new Date(end).getFullYear();
+      return `${startYear}-${endYear}`;
+    }
+
+    // Render Event Table
+    function renderEventTable(events) {
+      eventTableBody.innerHTML = '';
+      const sorted = [...events].sort((a, b) => new Date(a.start) - new Date(b.start));
+      sorted.forEach(evt => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${new Date(evt.start).toLocaleDateString(undefined, { month: 'long', day: 'numeric' })}</td>
+          <td>${evt.title}</td>
+        `;
+        row.style.backgroundColor = evt.color || '#f9f9f9';
+        eventTableBody.appendChild(row);
+      });
+    }
+  });
+</script>
+
 </body>
 </html>
 
