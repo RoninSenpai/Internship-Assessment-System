@@ -1,63 +1,63 @@
 <head>
-  <link rel="stylesheet" href="/static\css\components.css">
-  <link rel="stylesheet" href="home.css">
-</head>
-
-<body class="content">
-  <h1 id="greeting">Good day, Mr. John Park!</h1>
-
-  <p class="date">Wednesday, March 12, 2025</p>
-  <script src="/templates/_components/date.js"></script>
-
-  <div class="box-shadow">
-    <div class="content-card">
-      <div class="info-card">
-        <h2>SUPERVISOR INFORMATION</h2>
-        <ul>
-          <li><strong>Name: </strong>John Park</li>
-          <li><strong>Email: </strong><span class="censor-email">johnporkcubes@bigcorp.fake</span></li>
-
-          <script>
-            function censorEmail(text) {
-              return text.replace(/(.{2})(.*)(?=@)/, (_, a, b) => a + "*".repeat(b.length));
-            }
-          
-            document.querySelectorAll('.censor-email').forEach(el => {
-              const original = el.textContent.trim();
-              el.textContent = censorEmail(original);
-            });
-          </script>
-
-          <li><strong>Position: </strong>Head of Intern Oppression</li>
-          <li><strong>Department: </strong>Intern Oppression</li>
-          <li><strong>Company: </strong>BigCorp Industries</li>
-        </ul>
-        <div style="text-align: end;">
-          <a href="#">Is the information incorrect? Click here to request an edit</a>
+    <link rel="stylesheet" href="../../static\css\components.css">
+    <link rel="stylesheet" href="home.css">
+  </head>
+  
+  <body class="content">
+    <h1 id="greeting">Good day, Mr. John Park!</h1>
+  
+    <p class="date">Wednesday, March 12, 2025</p>
+    <script src="../../templates/_components/date.js"></script>
+  
+    <div class="box-shadow">
+      <div class="content-card">
+        <div class="info-card">
+          <h2>SUPERVISOR INFORMATION</h2>
+          <ul>
+            <li><strong>Name: </strong>John Park</li>
+            <li><strong>Email: </strong><span class="censor-email">johnporkcubes@bigcorp.fake</span></li>
+  
+            <script>
+              function censorEmail(text) {
+                return text.replace(/(.{2})(.*)(?=@)/, (_, a, b) => a + "*".repeat(b.length));
+              }
+            
+              document.querySelectorAll('.censor-email').forEach(el => {
+                const original = el.textContent.trim();
+                el.textContent = censorEmail(original);
+              });
+            </script>
+  
+            <li><strong>Position: </strong>Head of Intern Oppression</li>
+            <li><strong>Department: </strong>Intern Oppression</li>
+            <li><strong>Company: </strong>BigCorp Industries</li>
+          </ul>
+          <div style="text-align: end;">
+            <a href="#">Is the information incorrect? Click here to request an edit</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="box-shadow">
-    <div class="content-card">
-      <section class="dashboard-options">
-        <button class="main-btn" onclick="changeIframe('masterlist.html')">🔍 View Assigned Interns</button>
-        <p>You have <strong>4</strong> interns under your supervision.</p>
-        
-        <hr style="border: none; border-top: 2px dashed gray; margin: 20px 0;">
-
-        <div class="quick-links">
-          <h2>QUICK ACTIONS</h2>
-          <ul>
-            <li><a href="#">📞 Internship Officer</a></li>
-            <li><a href="#">📖 Evaluation Guide</a></li>
-            <li><a href="#">🦆 Website Feedback</a></li>
-          </ul>
-        </div>
-      </section>
+    <div class="box-shadow">
+      <div class="content-card">
+        <section class="dashboard-options">
+          <button class="main-btn" onclick="changeIframe('masterlist.html')">🔍 View Assigned Interns</button>
+          <p>You have <strong>4</strong> interns under your supervision.</p>
+          
+          <hr style="border: none; border-top: 2px dashed gray; margin: 20px 0;">
+  
+          <div class="quick-links">
+            <h2>QUICK ACTIONS</h2>
+            <ul>
+              <li><a href="#">📞 Internship Officer</a></li>
+              <li><a href="#">📖 Evaluation Guide</a></li>
+              <li><a href="#">🦆 Website Feedback</a></li>
+            </ul>
+          </div>
+        </section>
+      </div>
     </div>
-  </div>
-</body>
-
-<script src="/templates/_components/_components.js"></script>
-<script src="/templates/_components/content.js"></script>
+  </body>
+  
+  <script src="../../templates/_components/_components.js"></script>
+  <script src="../../templates/_components/content.js"></script>

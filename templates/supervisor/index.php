@@ -1,34 +1,39 @@
-<?php
-// Connect to the database like a big-brain god
-$pdo = new PDO("mysql:host=airhub-soe.apc.edu.ph;port=1000;dbname=RIAS_db", "mjkurumphang", "SOETiny1!");
-
-// Query like a beast
-$stmt = $pdo->query("SELECT * FROM AssessmentContents");
-
-// Fetch ALL the rows your pitiful soul desires
-$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>✨ Display of Suffering ✨</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAMS Internship Assessment System - Industry Supervisor</title>
+    <link rel="stylesheet" href="../../static/css/components.css">
 </head>
-<body>
-    <h1>🗂️ Table of Data You Barely Understand</h1>
-    <table border="1">
-        <tr>
-            <?php foreach (array_keys($rows[0]) as $header): ?>
-                <th><?= htmlspecialchars($header) ?></th>
-            <?php endforeach; ?>
-        </tr>
-        <?php foreach ($rows as $row): ?>
-            <tr>
-                <?php foreach ($row as $value): ?>
-                    <td><?= htmlspecialchars($value) ?></td>
-                <?php endforeach; ?>
-            </tr>
-        <?php endforeach; ?>
-    </table>
+<body class="body">
+
+    <!-- Header -->
+    <iframe src="..\../templates\_components\header.html" class="header" id="headerFrame"></iframe>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <iframe src="../../templates/_components/sidebar.html" class="sidebar" id="sidebarFrame"></iframe>
+        
+        <script>
+            const userRole = "supervisor"; // Replace with actual role-checking logic
+
+            document.getElementById("sidebarFrame").addEventListener("load", function() {
+                this.contentWindow.postMessage({ role: userRole }, "*");
+            });
+
+            const userRole2 = "INDUSTRY SUPERVISOR";
+
+            document.getElementById("headerFrame").addEventListener("load", function() {
+                this.contentWindow.postMessage({ role: userRole2 }, "*");
+            });
+        </script>
+
+        <!-- Main Content -->
+        <iframe id="content" src="../../templates/supervisor/home.php" class="content"></iframe>
+    </div>
+
+    <!-- Footer -->
+    <iframe src="../../templates/_components/footer.html" class="footer"></iframe>
 </body>
 </html>

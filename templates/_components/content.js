@@ -86,4 +86,9 @@ if (hour >= 5 && hour < 12) {
     greeting = "Go to sleep you crusty goblin";
 }
 
-greetingEl.textContent = `${greeting}, Mr. John Park!`;
+// Grab the current text, find the comma, and replace only before it 😎🔧
+let currentText = greetingEl.textContent;
+let namePart = currentText.substring(currentText.indexOf(','));
+
+// Now reforge the line like the cursed blacksmith you are
+greetingEl.textContent = `${greeting}${namePart}`;
