@@ -1,3 +1,31 @@
+<?php
+    include '../../database/database.php';
+
+    $token = $_GET['token'] ?? null;
+    $intern_id = $_GET['intern_id'] ?? null;
+    if (!$token || !$intern_id) {
+        echo "Token or id not provided, baka!";
+        exit;
+    }
+
+    $sql = "SELECT 
+                CONCAT(u.user_last_name, ', ', u.user_first_name) AS full_name,
+                p.program_name,
+                i.internship_year
+            FROM internships i
+            JOIN interns inr ON i.intern_id = inr.intern_id
+            JOIN programs p ON inr.program_id = p.program_id
+            JOIN school_users su ON inr.schooluser_id = su.schooluser_id
+            JOIN users u ON su.user_id = u.user_id
+            WHERE i.intern_id = ?";
+
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("i", $intern_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_assoc();
+?>
+
 <head>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
@@ -19,9 +47,9 @@
                 <img src="https://th.bing.com/th/id/OIP.UvgAzpk1q-n7gqp0r45KXgHaEK?rs=1&pid=ImgDetMain"
                     alt="Profile picture of ABONITA, RONIN N." />
                 <div class="card-content">
-                    <h3 class="name">ABONITA, RONIN N.</h3>
-                    <p class="course">BS Computer Engineering</p>
-                    <p class="intern-id">INTERN1</p>
+                    <h3 class="name"><?php echo htmlspecialchars($data['full_name'] ?? ''); ?></h3>
+                    <p class="course"><?php echo htmlspecialchars($data['program_name'] ?? ''); ?></p>
+                    <p class="intern-id"><?php echo htmlspecialchars($data['internship_year'] ?? ''); ?></p>
                 </div>
             </article>
 

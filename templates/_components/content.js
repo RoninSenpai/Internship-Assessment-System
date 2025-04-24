@@ -41,7 +41,12 @@ let spacerEl = null;
 const scrollContainer = document.querySelector(".content");
 
 window.addEventListener("scroll", function () {
-    console.log("Scrolling detected inside .content (aka hell's scroll zone)");
+    console.log("Scrolling detected inside window");
+    toggleButton(scrollContainer);
+});
+
+scrollContainer.addEventListener("scroll", function () {
+    console.log("Scrolling detected inside scrollContainer");
     toggleButton(scrollContainer);
 });
 
@@ -87,8 +92,10 @@ if (hour >= 5 && hour < 12) {
 }
 
 // Grab the current text, find the comma, and replace only before it 😎🔧
-let currentText = greetingEl.textContent;
-let namePart = currentText.substring(currentText.indexOf(','));
+if (greetingEl) {
+    let currentText = greetingEl.textContent;
+    let namePart = currentText.substring(currentText.indexOf(','));
 
-// Now reforge the line like the cursed blacksmith you are
-greetingEl.textContent = `${greeting}${namePart}`;
+    // Now reforge the line like the cursed blacksmith you are
+    greetingEl.textContent = `${greeting}${namePart}`;
+}

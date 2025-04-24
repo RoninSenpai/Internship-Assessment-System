@@ -1,14 +1,14 @@
 <?php
   include '../../database/database.php';
 
+  // 🔐 Token Validation
   $token = $_GET['token'] ?? null;
-
   if (!$token) {
     echo json_encode(["error" => "token not provided"]);
     exit;
   }
 
-  // Step 1: Get supervisor_id from token
+  // 🔎 Fetch supervisor_id from token
   $stmt = $mysqli->prepare("
     SELECT supervisor_id FROM send_assessments WHERE sendass_token = ?
   ");
@@ -26,7 +26,23 @@
   $supervisor_id = $result->fetch_assoc()['supervisor_id'];
   $stmt->close();
 
-  // Step 2: Fetch related data
+  // 🧮 Get count of internships this supervisor has
+  $stmt = $mysqli->prepare("
+    SELECT COUNT(*) AS total_internships
+    FROM internships
+    WHERE supervisor_id = ?
+  ");
+  $stmt->bind_param("i", $supervisor_id);
+  $stmt->execute();
+  $intern_result = $stmt->get_result();
+
+  $intern_count = 0;
+  if ($intern_result && $intern_result->num_rows > 0) {
+    $intern_count = $intern_result->fetch_assoc()['total_internships'];
+  }
+  $stmt->close();
+
+  // 📦 Get supervisor’s detailed info
   $stmt = $mysqli->prepare("
     SELECT 
       u.user_first_name, u.user_last_name, u.user_email,
@@ -44,7 +60,8 @@
 
   if ($result && $result->num_rows > 0) {
     $data = $result->fetch_assoc();
-    // echo json_encode($data);
+    $data['total_internships'] = $intern_count; // 👑 STUFF IT IN HERE
+    // echo json_encode($data); // 🍜 Serve it hot and ready
   } else {
     echo json_encode(["error" => "Supervisor data not found! ಠ_ಠ"]);
   }
@@ -104,8 +121,8 @@
   <div class="box-shadow">
     <div class="content-card">
       <section class="dashboard-options">
-        <button class="main-btn" onclick="changeIframe('../../templates/supervisor/masterlist.html')">🔍 View Assigned Interns</button>
-        <p>You have <strong>4</strong> interns under your supervision.</p>
+        <button class="main-btn" onclick="changeIframe('../../templates/supervisor/masterlist.php?token=<?php echo urlencode($token); ?>')">🔍 View Assigned Interns</button>
+        <p>You have <strong><?php echo htmlspecialchars($data['total_internships'] ?? ''); ?></strong> interns under your supervision.</p>
         
         <hr style="border: none; border-top: 2px dashed gray; margin: 20px 0;">
 

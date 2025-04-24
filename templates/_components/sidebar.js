@@ -4,7 +4,7 @@ function toggleSidebar(forceState = null) {
     const content = window.parent.document.querySelector(".content");
     const sidebarItems = document.querySelectorAll(".sidebar-item");
 
-    console.log("Sidebar toggle triggered. State:", forceState);
+    // console.log("Sidebar toggle triggered. State:", forceState);
 
     if (!sidebar) {
         console.warn("Sidebar not found!! YOU FOOL!!");
@@ -15,18 +15,15 @@ function toggleSidebar(forceState = null) {
         sidebar.classList.add("open");
         sidebarItems.forEach(item => item.classList.add("open"));
         content.classList.add("open");
-        content.forEach(item => item.classList.add("open"));
     } else if (forceState === "close") {
         sidebar.classList.remove("open");
         sidebarItems.forEach(item => item.classList.remove("open"));
         content.classList.remove("open");
-        content.forEach(item => item.classList.remove("open"));
-    } else {
+    } else {    
         // default toggle mode if no forceState specified
         sidebar.classList.toggle("open");
         sidebarItems.forEach(item => item.classList.toggle("open"));
         content.classList.toggle("open");
-        content.forEach(item => item.classList.toggle("open"));
     }
 }
 
@@ -48,7 +45,7 @@ const sidebarItems = {
     ],
     supervisor: [
         { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../templates/supervisor/home.php" },
-        { name: "MASTERLIST", icon: ICON_DIR + "masterlist_icon.png", link: "../../templates/supervisor/masterlist.html" }
+        { name: "MASTERLIST", icon: ICON_DIR + "masterlist_icon.png", link: "../../templates/supervisor/masterlist.php" }
     ],
     student: [
         { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../templates/schooluser/student/home.html" },
@@ -85,7 +82,7 @@ function loadSidebar(role) {
             div.classList.add("active"); // 👈 ADD ACTIVE CLASS
         }
 
-        console.log("authtoken: ", encodeURIComponent(authToken));
+        // console.log("authtoken: ", encodeURIComponent(authToken));
         const linkWithToken = item.link + (item.link.includes("?") ? "&" : "?") + "token=" + encodeURIComponent(authToken);
         div.setAttribute("onclick", `changeIframe('${linkWithToken}')`);
 
@@ -116,19 +113,22 @@ const sidebar = document.getElementById('sidebar-content');
 
 let timeout;
 
-sidebar.addEventListener('mouseleave', () => {
-  timeout = setTimeout(() => {
-    toggleSidebar("close");
-  }, 100); // wait 300ms before closing
-});
+if (sidebar) {
+    sidebar.addEventListener('mouseleave', () => {
+    timeout = setTimeout(() => {
+        toggleSidebar("close");
+    }, 100); // wait 300ms before closing
+    });
 
-sidebar.addEventListener('mouseenter', () => {
-  clearTimeout(timeout); // cancel if they come back in
-});
+    sidebar.addEventListener('mouseenter', () => {
+    clearTimeout(timeout); // cancel if they come back in
+    });
+}
 
 function changeIframe(newSrc, text="Are you sure you want to leave this page? Unsaved changes may be lost!", force=false) {
     const pagesThatNeedConfirmation = [
-        "evaluation.html"
+        "evaluation.html",
+        "evaluation.php"
     ];
 
     const contentFrame = window.parent.document.getElementById("content");
@@ -137,12 +137,12 @@ function changeIframe(newSrc, text="Are you sure you want to leave this page? Un
     const isLeavingImportantPage = pagesThatNeedConfirmation.some(page => currentSrc.includes(page));
     const isEnteringImportantPage = pagesThatNeedConfirmation.some(page => newSrc.includes(page));
 
-    console.log("Text: ", text);
+    // console.log("Text: ", text);
     if (!force && isLeavingImportantPage) {
         const confirmed = confirm(text);
 
         if (!confirmed) {
-            console.log("Cowardice detected. Navigation aborted.");
+            // console.log("Cowardice detected. Navigation aborted.");
             return; // 💀 NO FRAME MAGIC FOR YOU
         }
     }

@@ -149,7 +149,7 @@ function updateTableCountsAndSubtotal() {
 
         const apcGradeCell = document.getElementById('apc-grade');
 
-        console.log("apcGradeCell ", apcGradeCell);
+        // console.log("apcGradeCell ", apcGradeCell);
         if (apcGradeCell) {
             let apcGrade = '';
 
@@ -175,7 +175,8 @@ document.querySelectorAll('input[type="radio"]').forEach(radio => {
 });
 
 // Form submission with fetch (NO page reload)
-document.getElementById("myForm").addEventListener("submit", function(event) {
+if (document.getElementById("myForm")) {
+    document.getElementById("myForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
     let formData = new FormData(this);
@@ -184,7 +185,7 @@ document.getElementById("myForm").addEventListener("submit", function(event) {
         data[key] = value;
     }
 
-    console.log("Sending data:", data);
+    // console.log("Sending data:", data);
 
     fetch("/submit", {
         method: "POST",
@@ -192,8 +193,8 @@ document.getElementById("myForm").addEventListener("submit", function(event) {
         body: JSON.stringify(data)
     })
     .then(response => response.json())
-    .then(data => console.log("Server says:", data));
-});
+    // .then(data => console.log("Server says:", data));
+})};
 
 // Optional confirm function
 function confirmAction(event) {
@@ -227,7 +228,7 @@ function handleEvaluationSubmit(event) {
     const confirmed = confirm("You cannot add any more changes once submitted. Submit evaluation?");
     if (!confirmed) {
         event.preventDefault();
-        console.log("Evaluation submission canceled by user with functioning self-preservation.");
+        // console.log("Evaluation submission canceled by user with functioning self-preservation.");
         return false;
     }
 
