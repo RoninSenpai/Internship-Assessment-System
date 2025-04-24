@@ -119,6 +119,10 @@
     user-select: none;
 }
 
+.footer-list li {
+    overflow: hidden;
+}
+
 .copyright {
     font-family: 'Josefin Sans', sans-serif;
 }

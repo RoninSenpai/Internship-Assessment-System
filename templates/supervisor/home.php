@@ -1,40 +1,56 @@
 <?php
-include '../../database/database.php';
+  include '../../database/database.php';
 
-// SQL query to join the tables and get the data
-$sql = "
+  $token = $_GET['token'] ?? null;
+
+  if (!$token) {
+    echo json_encode(["error" => "token not provided"]);
+    exit;
+  }
+
+  // Step 1: Get supervisor_id from token
+  $stmt = $mysqli->prepare("
+    SELECT supervisor_id FROM send_assessments WHERE sendass_token = ?
+  ");
+  $stmt->bind_param("s", $token);
+  $stmt->execute();
+  $result = $stmt->get_result();
+
+  if (!$result || $result->num_rows === 0) {
+    echo json_encode(["error" => "Invalid token! Begone! 💢"]);
+    $stmt->close();
+    $mysqli->close();
+    exit;
+  }
+
+  $supervisor_id = $result->fetch_assoc()['supervisor_id'];
+  $stmt->close();
+
+  // Step 2: Fetch related data
+  $stmt = $mysqli->prepare("
     SELECT 
-        u.user_first_name, u.user_last_name, u.user_email,
-        s.supervisor_job_role, d.department_name, c.company_name
+      u.user_first_name, u.user_last_name, u.user_email,
+      s.supervisor_job_role, d.department_name, c.company_name
     FROM supervisors s
-    INNER JOIN users u ON s.user_id = u.user_id
-    INNER JOIN departments d ON s.department_id = d.department_id
-    INNER JOIN companies c ON d.company_id = c.company_id
+    JOIN users u ON s.user_id = u.user_id
+    JOIN departments d ON s.department_id = d.department_id
+    JOIN companies c ON d.company_id = c.company_id
+    WHERE s.supervisor_id = ?
     LIMIT 1
-";
+  ");
+  $stmt->bind_param("i", $supervisor_id);
+  $stmt->execute();
+  $result = $stmt->get_result();
 
-$result = $conn->query($sql);
+  if ($result && $result->num_rows > 0) {
+    $data = $result->fetch_assoc();
+    // echo json_encode($data);
+  } else {
+    echo json_encode(["error" => "Supervisor data not found! ಠ_ಠ"]);
+  }
 
-// Initialize variables to store the data
-$user_first_name = "Unknown";
-$user_last_name = "Unknown";
-$user_email = "Unknown";
-$supervisor_job_role = "Unknown";
-$department_name = "Unknown";
-$company_name = "Unknown";
-
-// If the query is successful and data is found
-if ($result && $result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-
-    // Assign the fetched data to the variables
-    $user_first_name = $row['user_first_name'];
-    $user_last_name = $row['user_last_name'];
-    $user_email = $row['user_email'];
-    $supervisor_job_role = $row['supervisor_job_role'];
-    $department_name = $row['department_name'];
-    $company_name = $row['company_name'];
-}
+  $stmt->close();
+  $mysqli->close();
 ?>
 
 <head>
@@ -43,7 +59,7 @@ if ($result && $result->num_rows > 0) {
 </head>
 
 <body class="content">
-  <h1 id="greeting">Good day, Mr. <?php echo htmlspecialchars($user_last_name); ?>!</h1>
+  <h1 id="greeting">Good day, Mr. <span id="last-name"><?php echo htmlspecialchars($data['user_last_name'] ?? ''); ?></span>!</h1>
 
   <p class="date">Wednesday, March 12, 2025</p>
   <script src="../../templates/_components/date.js"></script>
@@ -53,23 +69,30 @@ if ($result && $result->num_rows > 0) {
       <div class="info-card">
         <h2>SUPERVISOR INFORMATION</h2>
         <ul>
-          <li><strong>Name: </strong><?php echo htmlspecialchars($user_first_name . " " . $user_last_name); ?></li>
-          <li><strong>Email: </strong><span class="censor-email"><?php echo htmlspecialchars($user_email); ?></span></li>
+          <li>
+            <strong>Name: </strong>
+            <span id="first-name"><?php echo htmlspecialchars($data['user_first_name'] ?? ''); ?></span>
+            <span id="last-name"><?php echo htmlspecialchars($data['user_last_name'] ?? ''); ?></span>
+          </li>
+          <li>
+            <strong>Email: </strong>
+            <span id="email" class="censor-email"><?php echo htmlspecialchars($data['user_email'] ?? ''); ?></span>
+          </li>
 
           <script>
             function censorEmail(text) {
               return text.replace(/(.{2})(.*)(?=@)/, (_, a, b) => a + "*".repeat(b.length));
             }
-          
+
             document.querySelectorAll('.censor-email').forEach(el => {
               const original = el.textContent.trim();
               el.textContent = censorEmail(original);
             });
           </script>
 
-          <li><strong>Position: </strong><?php echo htmlspecialchars($supervisor_job_role); ?></li>
-          <li><strong>Department: </strong><?php echo htmlspecialchars($department_name); ?></li>
-          <li><strong>Company: </strong><?php echo htmlspecialchars($company_name); ?></li>
+          <li><strong>Position: </strong><span id="job-role"><?php echo htmlspecialchars($data['supervisor_job_role'] ?? ''); ?></span></li>
+          <li><strong>Department: </strong><span id="department"><?php echo htmlspecialchars($data['department_name'] ?? ''); ?></span></li>
+          <li><strong>Company: </strong><span id="company"><?php echo htmlspecialchars($data['company_name'] ?? ''); ?></span></li>
         </ul>
         <div style="text-align: end;">
           <a href="#">Is the information incorrect? Click here to request an edit</a>
@@ -77,6 +100,7 @@ if ($result && $result->num_rows > 0) {
       </div>
     </div>
   </div>
+  
   <div class="box-shadow">
     <div class="content-card">
       <section class="dashboard-options">

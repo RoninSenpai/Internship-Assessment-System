@@ -40,11 +40,11 @@ const sidebarItems = {
         { name: "USERLOG", icon: ICON_DIR + "flag_icon.png", link: "../../templates/schooluser/admin/userlog.html" }
     ],
     faculty: [
-        { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../templates/schooluser/faculty/home.html" },
-        { name: "PROGRESS", icon: ICON_DIR + "flag_icon.png", link: "../../templates/schooluser/faculty/progress.html" },
-        { name: "MASTERLIST", icon: ICON_DIR + "masterlist_icon.png", link: "../../templates/schooluser/faculty/masterlist.html" },
-        { name: "RUBRICS", icon: ICON_DIR + "checkbox_icon.png", link: "../../templates/schooluser/faculty/rubrics.html" },
-        { name: "REPORTS", icon: ICON_DIR + "report_icon.png", link: "../../templates/schooluser/faculty/reports.html" }
+        { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../../templates/schooluser/faculty/home.html" },
+        { name: "PROGRESS", icon: ICON_DIR + "flag_icon.png", link: "../../../templates/schooluser/faculty/progress.html" },
+        { name: "MASTERLIST", icon: ICON_DIR + "masterlist_icon.png", link: "../../../templates/schooluser/faculty/masterlist.html" },
+        { name: "RUBRICS", icon: ICON_DIR + "checkbox_icon.png", link: "../../../templates/schooluser/faculty/rubrics.html" },
+        { name: "REPORTS", icon: ICON_DIR + "report_icon.png", link: "../../../templates/schooluser/faculty/reports.html" }
     ],
     supervisor: [
         { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../templates/supervisor/home.php" },
@@ -85,9 +85,7 @@ function loadSidebar(role) {
             div.classList.add("active"); // 👈 ADD ACTIVE CLASS
         }
 
-        console.log("authtoken: ", encodeURIComponent(authToken));
-        const linkWithToken = item.link + (item.link.includes("?") ? "&" : "?") + "token=" + encodeURIComponent(authToken);
-        div.setAttribute("onclick", `changeIframe('${linkWithToken}')`);
+        div.setAttribute("onclick", `changeIframe('${item.link}')`);
 
         const span = document.createElement("span");
         span.textContent = item.name;

@@ -28,25 +28,25 @@ style.textContent = `
     }
 
     .spacer {
-        height: 50px; /* Same height as the "Back to Top" button */
+        height: 80px; /* Same height as the "Back to Top" button */
         width: 100%;
         display: block;
-        margin-bottom: 80px;
+        flex-shrink: 0;
     }
 `;
+
 document.head.appendChild(style);
 
-// Step 3: Keep your old demon code, but let it vibe with the summoned button and spacer
-const scrollContainer = document.querySelector(".content");
 let spacerEl = null;
+const scrollContainer = document.querySelector(".content");
 
-scrollContainer.addEventListener("scroll", function () {
+window.addEventListener("scroll", function () {
     console.log("Scrolling detected inside .content (aka hell's scroll zone)");
     toggleButton(scrollContainer);
 });
 
 function toggleButton(el) {
-    if (el.scrollTop > 200) {
+    if (el.scrollTop > 300) {
         document.getElementById("backToTopBtn").style.display = "block";
 
         // Create the spacer if it's not already there

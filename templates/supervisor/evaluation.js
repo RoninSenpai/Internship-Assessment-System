@@ -1,19 +1,19 @@
 const form = document.getElementById("evaluationForm");
 const inputs = form.querySelectorAll("input, textarea, select");
 
-inputs.forEach(input => {
-    input.disabled = true;
-    input.style.cursor = "default";
+// inputs.forEach(input => {
+//     input.disabled = true;
+//     input.style.cursor = "default";
 
-    // Nuke all parent label + span elements too
-    const label = input.closest('label');
-    if (label) label.style.cursor = "default";
+//     // Nuke all parent label + span elements too
+//     const label = input.closest('label');
+//     if (label) label.style.cursor = "default";
 
-    const span = label?.querySelector('span');
-    if (span) span.style.cursor = "default";
+//     const span = label?.querySelector('span');
+//     if (span) span.style.cursor = "default";
     
-    if (input.title) input.removeAttribute("title");
-});
+//     if (input.title) input.removeAttribute("title");
+// });
 
 
 // Auto-expand textareas and add character count
