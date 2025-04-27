@@ -31,10 +31,10 @@ const ICON_DIR = "../../static/images/components/";
 
 const sidebarItems = {
     admin: [
-        { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../templates/schooluser/admin/home.html" },
-        { name: "MASTERLIST", icon: ICON_DIR + "masterlist_icon.png", link: "../../templates/schooluser/admin/masterlist.html" },
-        { name: "DATABASE", icon: ICON_DIR + "database_icon.png", link: "../../templates/schooluser/admin/database.html" },
-        { name: "USERLOG", icon: ICON_DIR + "flag_icon.png", link: "../../templates/schooluser/admin/userlog.html" }
+        { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../../templates/schooluser/admin/home.html" },
+        { name: "MASTERLIST", icon: ICON_DIR + "masterlist_icon.png", link: "../../../templates/schooluser/admin/masterlist.html" },
+        { name: "DATABASE", icon: ICON_DIR + "database_icon.png", link: "../../../templates/schooluser/admin/database.html" },
+        { name: "USERLOG", icon: ICON_DIR + "flag_icon.png", link: "../../../templates/schooluser/admin/userlog.html" }
     ],
     faculty: [
         { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../templates/schooluser/faculty/home.html" },
@@ -48,10 +48,10 @@ const sidebarItems = {
         { name: "MASTERLIST", icon: ICON_DIR + "masterlist_icon.png", link: "../../templates/supervisor/masterlist.php" }
     ],
     student: [
-        { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../templates/schooluser/student/home.html" },
-        { name: "PROFILE", icon: ICON_DIR + "masterlist_icon.png", link: "../../templates/schooluser/student/profile.html" },
-        { name: "EVALUATION", icon: ICON_DIR + "checkbox_icon.png", link: "../../templates/schooluser/student/evaluation.html" },
-        { name: "PORTFOLIO", icon: ICON_DIR + "report_icon.png", link: "../../templates/schooluser/student/portfolio.html" }
+        { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../../templates/schooluser/student/home.html" },
+        { name: "PROFILE", icon: ICON_DIR + "masterlist_icon.png", link: "../../../templates/schooluser/student/profile.html" },
+        { name: "EVALUATION", icon: ICON_DIR + "checkbox_icon.png", link: "../../../templates/schooluser/student/evaluation.html" },
+        { name: "PORTFOLIO", icon: ICON_DIR + "report_icon.png", link: "../../../templates/schooluser/student/portfolio.html" }
     ]
 };
 
@@ -127,8 +127,7 @@ if (sidebar) {
 
 function changeIframe(newSrc, text="Are you sure you want to leave this page?\nUnsaved changes may be lost!", force=false) {
     const pagesThatNeedConfirmation = [
-        "evaluation.html",
-        "evaluation.php"
+        "evaluation1.html"
     ];
 
     const contentFrame = window.parent.document.getElementById("content");
