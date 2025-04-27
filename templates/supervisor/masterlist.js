@@ -11,7 +11,7 @@ filterInput.addEventListener('input', function () {
   cards.forEach(card => {
     const name = card.querySelector('.name')?.textContent.toLowerCase() || "";
     const course = card.querySelector('.course')?.textContent.toLowerCase() || "";
-    const id = card.querySelector('.intern-id')?.textContent.toLowerCase() || "";
+    const id = card.querySelector('.internship-year')?.textContent.toLowerCase() || "";
 
     const isMatch = name.includes(filter) || course.includes(filter) || id.includes(filter);
     card.style.display = isMatch ? '' : 'none';
@@ -57,7 +57,7 @@ document.querySelectorAll('.card .name').forEach(el => {
     }
 });
 
-const evalBtns = document.querySelectorAll('.evaluation-btn[data-status="done"]');
+evalBtns = document.querySelectorAll('.evaluation-btn[data-status="done"]');
 
 evalBtns.forEach(btn => {
   btn.addEventListener('mouseenter', () => {

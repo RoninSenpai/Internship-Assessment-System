@@ -21,6 +21,7 @@ style.textContent = `
         padding: 10px 15px;
         cursor: pointer;
         border-radius: 5px;
+        user-select: none;
     }
 
     #backToTopBtn:hover {
@@ -41,12 +42,12 @@ let spacerEl = null;
 const scrollContainer = document.querySelector(".content");
 
 window.addEventListener("scroll", function () {
-    console.log("Scrolling detected inside window");
+    // console.log("Scrolling detected inside window");
     toggleButton(scrollContainer);
 });
 
 scrollContainer.addEventListener("scroll", function () {
-    console.log("Scrolling detected inside scrollContainer");
+    // console.log("Scrolling detected inside scrollContainer");
     toggleButton(scrollContainer);
 });
 

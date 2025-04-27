@@ -125,7 +125,7 @@ if (sidebar) {
     });
 }
 
-function changeIframe(newSrc, text="Are you sure you want to leave this page? Unsaved changes may be lost!", force=false) {
+function changeIframe(newSrc, text="Are you sure you want to leave this page?\nUnsaved changes may be lost!", force=false) {
     const pagesThatNeedConfirmation = [
         "evaluation.html",
         "evaluation.php"
@@ -133,6 +133,12 @@ function changeIframe(newSrc, text="Are you sure you want to leave this page? Un
 
     const contentFrame = window.parent.document.getElementById("content");
     const currentSrc = contentFrame?.src || "";
+
+    const url = new URL(contentFrame.src);
+    const params = new URLSearchParams(url.search);
+
+    // then you can grab stuff
+    force = (params.get('data-status') == 'done') || force;
     
     const isLeavingImportantPage = pagesThatNeedConfirmation.some(page => currentSrc.includes(page));
     const isEnteringImportantPage = pagesThatNeedConfirmation.some(page => newSrc.includes(page));

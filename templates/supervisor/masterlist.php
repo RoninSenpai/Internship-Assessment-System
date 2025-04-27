@@ -13,7 +13,7 @@
     $result = $stmt->get_result();
 
     if (!$result || $result->num_rows === 0) {
-    echo "INVALID TOKEN, FOOL 💢";
+    echo "INVALID TOKEN, FOOL 💢 (masterlist.php)";
     exit;
     }
 
@@ -40,7 +40,6 @@
     $result = $stmt->get_result();
 
     $stmt->close();
-    $mysqli->close();
 ?>
 
 <head>
@@ -74,62 +73,117 @@
             </section>
             
             <section id="intern-cards" class="cards">
-                <?php
-                    while ($row = $result->fetch_assoc()) {
-                        $full_name = strtoupper($row['user_last_name']) . ", " . strtoupper($row['user_first_name']);
-                        $program = htmlspecialchars($row['program_name']);
-                        $internship_year = htmlspecialchars($row['internship_year']); // This is INTERN1 or INTERN2 now
-                        $intern_id = htmlspecialchars($row['intern_id']);
+            <?php
+                while ($row = $result->fetch_assoc()) {
+                    $full_name = strtoupper($row['user_last_name']) . ", " . strtoupper($row['user_first_name']);
+                    $program = htmlspecialchars($row['program_name']);
+                    $internship_year = htmlspecialchars($row['internship_year']);
+                    $intern_id = htmlspecialchars($row['intern_id']);
 
-                        echo <<<HTML
-                        <article class="card">
-                            <img src="https://static.vecteezy.com/system/resources/previews/002/534/006/original/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg" alt="Profile picture of {$full_name}" />
-                            <h3 class="name">{$full_name}</h3>
-                            <p class="course">{$program}</p>
-                            <p class="internship-year">{$internship_year}</p>
-                            <div class="evaluation-button-container">
-                                <a onclick="changeIframe('../../templates/supervisor/evaluation.php?token={$token}&intern_id={$intern_id}')" class="evaluation-btn" data-status="evaluate">EVALUATE</a>
-                            </div>
-                        </article>
-                        HTML;
+                    $sql = "
+                        SELECT ig.supervisor_grade
+                        FROM internship_grades ig
+                        INNER JOIN internships i ON i.internship_id = ig.internship_id
+                        WHERE i.intern_id = ?
+                    ";
+                    $stmt = $mysqli->prepare($sql);
+                    $stmt->bind_param("i", $intern_id);
+                    $stmt->execute();
+                    $result2 = $stmt->get_result();
+                    
+                    $supervisor_graded = null;
+                    
+                    if ($row2 = $result2->fetch_assoc()) { // <--- DIFFERENT VARIABLE NAME
+                        if (is_null($row2['supervisor_grade'])) {
+                            $supervisor_graded = false;
+                        } else {
+                            $supervisor_graded = true;
+                        }
+                    } else {
+                        $supervisor_graded = null;
                     }
-                ?>
-                <article class="card">
-                    <img src="https://th.bing.com/th/id/OIP.UvgAzpk1q-n7gqp0r45KXgHaEK?rs=1&pid=ImgDetMain" alt="Profile picture of ABONITA, RONIN N." />
-                    <h3 class="name">ABONITA, RONIN N.</h3>
-                    <p class="course">BS Computer Engineering</p>
-                    <p class="intern-id">INTERN1</p>
-                    <div class="evaluation-button-container">
-                        <a onclick="changeIframe('../../templates/supervisor/evaluation.html')" class="evaluation-btn" data-status="evaluate">EVALUATE</a>
-                    </div>
-                </article>
-                <article class="card">
-                    <img src="https://th.bing.com/th/id/OIP.UvgAzpk1q-n7gqp0r45KXgHaEK?rs=1&pid=ImgDetMain" alt="Profile picture of ABONITA, RONIN N." />
-                    <h3 class="name">AQUINO, JULIUS ANTON V.</h3>
-                    <p class="course">BS Computer Engineering</p>
-                    <p class="intern-id">INTERN2</p>
-                    <div class="evaluation-button-container">
-                        <a onclick="changeIframe('evaluation.html')" class="evaluation-btn" data-status="continue">CONTINUE</a>
-                    </div>
-                </article>
-                <article class="card">
-                    <img src="https://th.bing.com/th/id/OIP.UvgAzpk1q-n7gqp0r45KXgHaEK?rs=1&pid=ImgDetMain" alt="Profile picture of ABONITA, RONIN N." />
-                    <h3 class="name">KURUMPHANG, MARVIN J.</h3>
-                    <p class="course">BS Civil Engineering</p>
-                    <p class="intern-id">INTERN2</p>
-                    <div class="evaluation-button-container">
-                        <a onclick="changeIframe('evaluation.html')" class="evaluation-btn" data-status="done">DONE</a>
-                    </div>
-                </article>
-                <article class="card">
-                    <img src="https://th.bing.com/th/id/OIP.UvgAzpk1q-n7gqp0r45KXgHaEK?rs=1&pid=ImgDetMain" alt="Profile picture of ABONITA, RONIN N." />
-                    <h3 class="name">VELORIA, DENBERT J.</h3>
-                    <p class="course">BS Civil Engineering</p>
-                    <p class="intern-id">INTERN1</p>
-                    <div class="evaluation-button-container">
-                        <a onclick="changeIframe('evaluation.html')" class="evaluation-btn" data-status="done">DONE</a>
-                    </div>
-                </article>
+                    $stmt->close();
+
+                    $internshipSql = "
+                        SELECT internship_id 
+                        FROM internships 
+                        WHERE intern_id = ?
+                    ";
+                    $stmt = $mysqli->prepare($internshipSql);
+                    $stmt->bind_param("i", $intern_id);
+                    $stmt->execute();
+                    $result3 = $stmt->get_result();
+                    $internship_id = null;
+
+                    if ($row3 = $result3->fetch_assoc()) { // <--- DIFFERENT VARIABLE NAME
+                        $internship_id = $row3['internship_id'];
+                    }
+                    $stmt->close();
+
+                    $continueStatus = false;
+
+                    if ($internship_id) {
+                        $sql1 = "
+                            SELECT 1 
+                            FROM assessment_grades 
+                            WHERE internship_id = ?
+                            LIMIT 1
+                        ";
+                        $stmt1 = $mysqli->prepare($sql1);
+                        $stmt1->bind_param("i", $internship_id);
+                        $stmt1->execute();
+                        $result1 = $stmt1->get_result();
+                        if ($result1->num_rows > 0) {
+                            $continueStatus = true;
+                        }
+                        $stmt1->close();
+
+                        if (!$continueStatus) {
+                            $sql2 = "
+                                SELECT 1 
+                                FROM feedback 
+                                WHERE internship_id = ?
+                                LIMIT 1
+                            ";
+                            $stmt2 = $mysqli->prepare($sql2);
+                            $stmt2->bind_param("i", $internship_id);
+                            $stmt2->execute();
+                            $result2 = $stmt2->get_result();
+                            if ($result2->num_rows > 0) {
+                                $continueStatus = true;
+                            }
+                            $stmt2->close();
+                        }
+                    }
+
+                    if ($supervisor_graded) {
+                        $dataStatus = 'done';
+                        $dataStatusText = 'DONE';
+                    } else {
+                        $dataStatus = ($continueStatus === true) ? 'continue' : 'evaluate';
+                        $dataStatusText = ($continueStatus === true) ? 'CONTINUE' : 'EVALUATE';
+                    }
+
+                    $iframeLink = "../../templates/supervisor/evaluation.php?token={$token}&intern_id={$intern_id}&data-status={$dataStatus}";
+
+                    echo <<<HTML
+                    <article class="card">
+                        <img src="https://static.vecteezy.com/system/resources/previews/002/534/006/original/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg" alt="Profile picture of {$full_name}" />
+                        <h3 class="name">{$full_name}</h3>
+                        <p class="course">{$program}</p>
+                        <p class="internship-year">{$internship_year}</p>
+                        <div class="evaluation-button-container">
+                            <a onclick="changeIframe('{$iframeLink}')" 
+                                class="evaluation-btn" 
+                                data-status="{$dataStatus}">
+                                $dataStatusText
+                            </a>                            
+                        </div>
+                    </article>
+                    HTML;
+                }
+            ?>
+
             </section>
             <p id="noResults" style="display: none; text-align: center; margin-top: 20px;">No results found.</p>
         </div>

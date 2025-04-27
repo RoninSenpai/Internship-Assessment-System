@@ -185,6 +185,14 @@ table {
     overflow: hidden;
 }
 
+tbody tr:nth-child(even) {
+    background-color: #e4e6ed; /* Light gray background for even rows */
+}
+
+tbody tr:hover {
+    background-color: #fbad415a; /* Light gray background when hovering */
+}
+
 .note {
     text-align: center;
     margin-bottom: 48px;

@@ -24,7 +24,15 @@
     $stmt->execute();
     $result = $stmt->get_result();
     $data = $result->fetch_assoc();
+
+    $dataStatus = isset($_GET['data-status']) ? $_GET['data-status'] : null;
 ?>
+
+<script>
+    window.tokenFromPHP = <?php echo json_encode($token); ?>;
+
+    var dataStatusFromPHP = "<?php echo $dataStatus; ?>";
+</script>
 
 <head>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap" rel="stylesheet">
@@ -44,8 +52,8 @@
             <h1>EVALUATION FORM</h1>
 
             <article class="card">
-                <img src="https://th.bing.com/th/id/OIP.UvgAzpk1q-n7gqp0r45KXgHaEK?rs=1&pid=ImgDetMain"
-                    alt="Profile picture of ABONITA, RONIN N." />
+                <img src="https://static.vecteezy.com/system/resources/previews/002/534/006/original/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg"
+                    />
                 <div class="card-content">
                     <h3 class="name"><?php echo htmlspecialchars($data['full_name'] ?? ''); ?></h3>
                     <p class="course"><?php echo htmlspecialchars($data['program_name'] ?? ''); ?></p>
@@ -55,7 +63,7 @@
 
             <p class="scale">RATING SCALE: 5 - Highest, 0 - Lowest, N/A - Not Applicable</p>
 
-            <form id="evaluationForm" onsubmit="return handleEvaluationSubmit(event)">
+            <form id="evaluationForm" onsubmit="return handleEvaluationSubmit(event)" method="POST">
                 <table border="1">
                     <thead>
                         <colgroup>
@@ -85,67 +93,174 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="number">1</td>
-                            <td class="criteria-item">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. </td>
-                            <td class="rating-item"><label><input type="radio" name="grade_1" value="5" required><span>5</span></label>
-                            </td>
-                            <td class="rating-item"><label><input type="radio" name="grade_1" value="4"><span>4</span></label></td>
-                            <td class="rating-item"><label><input type="radio" name="grade_1" value="3"><span>3</span></label></td>
-                            <td class="rating-item"><label><input type="radio" name="grade_1" value="2"><span>2</span></label></td>
-                            <td class="rating-item"><label><input type="radio" name="grade_1" value="1"><span>1</span></label></td>
-                            <td class="rating-item"><label><input type="radio" name="grade_1" value="0"><span>0</span></label></td>
-                            <td class="rating-item"><label><input type="radio" name="grade_1" value="N/A"><span>N/A</span></label></td>
-                        </tr>
-                        <tr>
-                            <td class="number">2</td>
-                            <td class="criteria-item">Initiative</td>
-                            <td class="rating-item"><label><input type="radio" name="grade_2" value="5" required><span>5</span></label>
-                            </td>
-                            <td class="rating-item"><label><input type="radio" name="grade_2" value="4"><span>4</span></label></td>
-                            <td class="rating-item"><label><input type="radio" name="grade_2" value="3"><span>3</span></label></td>
-                            <td class="rating-item"><label><input type="radio" name="grade_2" value="2"><span>2</span></label></td>
-                            <td class="rating-item"><label><input type="radio" name="grade_2" value="1"><span>1</span></label></td>
-                            <td class="rating-item"><label><input type="radio" name="grade_2" value="0"><span>0</span></label></td>
-                            <td class="rating-item"><label><input type="radio" name="grade_2" value="N/A"><span>N/A</span></label></td>
-                        </tr>
-                        <tr>
-                            <td class="number">3</td>
-                            <td class="criteria-item">Teamwork</td>
-                            <td class="rating-item"><label><input type="radio" name="grade_3" value="5" required><span>5</span></label>
-                            </td>
-                            <td class="rating-item"><label><input type="radio" name="grade_3" value="4"><span>4</span></label></td>
-                            <td class="rating-item"><label><input type="radio" name="grade_3" value="3"><span>3</span></label></td>
-                            <td class="rating-item"><label><input type="radio" name="grade_3" value="2"><span>2</span></label></td>
-                            <td class="rating-item"><label><input type="radio" name="grade_3" value="1"><span>1</span></label></td>
-                            <td class="rating-item"><label><input type="radio" name="grade_3" value="0"><span>0</span></label></td>
-                            <td class="rating-item"><label><input type="radio" name="grade_3" value="N/A"><span>N/A</span></label></td>
-                        </tr>
-                        <tr>
-                            <td class="number">4</td>
-                            <td colspan="8" class="criteria-item">
-                                <p>Please enumerate here the task items as purported in the Intern’s Job Description for Criteria #3.
-                                </p>
-                                <textarea class="textarea-expand" rows="4" cols="50"
-                                    placeholder="Software development, Database management, Data visualization and reporting, etc..."
-                                    maxlength="512"></textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="number">5</td>
-                            <td colspan="8" class="criteria-item">
-                                <p>Since your previous evaluation, did the Intern’s over-all performance improve?</p>
-                                <div class="yesno">
-                                    <label><input type="radio" name="grade_5" value="Yes" required><span>Yes</span></label>
-                                    <label><input type="radio" name="grade_5" value="No"><span>No</span></label>
-                                </div>
-                                <p>Why? (Provide justification & indicate intern’s strong and weak points)</p>
-                                <textarea class="textarea-expand" rows="4" cols="50"
-                                    placeholder="The intern has shown significant improvement in software development, especially in debugging and writing cleaner code. They now complete tasks more efficiently and communicate more proactively with the team. However, they still need to work on time management and meeting deadlines consistently."
-                                    maxlength="512"></textarea>
-                            </td>
-                        </tr>
+                    <?php
+                        // Assuming you have a connection to your database already
+                        $internship_id = null;
+
+
+                        // Prepare the query to fetch internship data based on intern_id
+                        $sql = "SELECT internship_id FROM internships WHERE intern_id = ?";
+
+                        // Prepare the statement
+                        if ($stmt = $mysqli->prepare($sql)) {
+                            // Bind parameters
+                            $stmt->bind_param("i", $intern_id);
+
+                            // Execute the statement
+                            $stmt->execute();
+
+                            // Bind the result to a variable
+                            $stmt->bind_result($internship_id);
+
+                            // Fetch the result
+                            if ($stmt->fetch()) {
+                                // Successfully fetched the internship_id
+                                // echo "Internship ID: " . $internship_id; // Debugging line
+                            } else {
+                                echo "No internship found for the given intern_id.";
+                            }
+
+                            // Close the statement
+                            $stmt->close();
+                        } else {
+                            echo "Error: Could not prepare the query.";
+                        }
+
+                        // Fetch the assessment contents
+                        $sql = "SELECT * FROM `assessment_contents` WHERE `assessments_id` = 1"; // Get all the questions for assessment_id 1
+                        $result = $mysqli->query($sql);
+
+                        if ($result->num_rows > 0) {
+                            $counter = 1; // To handle the dynamic radio button names
+                            while($row = $result->fetch_assoc()) {
+                                $assessment_content_id = $row['assessment_content_id']; // Store the assessment_content_id
+                                
+                                // Debug: Output the assessment content ID and question
+                                // echo "Debug: assessment_content_id: $assessment_content_id, question: " . htmlspecialchars($row['ass_content_question']) . "<br>";
+
+                                // Check if a grade exists for this assessment_content_id and internship_id
+                                $sql_grade = "SELECT internship_id, assessment_content_id, assessment_grade 
+                                                FROM assessment_grades 
+                                                WHERE internship_id = ? AND assessment_content_id = ?";
+                                if ($stmt = $mysqli->prepare($sql_grade)) {
+                                    $stmt->bind_param("ii", $internship_id, $assessment_content_id);
+                                    $stmt->execute();
+                                    $stmt->store_result();
+                                    
+                                    // echo "Debug: sql_grade: $sql_grade<br>";
+                                    if ($stmt->num_rows > 0) {
+                                        // Data exists, fetch the grade
+                                        $stmt->bind_result($existing_internship_id, $existing_assessment_content_id, $existing_grade);
+                                        $stmt->fetch();
+                                        $existing_grade_value = $existing_grade; // Store the existing grade
+                                        
+                                        // Debug: Output the existing grade
+                                        // echo "Debug: Existing grade: $existing_grade_value<br>";
+                                    } else {
+                                        $existing_grade_value = -2; // No existing grade
+                                        // echo "Debug: Existing grade: null<br>";
+                                    }
+                                    $stmt->close();
+                                }
+
+                                echo "<tr>";
+                                echo "<td class='number'>" . $counter . "</td>"; // Dynamic numbering
+                                echo "<td class='criteria-item'>" . htmlspecialchars($row['ass_content_question']) . "</td>"; // The question text
+                                
+                                // Add hidden input for assessment_content_id
+                                echo "<input type='hidden' name='assessment_content_id_" . $counter . "' value='" . $assessment_content_id . "'>";
+                                
+                                // Radio buttons with dynamic names (grade_1, grade_2, etc.)
+                                for ($grade = 5; $grade >= 0; $grade--) {
+                                    $checked = ($existing_grade_value == $grade) ? "checked" : ""; // Check if the grade is already selected
+                                    
+                                    // Debug: Output the grade and checked value
+                                    // echo "Debug: existing_grade_value: $existing_grade_value, Checked: $checked<br>";
+                                    // echo "Debug: Grade: $grade, Checked: $checked<br>";
+                                    
+                                    echo "<td class='rating-item'><label><input type='radio' name='grade_" . $counter . "' value='" . $grade . "' " . $checked . ($grade == 0 ? "" : "") . "><span>" . $grade . "</span></label></td>";
+                                }
+                                echo "<td class='rating-item'><label><input type='radio' name='grade_" . $counter . "' value='N/A' " . (($existing_grade_value == -1) ? "checked" : "") . " required><span>N/A</span></label></td>";
+                                echo "</tr>";
+                                
+                                $counter++; // Increment to next number for dynamic naming
+                            }
+                        } else {
+                            echo "<tr><td colspan='8'>No assessment content found.</td></tr>";
+                        }
+
+                        // Fetch the feedback contents
+                        $sql_feedback = "SELECT * FROM `assessment_feedback` WHERE `assessment_id` = 1";
+                        $result_feedback = $mysqli->query($sql_feedback);
+
+
+                        if ($result_feedback->num_rows > 0) {
+                            $feedbackcounter = 1;
+                            
+                            while ($row = $result_feedback->fetch_assoc()) {
+                                $afeedback_content_id = $row['afeedback_content_id'];
+                                $question_text = htmlspecialchars($row['afeedback_questions']);
+                                $requires_yesno = $row['afeedback_yesno'];
+
+                                // Default values
+                                $existing_feedback_answer1 = '';
+                                $existing_feedback_yesno1 = null;
+
+                                // Prepare statement to fetch existing feedback
+                                $sql_feedback_data = "SELECT `feedback_answer`, `feedback_yesno` 
+                                                    FROM `feedback` 
+                                                    WHERE `internship_id` = ? AND `afeedback_content_id` = ?";
+
+                                if ($stmt = $mysqli->prepare($sql_feedback_data)) {
+                                    $stmt->bind_param("ii", $internship_id, $afeedback_content_id);
+                                    $stmt->execute();
+                                    $stmt->store_result();
+
+                                    if ($stmt->num_rows > 0) {
+                                        $stmt->bind_result($existing_feedback_answer1, $existing_feedback_yesno1);
+                                        $stmt->fetch();
+                                    }
+
+                                    $stmt->close();
+                                }
+
+                                // Output the feedback row
+                                echo "<tr>";
+                                echo "<td class='number'>" . $counter . "</td>";
+                                echo "<td colspan='8' class='criteria-item'>";
+
+                                // Hidden input for content ID
+                                echo "<input type='hidden' name='afeedback_content_id_" . $feedbackcounter . "' value='" . $afeedback_content_id . "'>";
+
+                                // Output question
+                                echo "<p>$question_text</p>";
+
+                                if ($requires_yesno) {
+                                    // Yes/No radio input
+                                    $yes_checked = ($existing_feedback_yesno1 === 1) ? "checked" : "";
+                                    $no_checked  = ($existing_feedback_yesno1 === 0) ? "checked" : "";
+
+                                    echo "<div class='yesno'>";
+                                    echo "<label><input type='radio' name='feedback_yesno_" . $feedbackcounter . "' value='Yes' $yes_checked required><span>Yes</span></label>";
+                                    echo "<label><input type='radio' name='feedback_yesno_" . $feedbackcounter . "' value='No' $no_checked><span>No</span></label>";
+                                    echo "</div>";
+                                } else {
+                                    // Textarea input
+                                    $feedback_value = htmlspecialchars($existing_feedback_answer1);
+                                    echo "<textarea class='textarea-expand' rows='4' cols='50' name='feedback_" . $feedbackcounter . "' placeholder='Your feedback here...' maxlength='512'>" . $feedback_value . "</textarea>";
+                                }
+
+                                echo "</td>";
+                                echo "</tr>";
+
+                                $counter++;
+                                $feedbackcounter++;
+                            }
+                        } else {
+                            echo "<tr><td colspan='8'>No feedback found.</td></tr>";
+                        }
+                    ?> 
+
                     </tbody>
                     <tfoot>
                         <tr class="point-count-row">
@@ -170,7 +285,8 @@
                         </tr>
                         <tr>
                             <td colspan="2" class="table-footer">Total Grade:</td>
-                            <td colspan="2" class="average-score" id="average-score"><span>0</span></td>
+                            <td colspan="2" class="average-score" id="average-score"><input type="hidden" name="supervisor_grade" id="supervisor_grade_hidden">
+                            <span>0</span></td>
                             <td colspan="5" class="average-score"></td>
                         </tr>
                         <tr>
@@ -185,18 +301,165 @@
                 
                 <div class="button-panel">
                     <button type="button" class="cancel-buttons"
-                        onclick="changeIframe('masterlist.html', 'Are you sure you want to discard your latest changes?')">Discard
+                        onclick="changeIframe('../../templates/supervisor/masterlist.php?token=<?php echo urlencode($token); ?>', 'Are you sure you want to discard your latest changes?')">Discard
                         Changes</button>
-                    <button type="button" name="action" value="save" class="save-buttons"
-                        onclick="changeIframe('masterlist.html', 'You may continue your evaluation later after saving. Press OK to go back to the Intern list.')">Save
-                        Changes</button>
+                    <button type="button" name="action" value="save" class="save-buttons" id="save-button">Save Changes</button>
                     <button type="submit" name="action" value="submit" class="submit-buttons">Submit Evaluation</button>
                 </div>
+
+                <script> 
+                    document.querySelector('.submit-buttons').addEventListener('click', function() {
+                        var grade = document.querySelector('#average-score span').innerText;
+                        document.querySelector('#supervisor_grade_hidden').value = grade;
+                    });
+                </script>
+
                 <div class="button-panel2">
-                    <button type="button" class="back-buttons" onclick="changeIframe('masterlist.html', null, force=true)">Back to
-                        Intern list</button>
-                </div>
+                    <button type="button" class="back-buttons" 
+                    onclick="changeIframe('masterlist.php?token=<?php echo urlencode($token); ?>', null, force=true)">Back to Intern list</button>
+                </div>  
             </form>
+
+            <div id="server-response"></div>
+            <?php
+                // echo "Method: " . $_SERVER['REQUEST_METHOD'] . "<br>";
+                // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                //     echo "POST detected! You did it, you funky banana 🎉<br>";
+                // } else {
+                //     echo "YOU DID A GET. YOU FAILURE. 💀";
+                // }
+
+                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && ($_POST['action'] == 'submit' || $_POST['action'] == 'save')) {
+                    echo $_POST['action'];
+
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'submit') {
+                        // Connect to your database first, dummy (っ °Д °;)っ
+
+                        // Get the supervisor grade from the page
+                        $supervisor_grade = isset($_POST['supervisor_grade']) ? intval($_POST['supervisor_grade']) : 0;
+                        $internship_id = intval($internship_id); // Make sure it's clean, you little code-goblin
+
+                        $stmt = $mysqli->prepare("INSERT INTO `internship_grades` (`internship_id`, `supervisor_grade`, `supervisor_date_graded`, `io_grade`, `io_date_graded`, `total_grade`) VALUES (?, ?, NOW(), NULL, NULL, NULL)");
+                        $stmt->bind_param("ii", $internship_id, $supervisor_grade);
+
+                        if ($stmt->execute()) {
+                            echo "NYAA~ Successfully inserted the grade, you functional disaster! (≧◡≦)";
+                        } else {
+                            echo "You failed so hard, the database is weeping: " . $stmt->error;
+                        }
+                    }
+                    
+                    // Query to get internship_id based on intern_id
+                    $sql_internship = "SELECT internship_id FROM internships WHERE intern_id = ?";
+                    if ($stmt = $mysqli->prepare($sql_internship)) {
+                        $stmt->bind_param("i", $intern_id); // 'i' for integer
+                        $stmt->execute();
+                        $stmt->bind_result($internship_id); // Bind result to $internship_id
+
+                        // Check if a result is found
+                        if ($stmt->fetch()) {
+                            // internship_id is now available for use
+                            // echo "Internship ID: " . $internship_id;
+                        } else {
+                            echo "No internship found for this intern ID.";
+                        }
+                        $stmt->close();
+                    }
+
+                    // DELETE existing rows from the assessment_grades table for the same internship_id
+                    $delete_assessment_grades = "DELETE FROM `assessment_grades` WHERE internship_id = ?";
+                    if ($stmt = $mysqli->prepare($delete_assessment_grades)) {
+                        $stmt->bind_param("i", $internship_id);
+                        $stmt->execute();
+                        $stmt->close();
+                    }
+                
+                    // DELETE existing rows from the feedback table for the same internship_id
+                    $delete_feedback = "DELETE FROM `feedback` WHERE internship_id = ?";
+                    if ($stmt = $mysqli->prepare($delete_feedback)) {
+                        $stmt->bind_param("i", $internship_id);
+                        $stmt->execute();
+                        $stmt->close();
+                    }
+
+                    // Process Grades (from the 'assessment_grades' table)
+                    $max_grades = 100; // Set an upper limit to avoid infinite loops from hell
+                    $counter = 1;
+
+                    while ($counter <= $max_grades) {
+                        if (!isset($_POST['grade_' . $counter])) {
+                            $counter++;
+                            continue; // SKIP missing grades instead of dying
+                        }
+
+                        $grade_value = $_POST['grade_' . $counter];
+
+                        $assessment_content_id = isset($_POST['assessment_content_id_' . $counter]) ? $_POST['assessment_content_id_' . $counter] : null;
+
+                        if ($assessment_content_id === null) {
+                            echo "Error: Missing assessment content ID for grade_" . $counter . "<br>";
+                            $counter++;
+                            continue;
+                        }
+
+                        if ($grade_value == "N/A") $grade_value = -1;
+
+                        $sql_grade = "INSERT INTO `assessment_grades` (internship_id, assessment_content_id, assessment_grade) 
+                                    VALUES (?, ?, ?)";
+                        if ($stmt = $mysqli->prepare($sql_grade)) {
+                            $stmt->bind_param("iii", $internship_id, $assessment_content_id, $grade_value);
+                            $stmt->execute();
+                        }
+
+                        $counter++;
+                    }
+
+                    // Process Feedback (from the 'feedback' table)
+                    $max_feedback = 100; // arbitrary safety limit
+                    $feedback_counter = 1;
+
+                    while ($feedback_counter <= $max_feedback) {
+                        if (!isset($_POST['feedback_' . $feedback_counter]) && !isset($_POST['feedback_yesno_' . $feedback_counter])) {
+                            $feedback_counter++;
+                            continue; // SKIP if neither feedback nor yesno exists
+                        }
+
+                        $feedback_answer = isset($_POST['feedback_' . $feedback_counter]) ? $_POST['feedback_' . $feedback_counter] : null;
+                        if (strlen($feedback_answer) < 1) $feedback_yesno = -1;
+                        $feedback_yesno = (isset($_POST['feedback_yesno_' . $feedback_counter]) && $_POST['feedback_yesno_' . $feedback_counter] == "Yes") ? 1 : 0;
+
+                        if ($feedback_answer == !null) $feedback_yesno = -1;
+
+                        $temp = $_POST['feedback_yesno_' . $feedback_counter];
+                        echo "Feedback Answer: $temp <br>"; // Debugging line
+
+                        $afeedback_content_id = isset($_POST['afeedback_content_id_' . $feedback_counter]) ? $_POST['afeedback_content_id_' . $feedback_counter] : null;
+
+                        if ($afeedback_content_id === null) {
+                            echo "Error: Missing feedback content ID for feedback_" . $feedback_counter . "<br>";
+                            $feedback_counter++;
+                            continue;
+                        }
+
+                        $sql_feedback = "INSERT INTO `feedback` (internship_id, afeedback_content_id, feedback_answer, feedback_yesno) 
+                                        VALUES (?, ?, ?, ?)";
+                        if ($stmt = $mysqli->prepare($sql_feedback)) {
+                            $stmt->bind_param("iisi", $internship_id, $afeedback_content_id, $feedback_answer, $feedback_yesno);
+                            
+                            if ($stmt->execute()) {
+                                // success maybe
+                            } else {
+                                echo "Error: " . $stmt->error;
+                            }
+                        }
+
+                        $feedback_counter++;
+                    }       
+
+
+                    echo "Evaluation submitted successfully!";
+                }
+            ?>
         </div>
     </div>
 </body>

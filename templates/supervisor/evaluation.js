@@ -1,20 +1,40 @@
 const form = document.getElementById("evaluationForm");
 const inputs = form.querySelectorAll("input, textarea, select");
 
-// inputs.forEach(input => {
-//     input.disabled = true;
-//     input.style.cursor = "default";
+if (typeof dataStatusFromPHP !== 'undefined' && dataStatusFromPHP === 'done') {
+    const inputs = document.querySelectorAll('input, textarea, select'); // whatever your fields are
 
-//     // Nuke all parent label + span elements too
-//     const label = input.closest('label');
-//     if (label) label.style.cursor = "default";
+    inputs.forEach(input => {
+        input.disabled = true;
+        input.style.cursor = "default";
 
-//     const span = label?.querySelector('span');
-//     if (span) span.style.cursor = "default";
-    
-//     if (input.title) input.removeAttribute("title");
-// });
+        // Nuke all parent label + span elements too
+        const label = input.closest('label');
+        if (label) label.style.cursor = "default";
 
+        const span = label?.querySelector('span');
+        if (span) span.style.cursor = "default";
+
+        if (input.title) input.removeAttribute("title");
+    });
+
+    console.log("Inputs have been disabled because status = DONE, loser.");
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const buttons = document.querySelector('.button-panel');
+    const buttons2 = document.querySelector('.button-panel2');
+
+    if (typeof dataStatusFromPHP !== 'undefined' && dataStatusFromPHP === 'done') {
+        // If data-status = done
+        buttons2.style.display = 'flex';  // Show cancel
+        buttons.style.display = 'none';             // Hide save
+    } else {
+        // If not done (aka still editable)
+        buttons2.style.display = 'none';           // Hide cancel
+        buttons.style.display = 'flex';     // Show save
+    }
+});
 
 // Auto-expand textareas and add character count
 document.querySelectorAll('.textarea-expand').forEach(function (textarea) {
@@ -174,6 +194,10 @@ document.querySelectorAll('input[type="radio"]').forEach(radio => {
     radio.addEventListener('change', updateTableCountsAndSubtotal);
 });
 
+window.addEventListener('load', function () {
+    updateTableCountsAndSubtotal(); // Run when DOM's ready, unlike you—who’s *never* ready ✧(>o<)ﾉ✧
+});
+
 // Form submission with fetch (NO page reload)
 if (document.getElementById("myForm")) {
     document.getElementById("myForm").addEventListener("submit", function(event) {
@@ -204,35 +228,125 @@ function confirmAction(event) {
     }
 }
 
+document.querySelectorAll('#evaluationForm button').forEach(button => {
+  button.addEventListener('click', function(event) {
+    clickedButton = event.target; // Save the button that was clicked
+  });
+});
+
+let checkBlanks = false; // Global like your bad decisions
+
 function handleEvaluationSubmit(event) {
+    const form = document.getElementById('evaluationForm');
+    const inputs = form.querySelectorAll('input, textarea, select'); // YOU THOUGHT YOU COULD HIDE? NOT TODAY
+    
+    // NOW WE CHECK WHICH SACRED BUTTON WAS SMASHED
+    // console.log("Clicked button:", clickedButton);
+    // console.log("clickedButton.classList:", clickedButton.classList);
+    if (clickedButton && clickedButton.classList.contains('save-buttons')) {
+        // console.log('SAVE was clicked, baka!');
+        // // Do your iframe change here for saving
+        // changeIframe('../../templates/supervisor/masterlist.php?token={$token}', 'You can continue evaluating later. Press OK to return to the list of Interns.');
+    }
+    else if (clickedButton && clickedButton.classList.contains('submit-buttons')) {
+        let firstBlank = null;
+
+        inputs.forEach(input => {
+            if (input.type !== "hidden" && !input.value.trim() && !firstBlank) {
+                firstBlank = input;
+            }
+        });
+
+        if (firstBlank) {
+            event.preventDefault();
+            firstBlank.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            firstBlank.focus();
+            alert("Fill out all the fields before submitting.");
+            return false;
+        }
+
+        // You can ask confirmation here before changing iframe
+        
+        checkBlanks = true; // Set to true to check for blanks
+        const confirmed = confirm("You cannot add any more changes once submitted. Submit evaluation?");
+        if (!confirmed) {
+            event.preventDefault();
+            // console.log("Evaluation submission canceled by user with functioning self-preservation.");
+            return false;
+        }
+    }
+
+    // Let form submit or iframe update
+    // changeIframe('masterlist.html', 'You cannot add any more changes once submitted. Submit evaluation?');
+    return true;
+}
+
+const token = window.tokenFromPHP;
+// console.log("Token:", token);
+
+document.getElementById("save-button").addEventListener("click", function () {
+    
+    const form = document.getElementById("evaluationForm");
+    const formData = new FormData(form);
+    formData.append('action', 'save'); // 👈 THE BLESSED LINE
+
+    // for (let pair of formData.entries()) {
+    //     console.log(`${pair[0]}: ${pair[1]}`); // 👈 DUMP ALL FORM DATA TO CONSOLE
+    // }
+
+    fetch(window.location.href, {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.text())
+    .then(response => {
+        // console.log(response);
+        // alert("Hehehe~! PHP just got YEETED with a POST request! ✨");
+
+        // document.getElementById("server-response").innerHTML = response;
+        // location.reload(); // Refresh the page to see the changes
+        changeIframe('../../templates/supervisor/masterlist.php?token=' + token, 'You can continue evaluating later.\nPress OK to return to the list of Interns.');
+    })
+    .catch(err => {
+        console.error("Error summoning the backend demon:", err);
+        alert("WHOOPSIE~! The server choked on your dreams 💀");
+    });
+});
+
+
+document.getElementById("evaluationForm").addEventListener("submit", function(e) {
     const form = document.getElementById('evaluationForm');
     const inputs = form.querySelectorAll('input, textarea, select'); // YOU THOUGHT YOU COULD HIDE? NOT TODAY
     
     let firstBlank = null;
 
     inputs.forEach(input => {
-        if (!input.value.trim() && !firstBlank) {
+        if (input.type !== "hidden" && !input.value.trim() && !firstBlank) {
             firstBlank = input;
         }
     });
 
-    if (firstBlank) {
-        event.preventDefault(); // STOP THE SACRIFICE
-        firstBlank.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        firstBlank.focus();
-        alert("Fill out all the fields before submitting.");
-        return false;
+    if (firstBlank == null) {
+        e.preventDefault(); // STOP the page from reloading like a donkey 🛑🐴
+
+        const formData = new FormData(this);
+        formData.append('action', 'submit'); // Add extra data if needed
+
+        fetch(window.location.href, {
+            method: "POST",
+            body: formData
+        })
+        .then(res => res.text())
+        .then(response => {
+            // console.log("Server blessed us:", response);
+            // document.getElementById("server-response").innerHTML = response;
+
+            // location.reload(); // Refresh the page to see the changes   
+            changeIframe('../../templates/supervisor/masterlist.php?token=' + token, '', true);
+        })
+        .catch(err => {
+            console.error("Form died painfully 💀🔥", err);
+        });
     }
 
-    // You can ask confirmation here before changing iframe
-    const confirmed = confirm("You cannot add any more changes once submitted. Submit evaluation?");
-    if (!confirmed) {
-        event.preventDefault();
-        // console.log("Evaluation submission canceled by user with functioning self-preservation.");
-        return false;
-    }
-
-    // Let form submit or iframe update
-    changeIframe('masterlist.html', 'You cannot add any more changes once submitted. Submit evaluation?');
-    return true;
-}
+});
