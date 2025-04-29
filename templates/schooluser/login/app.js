@@ -311,33 +311,19 @@ document.addEventListener('DOMContentLoaded', () => {
           let redirectPath;
           switch (userRole) {
             case 'admin':
-<<<<<<< HEAD
               redirectPath = '/rias/templates/schooluser/admin/_index.html';
               break;
             case 'executive director':
               redirectPath = '/rias/templates/schooluser/faculty/_index.html';
-=======
-              redirectPath = '/Internship-Assessment-System/templates/schooluser/admin/_index.html';
-              break;
-            case 'executive director':
-              redirectPath = '/Internship-Assessment-System/templates/schooluser/faculty/_index.html';
->>>>>>> 9e06e47a3821a44208dc07d4f3e07ad1e743802d
               break;
             case 'program director':
               redirectPath = '/rias/templates/schooluser/faculty/_index.html';
               break;
             case 'internship officer':
-<<<<<<< HEAD
               redirectPath = '/rias/templates/schooluser/faculty/_index.html';
               break;
             case 'student intern':
               redirectPath = '/rias/templates/schooluser/student/_index.html';
-=======
-              redirectPath = '/Internship-Assessment-System/templates/schooluser/faculty/_index.html';
-              break;
-            case 'student intern':
-              redirectPath = '/Internship-Assessment-System/templates/schooluser/student/_index.html';
->>>>>>> 9e06e47a3821a44208dc07d4f3e07ad1e743802d
               break;
             default:
               console.error('Unknown role:', userRole);
