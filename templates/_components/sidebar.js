@@ -31,27 +31,27 @@ const ICON_DIR = "../../static/images/components/";
 
 const sidebarItems = {
     admin: [
-        { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../../templates/schooluser/admin/home.html" },
-        { name: "MASTERLIST", icon: ICON_DIR + "masterlist_icon.png", link: "../../../templates/schooluser/admin/masterlist.html" },
-        { name: "DATABASE", icon: ICON_DIR + "database_icon.png", link: "../../../templates/schooluser/admin/database.html" },
-        { name: "USERLOG", icon: ICON_DIR + "flag_icon.png", link: "../../../templates/schooluser/admin/userlog.html" }
+        { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../../templates/schooluser/admin/home.php" },
+        { name: "MASTERLIST", icon: ICON_DIR + "masterlist_icon.png", link: "../../../templates/schooluser/admin/masterlist.php" },
+        { name: "DATABASE", icon: ICON_DIR + "database_icon.png", link: "../../../templates/schooluser/admin/database.php" },
+        { name: "USERLOG", icon: ICON_DIR + "flag_icon.png", link: "../../../templates/schooluser/admin/userlog.php" }
     ],
     faculty: [
-        { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../templates/schooluser/faculty/home.html" },
-        { name: "PROGRESS", icon: ICON_DIR + "flag_icon.png", link: "../../templates/schooluser/faculty/progress.html" },
-        { name: "MASTERLIST", icon: ICON_DIR + "masterlist_icon.png", link: "../../templates/schooluser/faculty/masterlist.html" },
-        { name: "RUBRICS", icon: ICON_DIR + "checkbox_icon.png", link: "../../templates/schooluser/faculty/rubrics.html" },
-        { name: "REPORTS", icon: ICON_DIR + "report_icon.png", link: "../../templates/schooluser/faculty/reports.html" }
+        { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../templates/schooluser/faculty/home.php" },
+        { name: "PROGRESS", icon: ICON_DIR + "flag_icon.png", link: "../../templates/schooluser/faculty/progress.php" },
+        { name: "MASTERLIST", icon: ICON_DIR + "masterlist_icon.png", link: "../../templates/schooluser/faculty/masterlist.php" },
+        { name: "RUBRICS", icon: ICON_DIR + "checkbox_icon.png", link: "../../templates/schooluser/faculty/rubrics.php" },
+        { name: "REPORTS", icon: ICON_DIR + "report_icon.png", link: "../../templates/schooluser/faculty/reports.php" }
     ],
     supervisor: [
         { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../templates/supervisor/home.php" },
         { name: "MASTERLIST", icon: ICON_DIR + "masterlist_icon.png", link: "../../templates/supervisor/masterlist.php" }
     ],
     student: [
-        { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../../templates/schooluser/student/home.html" },
-        { name: "PROFILE", icon: ICON_DIR + "masterlist_icon.png", link: "../../../templates/schooluser/student/profile.html" },
-        { name: "EVALUATION", icon: ICON_DIR + "checkbox_icon.png", link: "../../../templates/schooluser/student/evaluation.html" },
-        { name: "PORTFOLIO", icon: ICON_DIR + "report_icon.png", link: "../../../templates/schooluser/student/portfolio.html" }
+        { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../../templates/schooluser/student/home.php" },
+        { name: "PROFILE", icon: ICON_DIR + "masterlist_icon.png", link: "../../../templates/schooluser/student/profile.php" },
+        { name: "EVALUATION", icon: ICON_DIR + "checkbox_icon.png", link: "../../../templates/schooluser/student/evaluation.php" },
+        { name: "PORTFOLIO", icon: ICON_DIR + "report_icon.png", link: "../../../templates/schooluser/student/portfolio.php" }
     ]
 };
 
@@ -125,7 +125,7 @@ if (sidebar) {
     });
 }
 
-function changeIframe(newSrc, text="Are you sure you want to leave this page?\nUnsaved changes may be lost!", force=false) {
+function changeIframe(newSrc, text="Are you sure you want to leave this page?\nUnsaved changes may be lost!", force=true) {
     const pagesThatNeedConfirmation = [
         "evaluation1.html"
     ];
@@ -137,13 +137,13 @@ function changeIframe(newSrc, text="Are you sure you want to leave this page?\nU
     const params = new URLSearchParams(url.search);
 
     // then you can grab stuff
-    force = (params.get('data-status') == 'done') || force;
+    force = !(params.get('data-status') == 'evaluate' || params.get('data-status') == 'continue');
     
-    const isLeavingImportantPage = pagesThatNeedConfirmation.some(page => currentSrc.includes(page));
+    const isLeavingImportantPage = page => currentSrc.includes(page);
     const isEnteringImportantPage = pagesThatNeedConfirmation.some(page => newSrc.includes(page));
 
     // console.log("Text: ", text);
-    if (!force && isLeavingImportantPage) {
+    if (!force) {
         const confirmed = confirm(text);
 
         if (!confirmed) {

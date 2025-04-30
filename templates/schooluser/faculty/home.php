@@ -1,3 +1,35 @@
+<?php
+    session_start();
+    include '../../../database/database.php';
+
+    $token = $_SESSION['user_id'] ?? '';
+    $user_role = $_SESSION['user_role'] ?? '';
+
+    // echo $_SESSION['user_role'];
+    // echo $_SESSION['user_role'] != 'Student Intern';
+    if (!$token || ($_SESSION['user_role'] != 'Internship Officer' && $_SESSION['user_role'] != 'Program Director' && $_SESSION['user_role'] != 'Executive Director')) {
+        echo "hi";
+        http_response_code(404);
+        echo "<div id='error-code'>404</div>";
+        exit;
+    }
+
+    $stmt = $mysqli->prepare("SELECT user_first_name FROM users WHERE user_id = ?");
+    $stmt->bind_param("i", $token);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $userFirstName = "Unknown Goblin";
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $userFirstName = htmlspecialchars($row['user_first_name']); // Always sanitize! 🔪
+    }
+
+    $stmt->close();
+    $mysqli->close();
+?>
+
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>

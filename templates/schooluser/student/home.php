@@ -1,3 +1,35 @@
+<?php
+    session_start();
+    include '../../../database/database.php';
+
+    $token = $_SESSION['user_id'] ?? '';
+    $user_role = $_SESSION['user_role'] ?? '';
+
+    // echo $_SESSION['user_role'];
+    // echo $_SESSION['user_role'] != 'Student Intern';
+    if (!$token || $_SESSION['user_role'] != 'Student Intern') {
+        echo "hi";
+        http_response_code(404);
+        echo "<div id='error-code'>404</div>";
+        exit;
+    }
+
+    $stmt = $mysqli->prepare("SELECT user_first_name FROM users WHERE user_id = ?");
+    $stmt->bind_param("i", $token);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $userFirstName = "Unknown Goblin";
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $userFirstName = htmlspecialchars($row['user_first_name']); // Always sanitize! 🔪
+    }
+
+    $stmt->close();
+    $mysqli->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,7 +69,7 @@
 
     <div class="w-full bg-white p-10 rounded-xl card-shadow">
         <div class="flex justify-between items-start flex-wrap">
-            <h1 class="text-4xl font-semibold">Good Morning Hanna!</h1>
+            <h1 class="text-4xl font-semibold">Good Morning <?php echo $userFirstName; ?>!</h1>
             <p class="text-md text-gray-500">Monday, December 16, 2024</p>
         </div>
 
@@ -74,7 +106,7 @@
                 </svg>
             </div>
             <div>
-                <h3 class="font-bold text-2xl">Hanna Cruz</h3>
+                <h3 class="font-bold text-2xl"><?php echo $userFirstName; ?></h3>
                 <p class="text-md mt-1">Computer Engineering Student Intern<br>Year/s 2024-2025</p>
                 <div class="mt-3 text-blue-600 text-md space-x-6">
                     <a href="#" class="hover:underline">Show Photo</a>

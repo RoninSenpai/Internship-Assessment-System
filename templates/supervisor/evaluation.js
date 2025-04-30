@@ -18,7 +18,7 @@ if (typeof dataStatusFromPHP !== 'undefined' && dataStatusFromPHP === 'done') {
         if (input.title) input.removeAttribute("title");
     });
 
-    console.log("Inputs have been disabled because status = DONE, loser.");
+    // console.log("Inputs have been disabled because status = DONE, loser.");
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -236,6 +236,7 @@ document.querySelectorAll('#evaluationForm button').forEach(button => {
 
 let checkBlanks = false; // Global like your bad decisions
 
+
 function handleEvaluationSubmit(event) {
     const form = document.getElementById('evaluationForm');
     const inputs = form.querySelectorAll('input, textarea, select'); // YOU THOUGHT YOU COULD HIDE? NOT TODAY
@@ -244,9 +245,9 @@ function handleEvaluationSubmit(event) {
     // console.log("Clicked button:", clickedButton);
     // console.log("clickedButton.classList:", clickedButton.classList);
     if (clickedButton && clickedButton.classList.contains('save-buttons')) {
-        // console.log('SAVE was clicked, baka!');
+        console.log('SAVE was clicked, baka!');
         // // Do your iframe change here for saving
-        // changeIframe('../../templates/supervisor/masterlist.php?token={$token}', 'You can continue evaluating later. Press OK to return to the list of Interns.');
+        changeIframe('../../templates/supervisor/masterlist.php?token={$token}', 'You can continue evaluating later. Press OK to return to the list of Interns.');
     }
     else if (clickedButton && clickedButton.classList.contains('submit-buttons')) {
         let firstBlank = null;
@@ -285,20 +286,25 @@ const token = window.tokenFromPHP;
 // console.log("Token:", token);
 
 document.getElementById("save-button").addEventListener("click", function () {
-    
     const form = document.getElementById("evaluationForm");
     const formData = new FormData(form);
     formData.append('action', 'save'); // 👈 THE BLESSED LINE
 
+    // console.log("Sending fetch to:", window.location.href);
+    // console.log("FormData contents:");
     // for (let pair of formData.entries()) {
-    //     console.log(`${pair[0]}: ${pair[1]}`); // 👈 DUMP ALL FORM DATA TO CONSOLE
+    //     console.log(pair[0]+ ': ' + pair[1]);
     // }
 
     fetch(window.location.href, {
         method: "POST",
         body: formData
     })
-    .then(res => res.text())
+    .then(res => {
+        // console.log("Status Code:", res.status);
+        // console.log("Was it OK?", res.ok);
+        // return res.text();
+    })
     .then(response => {
         // console.log(response);
         // alert("Hehehe~! PHP just got YEETED with a POST request! ✨");

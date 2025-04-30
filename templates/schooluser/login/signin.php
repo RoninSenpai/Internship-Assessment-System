@@ -23,10 +23,11 @@
             if (password_verify($password, $user['schooluser_password'])) {
             // if ($password == $user['schooluser_password']) {
                 // Password is correct, create session
+                // $_SESSION['token'] = bin2hex(random_bytes(32)); // Generate a more secure token
                 $_SESSION['user_id'] = $user['user_id'];
-                $_SESSION['schooluser_id'] = $user['schooluser_id'];
-                $_SESSION['role'] = $user['user_role'];
-                $_SESSION['name'] = $user['user_first_name'] . ' ' . $user['user_last_name'];
+                // $_SESSION['schooluser_id'] = $user['schooluser_id'];
+                $_SESSION['user_role'] = $user['user_role'];
+                // $_SESSION['name'] = $user['user_first_name'] . ' ' . $user['user_last_name'];
                 
                 // Log the successful login in login_logs table
                 // $log_stmt = $mysqli->prepare("INSERT INTO login_logs (user_id) VALUES (?)");

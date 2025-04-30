@@ -1,9 +1,34 @@
 <?php
+    session_start();
     include '../../database/database.php';
-    $token = $_GET['token'] ?? '';
+
+    // Step 1: If token exists in URL, store it in session and clean the URL
+    if (isset($_GET['token'])) {
+        $_SESSION['magic_token'] = $_GET['token'];
+
+        // Redirect to same page without token in URL
+        header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
+        exit;
+    }
+
+    // Step 2: Use the token from session instead of URL
+    $token = $_SESSION['magic_token'] ?? '';
+    
+    $_SESSION = []; // Unset all session variables
+
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+
+    session_destroy();
 
     if (!$token) {
-        die("💢 No token provided! Access denied.");
+        http_response_code(404);
+        exit;
     }
 
     // Debugging log: check if token is being passed correctly
