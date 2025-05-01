@@ -19,6 +19,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RAMS Internship Assessment System - STUDENT INTERN</title>
+    <link rel="icon" type="image/png" href="../../../static/images/components\rias_icon.png">
     <link rel="stylesheet" href="../../../static/css/components.css">
 </head>
 <body class="body">

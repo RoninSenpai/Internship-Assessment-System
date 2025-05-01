@@ -472,6 +472,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let failedOtpAttempts = 3; // Track failed OTP attempts
   let otpCooldown = false; // Track if the user is in cooldown
+  let forgotPasswordCooldown = false; // Track if the user is in cooldown
 
   // Open OTP Modal Function
 
@@ -776,7 +777,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }).catch(console.error);
     }
   }
-  
 
   // Open Forgot Password Modal (Reusing the Sign-In Modal)
   document.getElementById('forgot-password').addEventListener('click', (e) => {
@@ -788,7 +788,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function openForgotPasswordModal() {
     const signInModal = document.getElementById('sign-in-modal');
     const modalContent = signInModal.querySelector('.modal-content');
-
+  
     // Update modal content for Forgot Password
     modalContent.innerHTML = `
       <span class="sign-in-close-btn">&times;</span>
@@ -798,49 +798,121 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="input-group">
           <label for="forgot-email">Email</label>
           <div class="input-wrapper">
-            <input type="email" id="forgot-email" placeholder="Enter your email" required />
+            <input type="email" class="field" id="forgot-email" placeholder="Enter your email" required />
             <img src="/rias/static/images/components/email_logo.png" alt="Email Icon" class="input-icon" />
           </div>
           <span class="error forgot-email-error"></span>
         </div>
         <button type="submit" class="btn btn-primary">RESET PASSWORD</button>
+        <span class="error otp-failed-error" style="display: none;"></span>
       </form>
       <p class="subtitle">
         <a href="#" id="back-to-sign-in">Back to Sign In</a>
       </p>
     `;
-
+    
+    const savedCooldownEnd = parseInt(sessionStorage.getItem('forgotPasswordCooldownEnd'));
+    if (savedCooldownEnd && savedCooldownEnd > Math.floor(Date.now() / 1000)) {
+      activateForgotPasswordCooldown(savedCooldownEnd);
+    }
+  
     // Show the modal
     signInModal.style.display = 'flex';
     updateModalPosition();
-
+  
     // Close Forgot Password Modal
     modalContent.querySelector('.sign-in-close-btn').addEventListener('click', () => {
       closeModalWithAnimation(signInModal);
     });
-
+  
     // Back to Sign In
     modalContent.querySelector('#back-to-sign-in').addEventListener('click', (e) => {
       e.preventDefault();
-      openSignInModal(); // Reopen the Sign-In modal
+      openSignInModal();
     });
-
-    // Validate Forgot Password Form
-    modalContent.querySelector('#forgot-password-form').addEventListener('submit', (e) => {
+  
+    // Validate and Submit Forgot Password Form
+    modalContent.querySelector('#forgot-password-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-
-      const email = document.getElementById('forgot-email').value.trim();
+  
+      const emailInput = document.getElementById('forgot-email');
+      const email = emailInput.value.trim();
+      const errorElement = modalContent.querySelector('.forgot-email-error');
       const validDomains = ['@student.apc.edu.ph', '@apc.edu.ph'];
       const isValidEmail = validDomains.some((domain) => email.endsWith(domain));
-
+  
       if (!isValidEmail) {
-        modalContent.querySelector('.forgot-email-error').textContent = 'Invalid email address. Please use (Eg. @student.apc.edu.ph and @apc.edu.ph).';
-      } else {
-        modalContent.querySelector('.forgot-email-error').textContent = '';
-        alert('If the email is registered, you will receive a password reset link.');
+        errorElement.textContent = 'Invalid email address. Use @student.apc.edu.ph or @apc.edu.ph.';
+        return;
+      }
+  
+      errorElement.textContent = '';
+  
+      try {
+        blockClicks();
+        const formData = new FormData();
+        formData.append('send_email', 'true');
+        formData.append('email', email);
+  
+        const response = await fetch('/rias/templates/schooluser/login/forgotpasswordsendemail.php', {
+          method: 'POST',
+          body: formData
+        });
+  
+        const text = await response.text();
+        if (response.ok) {
+          console.error("text:", text);
+          alert("Reset link sent successfully!\nCheck your inbox.");
+          activateForgotPasswordCooldown(Date.now() / 1000 + 300);
+          openSignInModal();
+          unblockClicks();
+        } else {
+          console.error("🔴 Server error:", text);
+          errorElement.textContent = 'Failed to send reset email. Something exploded. 💥';
+        }
+      } catch (err) {
+        console.error("🐛 JS error:", err);
+        errorElement.textContent = 'Unexpected error. Try again later, meatbag.';
       }
     });
+  
+    function activateForgotPasswordCooldown(cooldownEndTime) {
+      const errorBox = modalContent.querySelector('.otp-failed-error');
+      const field = modalContent.querySelector('.field');
+      const btn = modalContent.querySelector('.btn-primary');
+      btn.style.pointerEvents = 'none';
+      btn.style.backgroundColor = 'gray';
+      field.style.pointerEvents = 'none';
+      field.disabled = true;
+      sessionStorage.setItem('forgotPasswordCooldownEnd', cooldownEndTime);
+      forgotPasswordCooldown = true;
+      const interval = setInterval(() => {
+        const now = Math.floor(Date.now() / 1000);
+        const diff = cooldownEndTime - now;
+  
+        if (diff <= 0) {
+          clearInterval(interval);
+          forgotPasswordCooldown = false;
+          sessionStorage.removeItem('forgotPasswordCooldownEnd');
+          failedOtpAttempts = 3;
+          errorBox.style.display = 'none';
+          btn.style.pointerEvents = 'auto';
+          btn.style.backgroundColor = '#213B9A';
+          field.style.pointerEvents = 'auto';
+          field.disabled = false;
+          openSignInModal();
+          return;
+        }
+  
+        errorBox.style.display = 'block';
+        errorBox.textContent = `Please wait ${diff}s before trying again.`;
+        btn.style.pointerEvents = 'none';
+        btn.style.backgroundColor = 'gray';
+        field.style.pointerEvents = 'none';
+      }, 1000);
+    }
   }
+  
 
   // Reset Hero Content Position
   function resetHeroContentPosition() {
@@ -852,28 +924,30 @@ document.addEventListener('DOMContentLoaded', () => {
   if (heroContent) {
     heroContent.classList.add('float-in');
   }
-});
 
-function blockClicks() {
-  document.getElementById('click-blocker').style.display = 'block';
-  blocker.style.display = 'block';
-}
-
-function unblockClicks() {
-  document.getElementById('click-blocker').style.display = 'none';
-  blocker.style.display = 'none';
-}
-
-const blocker = document.getElementById('click-blocker');
-
-const blockKeys = (e) => {
-  if (blocker.style.display !== 'none') {
-    e.preventDefault();
-    e.stopPropagation();
-    // console.log(`Blocked key: ${e.key}`);
+  function blockClicks() {
+    const blocker = document.getElementById('click-blocker');
+    blocker.style.display = 'block';
   }
-};
-
-window.addEventListener('keydown', blockKeys, true);
-window.addEventListener('keypress', blockKeys, true);
-window.addEventListener('keyup', blockKeys, true);
+  
+  function unblockClicks() {
+    const blocker = document.getElementById('click-blocker');
+    blocker.style.display = 'none';
+  }
+  
+  const blocker = document.getElementById('click-blocker');
+  
+  const blockKeys = (e) => {
+    if (blocker && blocker.style.display !== 'none') {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log(`Blocked key: ${e.key}`);
+    }
+  };
+  
+  window.addEventListener('keydown', blockKeys, true);
+  window.addEventListener('keypress', blockKeys, true);
+  window.addEventListener('keyup', blockKeys, true);
+  
+  blocker.style.display = 'none';
+});

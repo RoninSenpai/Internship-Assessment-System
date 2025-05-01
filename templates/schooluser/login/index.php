@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Internship Assessment System</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/png" href="../../../static/images/components\rias_icon.png">
   </head>
 
   <body>

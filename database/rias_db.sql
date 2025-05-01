@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 29, 2025 at 04:02 PM
+-- Generation Time: May 01, 2025 at 05:46 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -163,10 +163,11 @@ INSERT INTO `assessment_grades` (`assessment_grade_id`, `internship_id`, `assess
 (1626, 2, 38, 0),
 (1627, 2, 39, 1),
 (1628, 2, 40, 1),
-(1633, 4, 21, 5),
-(1634, 4, 22, 4),
-(1635, 4, 23, 4),
-(1636, 4, 33, 4);
+(1745, 4, 21, 5),
+(1746, 4, 22, 4),
+(1747, 4, 23, 4),
+(1748, 4, 30, 4),
+(1749, 4, 33, 4);
 
 -- --------------------------------------------------------
 
@@ -266,10 +267,10 @@ INSERT INTO `feedback` (`feedback_id`, `internship_id`, `afeedback_content_id`, 
 (445, 2, 3, 'f', -1),
 (446, 2, 4, NULL, 1),
 (447, 2, 5, 'ffasd', -1),
-(452, 4, 1, '', 0),
-(453, 4, 2, NULL, 0),
-(454, 4, 3, '                 ', -1),
-(455, 4, 5, '', 0);
+(552, 4, 1, '', 0),
+(553, 4, 2, NULL, 0),
+(554, 4, 3, '                 fasdf', -1),
+(555, 4, 5, '', 0);
 
 -- --------------------------------------------------------
 
@@ -376,6 +377,106 @@ INSERT INTO `internship_grades` (`internshipgrade_id`, `internship_id`, `supervi
 (27, 2, 68, '2025-04-26 13:44:53', NULL, NULL, NULL),
 (28, 2, 68, '2025-04-26 13:47:54', NULL, NULL, NULL),
 (29, 2, 68, '2025-04-26 13:48:08', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `otps`
+--
+
+CREATE TABLE `otps` (
+  `otp_id` int(11) NOT NULL,
+  `schooluser_id` int(11) DEFAULT NULL,
+  `otp_code` varchar(10) NOT NULL,
+  `otp_date_created` datetime DEFAULT current_timestamp(),
+  `otp_date_expiry` datetime DEFAULT NULL,
+  `otp_is_used` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `otps`
+--
+
+INSERT INTO `otps` (`otp_id`, `schooluser_id`, `otp_code`, `otp_date_created`, `otp_date_expiry`, `otp_is_used`) VALUES
+(62, 27, '347704', '2025-05-01 13:07:15', '2025-05-01 13:17:15', 1),
+(63, 27, '344449', '2025-05-01 13:10:19', '2025-05-01 13:20:19', 1),
+(64, 27, '583715', '2025-05-01 15:22:11', '2025-05-01 15:32:11', 1),
+(65, 27, '174222', '2025-05-01 15:24:38', '2025-05-01 15:34:38', 1),
+(66, 27, '200154', '2025-05-01 15:25:49', '2025-05-01 15:35:49', 1),
+(67, 27, '435945', '2025-05-01 15:29:08', '2025-05-01 15:39:08', 1),
+(68, 27, '548664', '2025-05-01 15:30:08', '2025-05-01 15:40:08', 1),
+(69, 27, '889221', '2025-05-01 15:34:28', '2025-05-01 15:44:28', 1),
+(70, 27, '431489', '2025-05-01 15:35:58', '2025-05-01 15:45:58', 1),
+(71, 27, '473221', '2025-05-01 15:38:19', '2025-05-01 15:48:19', 1),
+(72, 27, '998207', '2025-05-01 15:40:47', '2025-05-01 15:50:47', 1),
+(73, 27, '217136', '2025-05-01 15:42:06', '2025-05-01 15:52:06', 1),
+(74, 27, '274917', '2025-05-01 15:44:52', '2025-05-01 15:54:52', 1),
+(75, 27, '420087', '2025-05-01 15:46:17', '2025-05-01 15:56:17', 1),
+(76, 27, '338694', '2025-05-01 15:49:13', '2025-05-01 15:59:13', 1),
+(77, 27, '871896', '2025-05-01 15:52:18', '2025-05-01 16:02:18', 1),
+(78, 27, '186641', '2025-05-01 15:56:08', '2025-05-01 16:06:08', 1),
+(79, 27, '470460', '2025-05-01 15:57:27', '2025-05-01 16:07:27', 1),
+(80, 32, '844020', '2025-05-01 15:58:14', '2025-05-01 16:08:14', 0),
+(81, 27, '371163', '2025-05-01 15:58:35', '2025-05-01 16:08:35', 1),
+(82, 32, '792238', '2025-05-01 15:59:25', '2025-05-01 16:09:25', 1),
+(83, 27, '330197', '2025-05-01 16:02:06', '2025-05-01 16:12:06', 1),
+(84, 32, '972727', '2025-05-01 16:25:01', '2025-05-01 16:35:01', 1),
+(85, 33, '458311', '2025-05-01 16:26:21', '2025-05-01 16:36:21', 1),
+(86, 33, '234550', '2025-05-01 16:27:01', '2025-05-01 16:37:01', 1),
+(87, 33, '279979', '2025-05-01 16:27:59', '2025-05-01 16:37:59', 1),
+(88, 33, '867623', '2025-05-01 16:28:37', '2025-05-01 16:38:37', 1),
+(89, 9, '304679', '2025-05-01 16:31:16', '2025-05-01 16:41:16', 1),
+(90, 33, '133052', '2025-05-01 16:34:41', '2025-05-01 16:44:41', 1),
+(91, 33, '414694', '2025-05-01 16:36:30', '2025-05-01 16:46:30', 0),
+(92, 33, '843796', '2025-05-01 22:43:10', '2025-05-01 22:53:10', 1),
+(93, 27, '419736', '2025-05-01 23:36:34', '2025-05-01 23:46:34', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `passwordresets`
+--
+
+CREATE TABLE `passwordresets` (
+  `passreset_id` int(11) NOT NULL,
+  `schooluser_id` int(11) DEFAULT NULL,
+  `passreset_token` varchar(255) NOT NULL,
+  `passreset_date_created` datetime DEFAULT current_timestamp(),
+  `passreset_date_expiry` datetime DEFAULT NULL,
+  `passreset_is_used` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `passwordresets`
+--
+
+INSERT INTO `passwordresets` (`passreset_id`, `schooluser_id`, `passreset_token`, `passreset_date_created`, `passreset_date_expiry`, `passreset_is_used`) VALUES
+(1, 27, 'c43b21a1e677efe089f133d76c738096', '2025-05-01 20:37:07', NULL, 0),
+(2, 27, '1545bc9f4bd9c6f8d656920815c12d4e', '2025-05-01 20:38:32', NULL, 0),
+(3, 33, '2e54ac2ffa0ee962abe54518211bb635', '2025-05-01 20:56:10', NULL, 0),
+(4, 33, '9734ec11eae139bdbe31ee4184f9808f', '2025-05-01 21:30:48', '2025-05-01 21:40:48', 0),
+(5, 33, 'dca30ea2c1c950c4ebb7e3e9cb69dfb1', '2025-05-01 21:44:10', '2025-05-01 21:54:10', 0),
+(6, 33, '35205959f1232d34507f2cf16fe3e2a5', '2025-05-01 21:55:17', '2025-05-01 22:05:17', 0),
+(7, 33, '1defd520fc5b74ad0194e361046bf251', '2025-05-01 22:05:51', '2025-05-01 22:15:51', 0),
+(8, 33, 'b97032708c49c155e86856eec0532736', '2025-05-01 22:20:13', '2025-05-01 22:30:13', 1),
+(9, 33, '64d9aac50a6a31540a64e57ea9b31e7a', '2025-05-01 22:20:48', '2025-05-01 22:30:48', 1),
+(10, 33, '8c6b0f5b98e69bd407cde70b4bdc1e2d', '2025-05-01 22:33:07', '2025-05-01 22:43:07', 1),
+(11, 33, '94b7ee2c2aab1bd12d562ac7dd1950f8', '2025-05-01 22:35:57', '2025-05-01 22:45:57', 1),
+(12, 33, '1b504b7292780ddf74c354a1d660186c', '2025-05-01 22:38:56', '2025-05-01 22:48:56', 1),
+(13, 33, '98e9c8e991b5e5209a2c9d91286d4a20', '2025-05-01 22:43:50', '2025-05-01 22:53:50', 0),
+(14, 33, 'faff68bf140595d0540d76c75f84e343', '2025-05-01 22:46:02', '2025-05-01 22:56:02', 0),
+(15, 33, 'd1561fd1633fa70a0d682e3ee6cd24d6', '2025-05-01 22:46:18', '2025-05-01 22:56:18', 0),
+(16, 33, '23ce035fadeeeb9fe79e839a2140da2d', '2025-05-01 22:48:02', '2025-05-01 22:58:02', 0),
+(17, 33, '966fc5aa0e86a221acc93a19d5cdc28c', '2025-05-01 22:48:21', '2025-05-01 22:58:21', 0),
+(18, 33, 'c1b3493a90237b3ecfecfd9c05f36b03', '2025-05-01 23:02:41', '2025-05-01 23:12:41', 0),
+(19, 33, '72ae6f7260e7ffa3c77d3c42cb2904c1', '2025-05-01 23:08:25', '2025-05-01 23:18:25', 0),
+(20, 33, 'b5b6bd3ec0a695bb020292b7c833d7e5', '2025-05-01 23:13:48', '2025-05-01 23:23:48', 0),
+(21, 33, '2e8e05b7efb3d632c93cd6a89c505034', '2025-05-01 23:14:47', '2025-05-01 23:24:47', 0),
+(22, 33, '5a1523d2b3894420684b9351fc9f8347', '2025-05-01 23:18:32', '2025-05-01 23:28:32', 0),
+(23, 33, 'bebfb6ce208099a801e2bf50f0be1a0c', '2025-05-01 23:21:15', '2025-05-01 23:31:15', 0),
+(24, 33, 'e0f7740f3cdd624daa036230ab77187e', '2025-05-01 23:25:28', '2025-05-01 23:30:28', 0),
+(25, 33, 'a4af56d247ce263bd5cac0fa85426371', '2025-05-01 23:27:53', '2025-05-01 23:32:53', 0),
+(26, 33, '58fb709609c0b3819590e9a8f15faa3d', '2025-05-01 23:33:34', '2025-05-01 23:38:34', 0);
 
 -- --------------------------------------------------------
 
@@ -503,7 +604,7 @@ INSERT INTO `school_users` (`schooluser_id`, `user_id`, `school_given_id`, `scho
 (30, 32, 'SI2025-004', '$2y$12$ZSrLR4f7aVsWUlijwmkDkOhvmIE1Xp4w.HRVocQ9syDGg76Yo7XbW'),
 (31, 33, 'SI2025-005', '$2y$12$ZSrLR4f7aVsWUlijwmkDkOhvmIE1Xp4w.HRVocQ9syDGg76Yo7XbW'),
 (32, 35, 'IO2025-001', '$2y$12$aOtGBu.ZQtR2eELNgavXDuWGhg8p8Y66qJRu/e7sREurN4D7lJrM.'),
-(33, 36, '1', '$2y$12$qFqJbuPk3kZ2bmr1BwPvs.CrFwLpGgo2.YOtE0JJz/vxvy6cM063e');
+(33, 36, '1', '$2y$10$kgbOjzZpmnpDs6BNQGawK.rkoypx2373oMzjiq.oFZXiOCDYkPSo.');
 
 -- --------------------------------------------------------
 
@@ -526,6 +627,20 @@ CREATE TABLE `send_assessments` (
 INSERT INTO `send_assessments` (`sendassessment_id`, `supervisor_id`, `sendass_date_created`, `sendass_send_date`, `sendass_token`) VALUES
 (6, 1, '2025-04-23 15:08:19', '2025-06-01 10:00:00', 'placeholder_token_supervisor_1'),
 (7, 2, '2025-04-23 15:08:19', '2025-06-01 11:00:00', 'placeholder_token_supervisor_2');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `string_literals`
+--
+
+CREATE TABLE `string_literals` (
+  `string_literal_id` int(11) NOT NULL,
+  `string_name` varchar(255) DEFAULT NULL,
+  `string_content` text DEFAULT NULL,
+  `string_date_created` datetime DEFAULT current_timestamp(),
+  `schooluser_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -706,6 +821,20 @@ ALTER TABLE `internship_grades`
   ADD KEY `internship_id` (`internship_id`);
 
 --
+-- Indexes for table `otps`
+--
+ALTER TABLE `otps`
+  ADD PRIMARY KEY (`otp_id`),
+  ADD KEY `fk_otp_schooluser` (`schooluser_id`);
+
+--
+-- Indexes for table `passwordresets`
+--
+ALTER TABLE `passwordresets`
+  ADD PRIMARY KEY (`passreset_id`),
+  ADD KEY `fk_passreset_schooluser` (`schooluser_id`);
+
+--
 -- Indexes for table `programs`
 --
 ALTER TABLE `programs`
@@ -741,6 +870,13 @@ ALTER TABLE `send_assessments`
   ADD PRIMARY KEY (`sendassessment_id`),
   ADD UNIQUE KEY `sendass_token` (`sendass_token`),
   ADD KEY `supervisor_id` (`supervisor_id`);
+
+--
+-- Indexes for table `string_literals`
+--
+ALTER TABLE `string_literals`
+  ADD PRIMARY KEY (`string_literal_id`),
+  ADD KEY `fk_schooluser` (`schooluser_id`);
 
 --
 -- Indexes for table `supervisors`
@@ -789,7 +925,7 @@ ALTER TABLE `assessment_feedback`
 -- AUTO_INCREMENT for table `assessment_grades`
 --
 ALTER TABLE `assessment_grades`
-  MODIFY `assessment_grade_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1637;
+  MODIFY `assessment_grade_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1750;
 
 --
 -- AUTO_INCREMENT for table `companies`
@@ -813,7 +949,7 @@ ALTER TABLE `executive_directors`
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=456;
+  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=556;
 
 --
 -- AUTO_INCREMENT for table `interns`
@@ -832,6 +968,18 @@ ALTER TABLE `internships`
 --
 ALTER TABLE `internship_grades`
   MODIFY `internshipgrade_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+--
+-- AUTO_INCREMENT for table `otps`
+--
+ALTER TABLE `otps`
+  MODIFY `otp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
+
+--
+-- AUTO_INCREMENT for table `passwordresets`
+--
+ALTER TABLE `passwordresets`
+  MODIFY `passreset_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `programs`
@@ -862,6 +1010,12 @@ ALTER TABLE `school_users`
 --
 ALTER TABLE `send_assessments`
   MODIFY `sendassessment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `string_literals`
+--
+ALTER TABLE `string_literals`
+  MODIFY `string_literal_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `supervisors`
@@ -952,6 +1106,18 @@ ALTER TABLE `internship_grades`
   ADD CONSTRAINT `internship_grades_ibfk_1` FOREIGN KEY (`internship_id`) REFERENCES `internships` (`internship_id`);
 
 --
+-- Constraints for table `otps`
+--
+ALTER TABLE `otps`
+  ADD CONSTRAINT `fk_otp_schooluser` FOREIGN KEY (`schooluser_id`) REFERENCES `school_users` (`schooluser_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `passwordresets`
+--
+ALTER TABLE `passwordresets`
+  ADD CONSTRAINT `fk_passreset_schooluser` FOREIGN KEY (`schooluser_id`) REFERENCES `school_users` (`schooluser_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
 -- Constraints for table `programs`
 --
 ALTER TABLE `programs`
@@ -975,6 +1141,12 @@ ALTER TABLE `school_users`
 --
 ALTER TABLE `send_assessments`
   ADD CONSTRAINT `send_assessments_ibfk_1` FOREIGN KEY (`supervisor_id`) REFERENCES `supervisors` (`supervisor_id`);
+
+--
+-- Constraints for table `string_literals`
+--
+ALTER TABLE `string_literals`
+  ADD CONSTRAINT `fk_schooluser` FOREIGN KEY (`schooluser_id`) REFERENCES `school_users` (`schooluser_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `supervisors`

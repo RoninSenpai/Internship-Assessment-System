@@ -20,6 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RAMS Internship Assessment System - INTERNSHIP OFFICER</title>
     <link rel="stylesheet" href="../../../static/css/components.css">
+    <link rel="icon" type="image/png" href="../../../static/images/components\rias_icon.png">
 </head>
 <body class="body">
 
