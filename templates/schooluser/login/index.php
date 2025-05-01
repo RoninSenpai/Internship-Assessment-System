@@ -11,6 +11,7 @@
   </head>
 
   <body>
+    <div id="click-blocker"></div>
     
     <!-- (1) Header (RIAS) -->
 

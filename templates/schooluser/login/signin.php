@@ -3,6 +3,70 @@
     include '../../../database/database.php';
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // echo "\n";
+        // echo $inputOtp . "\n";
+
+        if ($_POST['otp'] != 0) {
+            $inputOtp = trim($_POST['otp']);
+            // echo "first if \n";
+            // Prepare statement to check OTP validity
+            $otpStmt = $mysqli->prepare("SELECT * FROM otps 
+                WHERE otp_code = ?
+                LIMIT 1");
+            $otpStmt->bind_param("s", $inputOtp);
+            $otpStmt->execute();
+            $otpResult = $otpStmt->get_result();
+
+            if ($otpResult->num_rows === 1) {
+                // echo "second if\n";
+                $otpRow = $otpResult->fetch_assoc();
+
+                // OTP is valid, now fetch user data via schooluser_id
+                $schooluserId = $otpRow['schooluser_id'];
+                $userStmt = $mysqli->prepare("SELECT u.*, s.schooluser_password 
+                    FROM users u
+                    JOIN school_users s ON u.user_id = s.user_id
+                    WHERE s.schooluser_id = ? AND u.user_is_archived = 0
+                    LIMIT 1");
+                $userStmt->bind_param("i", $schooluserId);
+                $userStmt->execute();
+                $userResult = $userStmt->get_result();
+
+                if ($userResult->num_rows === 1) {
+                    // echo "third if\n";
+                    $user = $userResult->fetch_assoc();
+
+                    // Invalidate OTP
+                    $invalidateStmt = $mysqli->prepare("UPDATE otps SET otp_is_used = 1 WHERE otp_id = ?");
+                    $invalidateStmt->bind_param("i", $otpRow['otp_id']);
+                    $invalidateStmt->execute();
+                    $invalidateStmt->close();
+
+                    // Set up session
+                    $_SESSION['user_id'] = $user['user_id'];
+                    $_SESSION['user_role'] = $user['user_role'];
+
+                    echo json_encode([
+                        'status' => 'success',
+                        'role' => $user['user_role']
+                    ]);
+                } else {
+                    echo json_encode([
+                        'status' => 'error',
+                        'message' => 'User not found for this OTP.'
+                    ]);
+                }
+                $userStmt->close();
+            } else {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Invalid or expired OTP.'
+                ]);
+            }
+            $otpStmt->close();
+            exit;
+        }
+
         $email = trim($_POST['email']);
         $password = $_POST['password'];
         
