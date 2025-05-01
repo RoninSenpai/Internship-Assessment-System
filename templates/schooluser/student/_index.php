@@ -19,6 +19,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RAMS Internship Assessment System - STUDENT INTERN</title>
+    <link rel="icon" type="image/png" href="../../../static/images/components\rias_icon.png">
     <link rel="stylesheet" href="../../../static/css/components.css">
 </head>
 <body class="body">
@@ -57,7 +58,7 @@
                 const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
                 if (iframeDoc.body.innerText.includes("404")) {
                     // console.log("Iframe is deader than your social life 😹");
-                    window.location.href = "/this-page-definitely-does-not-exist-nyahaha.html";
+                    window.location.href = "/404_pagenotfound";
                 // Maybe show an error in the parent page, nyahaha~
                 }
             } catch (err) {

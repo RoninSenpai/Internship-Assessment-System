@@ -1,0 +1,560 @@
+SMTP [2]: SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d9443c01a7336-22db51023a4sm114812575ad.167 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: EHLO localhost
+
+SMTP [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [222.127.208.119]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+SMTP [1]: CLIENT -> SERVER: STARTTLS
+
+SMTP [2]: SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+SMTP [1]: CLIENT -> SERVER: EHLO localhost
+
+SMTP [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [222.127.208.119]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+SMTP [1]: CLIENT -> SERVER: AUTH LOGIN
+
+SMTP [2]: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+SMTP [1]: CLIENT -> SERVER: [credentials hidden]
+SMTP [2]: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+SMTP [1]: CLIENT -> SERVER: [credentials hidden]
+SMTP [2]: SERVER -> CLIENT: 235 2.7.0 Accepted
+
+SMTP [1]: CLIENT -> SERVER: MAIL FROM:<ramsinternshipassessmentsystem@gmail.com>
+
+SMTP [2]: SERVER -> CLIENT: 250 2.1.0 OK d9443c01a7336-22db51023a4sm114812575ad.167 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: RCPT TO:<jvaquino@student.apc.edu.ph>
+
+SMTP [2]: SERVER -> CLIENT: 250 2.1.5 OK d9443c01a7336-22db51023a4sm114812575ad.167 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: DATA
+
+SMTP [2]: SERVER -> CLIENT: 354 Go ahead d9443c01a7336-22db51023a4sm114812575ad.167 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: Date: Wed, 30 Apr 2025 09:12:43 +0200
+
+SMTP [1]: CLIENT -> SERVER: To: jvaquino@student.apc.edu.ph
+
+SMTP [1]: CLIENT -> SERVER: From: noreply <ramsinternshipassessmentsystem@gmail.com>
+
+SMTP [1]: CLIENT -> SERVER: Subject: Your Special Link
+
+SMTP [1]: CLIENT -> SERVER: Message-ID: <2AiW4sLOWM8pMEQqOqhsxmeMe37p4MzEdzrZa0ygp5w@localhost>
+
+SMTP [1]: CLIENT -> SERVER: X-Mailer: PHPMailer 6.9.3 (https://github.com/PHPMailer/PHPMailer)
+
+SMTP [1]: CLIENT -> SERVER: MIME-Version: 1.0
+
+SMTP [1]: CLIENT -> SERVER: Content-Type: text/plain; charset=iso-8859-1
+
+SMTP [1]: CLIENT -> SERVER: 
+
+SMTP [1]: CLIENT -> SERVER: Here is your link: http://192.168.0.2/Internship-Assessment-System/templates/supervisor/index.php?user=guest&role=none
+
+SMTP [1]: CLIENT -> SERVER: 
+
+SMTP [1]: CLIENT -> SERVER: .
+
+SMTP [2]: SERVER -> CLIENT: 250 2.0.0 OK  1745997167 d9443c01a7336-22db51023a4sm114812575ad.167 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: QUIT
+
+SMTP [2]: SERVER -> CLIENT: 221 2.0.0 closing connection d9443c01a7336-22db51023a4sm114812575ad.167 - gsmtp
+
+SMTP [2]: SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d2e1a72fcca58-740398f976dsm984635b3a.11 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: EHLO localhost
+
+SMTP [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [222.127.208.119]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+SMTP [1]: CLIENT -> SERVER: STARTTLS
+
+SMTP [2]: SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+SMTP [1]: CLIENT -> SERVER: EHLO localhost
+
+SMTP [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [222.127.208.119]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+SMTP [1]: CLIENT -> SERVER: AUTH LOGIN
+
+SMTP [2]: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+SMTP [1]: CLIENT -> SERVER: [credentials hidden]
+SMTP [2]: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+SMTP [1]: CLIENT -> SERVER: [credentials hidden]
+SMTP [2]: SERVER -> CLIENT: 235 2.7.0 Accepted
+
+SMTP [1]: CLIENT -> SERVER: MAIL FROM:<ramsinternshipassessmentsystem@gmail.com>
+
+SMTP [2]: SERVER -> CLIENT: 250 2.1.0 OK d2e1a72fcca58-740398f976dsm984635b3a.11 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: RCPT TO:<juliusantonaquino.joules@gmail.com>
+
+SMTP [2]: SERVER -> CLIENT: 250 2.1.5 OK d2e1a72fcca58-740398f976dsm984635b3a.11 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: DATA
+
+SMTP [2]: SERVER -> CLIENT: 354 Go ahead d2e1a72fcca58-740398f976dsm984635b3a.11 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: Date: Wed, 30 Apr 2025 09:19:35 +0200
+
+SMTP [1]: CLIENT -> SERVER: To: juliusantonaquino.joules@gmail.com
+
+SMTP [1]: CLIENT -> SERVER: From: noreply <ramsinternshipassessmentsystem@gmail.com>
+
+SMTP [1]: CLIENT -> SERVER: Subject: Your Special Link
+
+SMTP [1]: CLIENT -> SERVER: Message-ID: <d4ocRS35KSAcY8eNTu2Kz6Q617kACCGywCxcIWKZaQ@localhost>
+
+SMTP [1]: CLIENT -> SERVER: X-Mailer: PHPMailer 6.9.3 (https://github.com/PHPMailer/PHPMailer)
+
+SMTP [1]: CLIENT -> SERVER: MIME-Version: 1.0
+
+SMTP [1]: CLIENT -> SERVER: Content-Type: text/plain; charset=iso-8859-1
+
+SMTP [1]: CLIENT -> SERVER: 
+
+SMTP [1]: CLIENT -> SERVER: Here is your link: http://192.168.0.2/Internship-Assessment-System/templates/supervisor/index.php?user=guest&role=none
+
+SMTP [1]: CLIENT -> SERVER: 
+
+SMTP [1]: CLIENT -> SERVER: .
+
+SMTP [2]: SERVER -> CLIENT: 250 2.0.0 OK  1745997579 d2e1a72fcca58-740398f976dsm984635b3a.11 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: QUIT
+
+SMTP [2]: SERVER -> CLIENT: 221 2.0.0 closing connection d2e1a72fcca58-740398f976dsm984635b3a.11 - gsmtp
+
+SMTP [2]: SERVER -> CLIENT: 220 smtp.gmail.com ESMTP 98e67ed59e1d1-30a348266ccsm880203a91.42 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: EHLO localhost
+
+SMTP [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [222.127.208.119]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+SMTP [1]: CLIENT -> SERVER: STARTTLS
+
+SMTP [2]: SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+SMTP [1]: CLIENT -> SERVER: EHLO localhost
+
+SMTP [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [222.127.208.119]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+SMTP [1]: CLIENT -> SERVER: AUTH LOGIN
+
+SMTP [2]: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+SMTP [1]: CLIENT -> SERVER: [credentials hidden]
+SMTP [2]: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+SMTP [1]: CLIENT -> SERVER: [credentials hidden]
+SMTP [2]: SERVER -> CLIENT: 235 2.7.0 Accepted
+
+SMTP [1]: CLIENT -> SERVER: MAIL FROM:<ramsinternshipassessmentsystem@gmail.com>
+
+SMTP [2]: SERVER -> CLIENT: 250 2.1.0 OK 98e67ed59e1d1-30a348266ccsm880203a91.42 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: RCPT TO:<jvaquino@student.apc.edu.ph>
+
+SMTP [2]: SERVER -> CLIENT: 250 2.1.5 OK 98e67ed59e1d1-30a348266ccsm880203a91.42 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: DATA
+
+SMTP [2]: SERVER -> CLIENT: 354 Go ahead 98e67ed59e1d1-30a348266ccsm880203a91.42 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: Date: Wed, 30 Apr 2025 09:24:16 +0200
+
+SMTP [1]: CLIENT -> SERVER: To: jvaquino@student.apc.edu.ph
+
+SMTP [1]: CLIENT -> SERVER: From: noreply <ramsinternshipassessmentsystem@gmail.com>
+
+SMTP [1]: CLIENT -> SERVER: Subject: Your Special Link
+
+SMTP [1]: CLIENT -> SERVER: Message-ID: <Jrzdu9XlbDgNgwMVfn8ziZvudW9STR4YtkBqDPYoMU@localhost>
+
+SMTP [1]: CLIENT -> SERVER: X-Mailer: PHPMailer 6.9.3 (https://github.com/PHPMailer/PHPMailer)
+
+SMTP [1]: CLIENT -> SERVER: MIME-Version: 1.0
+
+SMTP [1]: CLIENT -> SERVER: Content-Type: text/plain; charset=iso-8859-1
+
+SMTP [1]: CLIENT -> SERVER: 
+
+SMTP [1]: CLIENT -> SERVER: Here is your link: http://192.168.0.2/Internship-Assessment-System/templates/supervisor/index.php?user=guest&role=none
+
+SMTP [1]: CLIENT -> SERVER: 
+
+SMTP [1]: CLIENT -> SERVER: .
+
+SMTP [2]: SERVER -> CLIENT: 250 2.0.0 OK  1745997859 98e67ed59e1d1-30a348266ccsm880203a91.42 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: QUIT
+
+SMTP [2]: SERVER -> CLIENT: 221 2.0.0 closing connection 98e67ed59e1d1-30a348266ccsm880203a91.42 - gsmtp
+
+SMTP [2]: SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d9443c01a7336-22db5216b7csm115295325ad.232 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: EHLO localhost
+
+SMTP [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [222.127.208.119]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+SMTP [1]: CLIENT -> SERVER: STARTTLS
+
+SMTP [2]: SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+SMTP [1]: CLIENT -> SERVER: EHLO localhost
+
+SMTP [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [222.127.208.119]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+SMTP [1]: CLIENT -> SERVER: AUTH LOGIN
+
+SMTP [2]: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+SMTP [1]: CLIENT -> SERVER: [credentials hidden]
+SMTP [2]: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+SMTP [1]: CLIENT -> SERVER: [credentials hidden]
+SMTP [2]: SERVER -> CLIENT: 235 2.7.0 Accepted
+
+SMTP [1]: CLIENT -> SERVER: MAIL FROM:<ramsinternshipassessmentsystem@gmail.com>
+
+SMTP [2]: SERVER -> CLIENT: 250 2.1.0 OK d9443c01a7336-22db5216b7csm115295325ad.232 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: RCPT TO:<jvaquino@student.apc.edu.ph>
+
+SMTP [2]: SERVER -> CLIENT: 250 2.1.5 OK d9443c01a7336-22db5216b7csm115295325ad.232 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: DATA
+
+SMTP [2]: SERVER -> CLIENT: 354 Go ahead d9443c01a7336-22db5216b7csm115295325ad.232 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: Date: Wed, 30 Apr 2025 09:25:24 +0200
+
+SMTP [1]: CLIENT -> SERVER: To: jvaquino@student.apc.edu.ph
+
+SMTP [1]: CLIENT -> SERVER: From: noreply <ramsinternshipassessmentsystem@gmail.com>
+
+SMTP [1]: CLIENT -> SERVER: Subject: Your Special Link
+
+SMTP [1]: CLIENT -> SERVER: Message-ID: <9XFB1jUBqRmWp2mm8fxo18hPM9ZgT49ecju6JiwoQ0@localhost>
+
+SMTP [1]: CLIENT -> SERVER: X-Mailer: PHPMailer 6.9.3 (https://github.com/PHPMailer/PHPMailer)
+
+SMTP [1]: CLIENT -> SERVER: MIME-Version: 1.0
+
+SMTP [1]: CLIENT -> SERVER: Content-Type: text/plain; charset=iso-8859-1
+
+SMTP [1]: CLIENT -> SERVER: 
+
+SMTP [1]: CLIENT -> SERVER: Here is your link: http://192.168.0.2/Internship-Assessment-System/templates/supervisor/index.php?user=guest&role=none
+
+SMTP [1]: CLIENT -> SERVER: 
+
+SMTP [1]: CLIENT -> SERVER: .
+
+SMTP [2]: SERVER -> CLIENT: 250 2.0.0 OK  1745997927 d9443c01a7336-22db5216b7csm115295325ad.232 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: QUIT
+
+SMTP [2]: SERVER -> CLIENT: 221 2.0.0 closing connection d9443c01a7336-22db5216b7csm115295325ad.232 - gsmtp
+
+SMTP [2]: SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d2e1a72fcca58-7403991ff77sm992345b3a.57 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: EHLO localhost
+
+SMTP [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [222.127.208.119]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+SMTP [1]: CLIENT -> SERVER: STARTTLS
+
+SMTP [2]: SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+SMTP [1]: CLIENT -> SERVER: EHLO localhost
+
+SMTP [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [222.127.208.119]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+SMTP [1]: CLIENT -> SERVER: AUTH LOGIN
+
+SMTP [2]: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+SMTP [1]: CLIENT -> SERVER: [credentials hidden]
+SMTP [2]: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+SMTP [1]: CLIENT -> SERVER: [credentials hidden]
+SMTP [2]: SERVER -> CLIENT: 235 2.7.0 Accepted
+
+SMTP [1]: CLIENT -> SERVER: MAIL FROM:<ramsinternshipassessmentsystem@gmail.com>
+
+SMTP [2]: SERVER -> CLIENT: 250 2.1.0 OK d2e1a72fcca58-7403991ff77sm992345b3a.57 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: RCPT TO:<jvaquino@student.apc.edu.ph>
+
+SMTP [2]: SERVER -> CLIENT: 250 2.1.5 OK d2e1a72fcca58-7403991ff77sm992345b3a.57 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: DATA
+
+SMTP [2]: SERVER -> CLIENT: 354 Go ahead d2e1a72fcca58-7403991ff77sm992345b3a.57 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: Date: Wed, 30 Apr 2025 09:26:26 +0200
+
+SMTP [1]: CLIENT -> SERVER: To: jvaquino@student.apc.edu.ph
+
+SMTP [1]: CLIENT -> SERVER: From: noreply <ramsinternshipassessmentsystem@gmail.com>
+
+SMTP [1]: CLIENT -> SERVER: Subject: Your Special Link
+
+SMTP [1]: CLIENT -> SERVER: Message-ID: <VTK3xQjniLGBuyXVuSfWQMUcZ9IlYYiPzNBiGvbc@localhost>
+
+SMTP [1]: CLIENT -> SERVER: X-Mailer: PHPMailer 6.9.3 (https://github.com/PHPMailer/PHPMailer)
+
+SMTP [1]: CLIENT -> SERVER: MIME-Version: 1.0
+
+SMTP [1]: CLIENT -> SERVER: Content-Type: text/plain; charset=iso-8859-1
+
+SMTP [1]: CLIENT -> SERVER: 
+
+SMTP [1]: CLIENT -> SERVER: Here is your link: http://192.168.0.2/Internship-Assessment-System/templates/supervisor/index.php?user=guest&role=none
+
+SMTP [1]: CLIENT -> SERVER: 
+
+SMTP [1]: CLIENT -> SERVER: .
+
+SMTP [2]: SERVER -> CLIENT: 250 2.0.0 OK  1745997989 d2e1a72fcca58-7403991ff77sm992345b3a.57 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: QUIT
+
+SMTP [2]: SERVER -> CLIENT: 221 2.0.0 closing connection d2e1a72fcca58-7403991ff77sm992345b3a.57 - gsmtp
+
+SMTP [2]: SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d9443c01a7336-22db521b0c2sm115116285ad.247 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: EHLO localhost
+
+SMTP [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [222.127.208.119]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+SMTP [1]: CLIENT -> SERVER: STARTTLS
+
+SMTP [2]: SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+SMTP [1]: CLIENT -> SERVER: EHLO localhost
+
+SMTP [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [222.127.208.119]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+SMTP [1]: CLIENT -> SERVER: AUTH LOGIN
+
+SMTP [2]: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+SMTP [1]: CLIENT -> SERVER: [credentials hidden]
+SMTP [2]: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+SMTP [1]: CLIENT -> SERVER: [credentials hidden]
+SMTP [2]: SERVER -> CLIENT: 235 2.7.0 Accepted
+
+SMTP [1]: CLIENT -> SERVER: MAIL FROM:<ramsinternshipassessmentsystem@gmail.com>
+
+SMTP [2]: SERVER -> CLIENT: 250 2.1.0 OK d9443c01a7336-22db521b0c2sm115116285ad.247 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: RCPT TO:<jvaquino@student.apc.edu.ph>
+
+SMTP [2]: SERVER -> CLIENT: 250 2.1.5 OK d9443c01a7336-22db521b0c2sm115116285ad.247 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: DATA
+
+SMTP [2]: SERVER -> CLIENT: 354 Go ahead d9443c01a7336-22db521b0c2sm115116285ad.247 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: Date: Wed, 30 Apr 2025 09:33:16 +0200
+
+SMTP [1]: CLIENT -> SERVER: To: jvaquino@student.apc.edu.ph
+
+SMTP [1]: CLIENT -> SERVER: From: rias <ramsinternshipassessmentsystem@gmail.com>
+
+SMTP [1]: CLIENT -> SERVER: Subject: Your Special Link
+
+SMTP [1]: CLIENT -> SERVER: Message-ID: <P4c61SN6g5wGXYTPbIlEeQ3c7Rn8ef28VM3hkE5bAw@localhost>
+
+SMTP [1]: CLIENT -> SERVER: X-Mailer: PHPMailer 6.9.3 (https://github.com/PHPMailer/PHPMailer)
+
+SMTP [1]: CLIENT -> SERVER: MIME-Version: 1.0
+
+SMTP [1]: CLIENT -> SERVER: Content-Type: text/plain; charset=iso-8859-1
+
+SMTP [1]: CLIENT -> SERVER: 
+
+SMTP [1]: CLIENT -> SERVER: Here is your link: http://192.168.0.2/Internship-Assessment-System/templates/supervisor/index.php?user=guest&role=none
+
+SMTP [1]: CLIENT -> SERVER: 
+
+SMTP [1]: CLIENT -> SERVER: .
+
+SMTP [2]: SERVER -> CLIENT: 250 2.0.0 OK  1745998399 d9443c01a7336-22db521b0c2sm115116285ad.247 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: QUIT
+
+SMTP [2]: SERVER -> CLIENT: 221 2.0.0 closing connection d9443c01a7336-22db521b0c2sm115116285ad.247 - gsmtp
+
+SMTP [2]: SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d9443c01a7336-22db4d76c22sm115622325ad.24 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: EHLO localhost
+
+SMTP [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [222.127.208.119]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+SMTP [1]: CLIENT -> SERVER: STARTTLS
+
+SMTP [2]: SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+SMTP [1]: CLIENT -> SERVER: EHLO localhost
+
+SMTP [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [222.127.208.119]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+SMTP [1]: CLIENT -> SERVER: AUTH LOGIN
+
+SMTP [2]: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+SMTP [1]: CLIENT -> SERVER: [credentials hidden]
+SMTP [2]: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+SMTP [1]: CLIENT -> SERVER: [credentials hidden]
+SMTP [2]: SERVER -> CLIENT: 235 2.7.0 Accepted
+
+SMTP [1]: CLIENT -> SERVER: MAIL FROM:<ramsinternshipassessmentsystem@gmail.com>
+
+SMTP [2]: SERVER -> CLIENT: 250 2.1.0 OK d9443c01a7336-22db4d76c22sm115622325ad.24 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: RCPT TO:<jvaquino@student.apc.edu.ph>
+
+SMTP [2]: SERVER -> CLIENT: 250 2.1.5 OK d9443c01a7336-22db4d76c22sm115622325ad.24 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: DATA
+
+SMTP [2]: SERVER -> CLIENT: 354 Go ahead d9443c01a7336-22db4d76c22sm115622325ad.24 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: Date: Wed, 30 Apr 2025 09:37:51 +0200
+
+SMTP [1]: CLIENT -> SERVER: To: jvaquino@student.apc.edu.ph
+
+SMTP [1]: CLIENT -> SERVER: From: rias <ramsinternshipassessmentsystem@gmail.com>
+
+SMTP [1]: CLIENT -> SERVER: Subject: Your Special Link
+
+SMTP [1]: CLIENT -> SERVER: Message-ID: <L2mYh41l2QiImoymUsKUWVIfe8lvCOKx3T4Sgpc4k@localhost>
+
+SMTP [1]: CLIENT -> SERVER: X-Mailer: PHPMailer 6.9.3 (https://github.com/PHPMailer/PHPMailer)
+
+SMTP [1]: CLIENT -> SERVER: MIME-Version: 1.0
+
+SMTP [1]: CLIENT -> SERVER: Content-Type: text/plain; charset=iso-8859-1
+
+SMTP [1]: CLIENT -> SERVER: 
+
+SMTP [1]: CLIENT -> SERVER: Here is your link: http://192.168.0.2/Internship-Assessment-System/templates/supervisor/index.php?user=guest&role=none
+
+SMTP [1]: CLIENT -> SERVER: 
+
+SMTP [1]: CLIENT -> SERVER: .
+
+SMTP [2]: SERVER -> CLIENT: 250 2.0.0 OK  1745998675 d9443c01a7336-22db4d76c22sm115622325ad.24 - gsmtp
+
+SMTP [1]: CLIENT -> SERVER: QUIT
+
+SMTP [2]: SERVER -> CLIENT: 221 2.0.0 closing connection d9443c01a7336-22db4d76c22sm115622325ad.24 - gsmtp
+

@@ -13,12 +13,22 @@ html, body {
   flex-direction: column;
 }
 
+#click-blocker {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  /* background-color: rgba(255, 255, 255, 0.5); or transparent if you want */
+  z-index: 9999;
+  display: none;
+  cursor: wait;
+}
+
 .hidden-logo {
   display: none; /* Hide the logo */
   max-height: 20px;
 }
-
-
 
 body {
   font-family: 'Lora' , serif;

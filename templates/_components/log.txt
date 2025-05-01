@@ -1,0 +1,1325 @@
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: GET
+POST Data: Array
+(
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: GET
+POST Data: Array
+(
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: GET
+POST Data: Array
+(
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: GET
+POST Data: Array
+(
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: GET
+POST Data: Array
+(
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: GET
+POST Data: Array
+(
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => juliusantonaquino.joules@gmail.com
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => asdfasdf@ads.asdf
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => juliusantonaquino.joules@gmail.com
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => juliusantonaquino.joules@gmail.com
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => juliusantonaquino.joules@gmail.com
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => juliusantonaquino.joules@gmail.com
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => mjkurumphang@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => juliusantonaquino.joules@gmail.com
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => mjkurumphang@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => mjkurumphang@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => mjkurumphang@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => null
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => null
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => riasadmin@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => riasadmin@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => riasadmin@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => riasadmin@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => harryjosephs@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => riasadmin@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => riasadmin@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => riasadmin@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => jvaquino@student.apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => studentintern1@student.apc.edu.ph
+    [send_email] => 1
+)
+

@@ -294,14 +294,28 @@ document.addEventListener('DOMContentLoaded', () => {
         const formData = new FormData();
         formData.append('email', email);
         formData.append('password', password);
+        formData.append('otp', 0);
 
         const response = await fetch('signin.php', {
           method: 'POST',
           body: formData
         });
-
-        const result = await response.json();
-        console.log('Login response:', result);
+      
+        const raw = await response.text(); // get raw response first
+        console.log('RAW RESPONSE:', raw);
+      
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+      
+        let result;
+        try {
+          result = JSON.parse(raw); // manually parse it
+        } catch (err) {
+          throw new Error("BROKEN JSON: " + err.message);
+        }
+      
+        console.log('Parsed JSON:', result);
         
         console.log('Login response:', result.status);
         if (result.status === 'success') {
@@ -332,6 +346,10 @@ document.addEventListener('DOMContentLoaded', () => {
               submitButton.textContent = originalButtonText;
               return;
           }
+          sessionStorage.removeItem('resendOtp');
+          sessionStorage.removeItem('otpEmailCooldownEnd');
+          sessionStorage.removeItem('otpCooldownEnd');
+          sessionStorage.removeItem('lastOtpEmail');
 
           console.log('Redirecting to:', redirectPath);
           window.location.replace(redirectPath);
@@ -452,119 +470,311 @@ document.addEventListener('DOMContentLoaded', () => {
     openOtpModal(); // Open the OTP modal
   });
 
-  let failedOtpAttempts = 0; // Track failed OTP attempts
+  let failedOtpAttempts = 3; // Track failed OTP attempts
   let otpCooldown = false; // Track if the user is in cooldown
+  let forgotPasswordCooldown = false; // Track if the user is in cooldown
 
   // Open OTP Modal Function
+
   function openOtpModal() {
     const signInModal = document.getElementById('sign-in-modal');
     const modalContent = signInModal.querySelector('.modal-content');
-
-    // Update modal content for OTP
-    modalContent.innerHTML = `
-      <span class="sign-in-close-btn">&times;</span>
-      <h1 class="modal-title">Receive an OTP<br>(One-time Password)</h1>
-      <p class="subtitle">If the email is registered, you will receive an OTP.</p>
-      <form id="otp-form">
-        <div class="input-group">
-          <label for="otp-email">Email</label>
-          <div class="input-wrapper">
-            <input type="email" id="otp-email" placeholder="Enter your email" required />
-            <img src="/rias/static/images/components/email_logo.png" alt="Email Icon" class="input-icon" />
-          </div>
-          <span class="error otp-email-error"></span>
-        </div>
-        <button type="submit" class="btn btn-primary" id="send-otp-btn">SEND OTP</button>
-        <a href="#" id="resend-otp-link" style="display: none; color: blue; text-decoration: underline;">Resend OTP</a>
-        <span class="error otp-failed-error" style="display: none; color: red; font-size: 12px;"></span>
-      </form>
-      <p class="subtitle">
-        <a href="#" id="back-to-sign-in">Back to Sign In</a>
-      </p>
-    `;
-
-    // Show the modal
+    const savedEmailCooldownEnd = parseInt(sessionStorage.getItem('otpEmailCooldownEnd'));
+    const now = Math.floor(Date.now() / 1000);
+    const email = sessionStorage.getItem('lastOtpEmail');
+  
     signInModal.style.display = 'flex';
     updateModalPosition();
-
-    // Close OTP Modal
-    modalContent.querySelector('.sign-in-close-btn').addEventListener('click', () => {
-      closeModalWithAnimation(signInModal);
-    });
-
-    // Back to Sign In
-    modalContent.querySelector('#back-to-sign-in').addEventListener('click', (e) => {
-      e.preventDefault();
-      openSignInModal(); // Reopen the Sign-In modal
-    });
-
-    // Handle OTP Form Submission
-    modalContent.querySelector('#otp-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      if (otpCooldown) {
-        return; // Prevent further attempts during cooldown
-      }
-
-      const email = document.getElementById('otp-email').value.trim();
-      const validDomains = ['@student.apc.edu.ph', '@apc.edu.ph'];
-      const isValidEmail = validDomains.some((domain) => email.endsWith(domain));
-
-      if (!isValidEmail) {
-        modalContent.querySelector('.otp-email-error').textContent = 'Invalid email address. Please use (Eg. @student.apc.edu.ph and @apc.edu.ph).';
-      } else {
-        modalContent.querySelector('.otp-email-error').textContent = '';
-        sendOtp(email); // Simulate sending OTP
-      }
-    });
-
-    // Handle Resend OTP
-    modalContent.querySelector('#resend-otp-link').addEventListener('click', (e) => {
-      e.preventDefault();
-
-      if (otpCooldown) {
-        return; // Prevent resending during cooldown
-      }
-
-      const email = document.getElementById('otp-email').value.trim();
-      sendOtp(email); // Simulate resending OTP
-    });
-
-    function sendOtp(email) {
-      // Simulate OTP sending logic
-      console.log(`OTP sent to ${email}`);
-      alert('OTP has been sent to your email.');
-
-      // Replace the button with the "Resend OTP" link
-      document.getElementById('send-otp-btn').style.display = 'none';
-      document.getElementById('resend-otp-link').style.display = 'inline';
-
-      // Simulate OTP verification failure for demonstration
-      failedOtpAttempts++;
-      if (failedOtpAttempts >= 3) {
-        startCooldown();
-      }
+  
+    if (savedEmailCooldownEnd && savedEmailCooldownEnd > now && email) {
+      renderOtpVerificationUI();
+    } else {
+      renderEmailInputUI();
     }
+  
+    function renderEmailInputUI() {
+      modalContent.innerHTML = `
+        <span class="sign-in-close-btn">&times;</span>
+        <h1 class="modal-title">Receive an OTP</h1>
+        <p class="subtitle">If the email is registered, you will receive an OTP.</p>
+        <form id="otp-form">
+          <div class="input-group">
+            <label for="otp-email">Email</label>
+            <div class="input-wrapper">
+              <input type="email" id="otp-email" placeholder="Enter your email" required />
+              <img src="/rias/static/images/components/email_logo.png" class="input-icon" />
+            </div>
+            <span class="error otp-email-error"></span>
+          </div>
+          <button type="submit" class="btn btn-primary" id="send-otp-btn">SEND OTP</button>
+          <span class="error otp-failed-error" style="display: none;"></span>
+        </form>
+        <p class="subtitle"><a href="#" id="back-to-sign-in">Back to Sign In</a></p>
+      `;
+  
+      const savedCooldownEnd = parseInt(sessionStorage.getItem('otpCooldownEnd'));
+      if (savedCooldownEnd && savedCooldownEnd > now) {
+        activateOtpCooldown(savedCooldownEnd);
+      }
+  
+      modalContent.querySelector('#otp-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (otpCooldown) return;
+  
+        const emailInput = modalContent.querySelector('#otp-email');
+        const email = emailInput.value.trim();
+        const errorEl = modalContent.querySelector('.otp-email-error');
+        const valid = ['@student.apc.edu.ph', '@apc.edu.ph'].some(domain => email.endsWith(domain));
+  
+        if (!valid) {
+          errorEl.textContent = 'Invalid email domain.';
+          return;
+        }
+  
+        blockClicks();
+        fetch("/rias/templates/_components/sendemail.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({ email: email, send_email: 1 })
+        }).then(r => r.text()).then(() => {
+          const cooldownEnd = Math.floor(Date.now() / 1000) + 300;
+          sessionStorage.setItem('otpEmailCooldownEnd', cooldownEnd);
+          sessionStorage.setItem('lastOtpEmail', email);
+          alert("OTP sent!");
+          unblockClicks();
+          renderOtpVerificationUI(modalContent, email);
+        }).catch(console.error);
+      });
+  
+      modalContent.querySelector('.sign-in-close-btn').onclick = () => closeModalWithAnimation(signInModal);
+      modalContent.querySelector('#back-to-sign-in').onclick = (e) => {
+        e.preventDefault();
+        openSignInModal();
+      };
+    }
+  
+    function renderOtpVerificationUI() {
+      modalContent.innerHTML = `
+        <span class="sign-in-close-btn">&times;</span>
+        <h1 class="modal-title">Verify OTP</h1>
+        <form id="otp-form">
+          <div class="input-group">
+            <label for="otp-code">Enter OTP</label>
+            <div class="input-wrapper">
+              <input type="text" id="otp-code" required />
+              <img src="/rias/static/images/components/lock_icon.png" class="input-icon" />
+            </div>
+            <span class="error otp-code-error"></span>
+          </div>
+          <button type="submit" class="btn btn-primary" id="verify-otp-btn">VERIFY OTP</button>
+          <a href="#" id="resend-otp-link" style="color: blue;">Resend OTP</a>
+          <span class="error otp-failed-error" style="display: none;"></span>
+        </form>
+        <p class="subtitle"><a href="#" id="back-to-sign-in">Back to Sign In</a></p>
+      `;
+  
+      modalContent.querySelector('.sign-in-close-btn').onclick = () => closeModalWithAnimation(signInModal);
+      modalContent.querySelector('#back-to-sign-in').onclick = (e) => {
+        e.preventDefault();
+        openSignInModal();
+      };
+  
+      const verifyBtn = modalContent.querySelector('#verify-otp-btn');
+      const resendLink = modalContent.querySelector('#resend-otp-link');
+      const errorMsg = modalContent.querySelector('.otp-code-error');
+      const textfield = modalContent.querySelector('#otp-code');
 
-    function startCooldown() {
-      otpCooldown = true;
-      const errorElement = modalContent.querySelector('.otp-failed-error');
-      errorElement.textContent = 'The system has detected too many failed sign-in attempts. Please wait 5 minutes before trying again.';
-      errorElement.style.display = 'block';
-
-      // Disable the "Resend OTP" link
-      const resendLink = document.getElementById('resend-otp-link');
-      resendLink.style.pointerEvents = 'none';
-      resendLink.style.color = 'gray';
-
-      // Start a 5-minute cooldown
-      setTimeout(() => {
-        otpCooldown = false;
-        failedOtpAttempts = 0; // Reset failed attempts
-        errorElement.style.display = 'none';
+      if (sessionStorage.getItem('resendOtp') || sessionStorage.getItem('otpCooldownEnd')) {
+        resendLink.style.pointerEvents = 'none';
+        resendLink.style.color = 'gray';
+      }
+      else {
         resendLink.style.pointerEvents = 'auto';
         resendLink.style.color = 'blue';
-      }, 5 * 60 * 1000); // 5 minutes
+      }
+
+      if (sessionStorage.getItem('otpCooldownEnd')) {
+        verifyBtn.style.pointerEvents = 'none';
+        verifyBtn.style.backgroundColor = 'gray';
+        textfield.disabled = true;
+      }
+      else {
+        verifyBtn.style.pointerEvents = 'auto';
+        verifyBtn.style.backgroundColor = '#213B9A';
+      }
+  
+      const cooldownEnd = parseInt(sessionStorage.getItem('otpEmailCooldownEnd'));
+      if (cooldownEnd && cooldownEnd > now) {
+        activateEmailCooldownTimer(verifyBtn, cooldownEnd);
+      }
+  
+      modalContent.querySelector('#otp-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        blockClicks();
+        verifyBtn.style.pointerEvents = 'none';
+        verifyBtn.style.backgroundColor = 'gray';
+        errorMsg.textContent = '';
+  
+        const code = modalContent.querySelector('#otp-code').value.trim();
+        fetch('verifyotp.php', {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({ otp: code, email: email })
+        }).then(r => r.text()).then(data => {
+          if (data.includes("verified")) {
+            sessionStorage.removeItem('resendOtp');
+            sessionStorage.removeItem('otpCooldownEnd');
+            sessionStorage.removeItem('otpEmailCooldownEnd');
+            activateEmailCooldownTimer(verifyBtn, null);
+            renderOtpVerificationUI();
+            alert("OTP Verified!");
+            
+            fetch('signin.php', {
+              method: 'POST',
+              body: new URLSearchParams({ otp: code, email: email })
+            })
+            .then(r => r.text()).then(result => {
+              console.log('Login response:', result);
+              result = JSON.parse(result);
+              console.log('Login response:', result.status);
+              if (result.status === 'success') {
+                const userRole = result.role.toLowerCase().trim();
+                console.log('User role:', userRole);
+      
+                let redirectPath;
+                switch (userRole) {
+                  case 'admin':
+                    redirectPath = '/rias/templates/schooluser/admin/_index.php';
+                    break;
+                  case 'executive director':
+                    redirectPath = '/rias/templates/schooluser/faculty/_index.php';
+                    break;
+                  case 'program director':
+                    redirectPath = '/rias/templates/schooluser/faculty/_index.php';
+                    break;
+                  case 'internship officer':
+                    redirectPath = '/rias/templates/schooluser/faculty/_index.php';
+                    break;
+                  case 'student intern':
+                    redirectPath = '/rias/templates/schooluser/student/_index.php';
+                    break;
+                  default:
+                    console.error('Unknown role:', userRole);
+                    document.querySelector('.email-error').textContent = 'Invalid user role. Please contact support.';
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalButtonText;
+                    return;
+                }
+                sessionStorage.removeItem('resendOtp');
+                sessionStorage.removeItem('otpEmailCooldownEnd');
+                sessionStorage.removeItem('otpCooldownEnd');
+                sessionStorage.removeItem('lastOtpEmail');
+      
+                console.log('Redirecting to:', redirectPath);
+                window.location.replace(redirectPath);
+              }
+            });
+          } else {
+            unblockClicks();
+            verifyBtn.style.pointerEvents = 'auto';
+            verifyBtn.style.backgroundColor = '#213B9A';
+            errorMsg.textContent = 'Invalid OTP.';
+            if (--failedOtpAttempts <= 0) {
+              errorMsg.textContent = 'Too many failed attempts.';
+              startOtpCooldown();
+            }
+          }
+        }).catch(console.error);
+      });
+  
+      resendLink.onclick = (e) => {
+        e.preventDefault();
+        resendOtp(email, verifyBtn, resendLink);
+      };
+    }
+  
+    function activateEmailCooldownTimer(button, cooldownEndTime) {
+      const interval = setInterval(() => {
+        const now = Math.floor(Date.now() / 1000);
+        const diff = cooldownEndTime - now;
+        if (cooldownEndTime && diff <= 0) {
+          clearInterval(interval);
+          sessionStorage.removeItem('resendOtp');
+          sessionStorage.removeItem('otpEmailCooldownEnd');
+          button.textContent = `VERIFY OTP`;
+          openOtpModal();
+        } else {
+          button.textContent = `VERIFY OTP (${diff}s)`;
+        }
+      }, 1000);
+    }
+  
+    function startOtpCooldown() {
+      const end = Math.floor(Date.now() / 1000) + 300;
+      sessionStorage.setItem('otpCooldownEnd', end);
+      sessionStorage.removeItem('otpEmailCooldownEnd');
+  
+      activateOtpCooldown(end);
+    }
+  
+    function activateOtpCooldown(cooldownEndTime) {
+      renderOtpVerificationUI();
+      otpCooldown = true;
+      const interval = setInterval(() => {
+        const now = Math.floor(Date.now() / 1000);
+        const diff = cooldownEndTime - now;
+        const errorBox = modalContent.querySelector('.otp-failed-error');
+        const resend = modalContent.querySelector('#resend-otp-link');
+        const verifyBtn = modalContent.querySelector('#verify-otp-btn');
+  
+        if (diff <= 0) {
+          clearInterval(interval);
+          otpCooldown = false;
+          sessionStorage.removeItem('resendOtp');
+          sessionStorage.removeItem('otpEmailCooldownEnd');
+          sessionStorage.removeItem('otpCooldownEnd');
+          sessionStorage.removeItem('lastOtpEmail');
+          failedOtpAttempts = 3;
+          errorBox.style.display = 'none';
+          resend.style.pointerEvents = 'auto';
+          resend.style.color = 'blue';
+          verifyBtn.disabled = false;
+          verifyBtn.textContent = 'VERIFY OTP';
+          openOtpModal();
+          return;
+        }
+  
+        errorBox.style.display = 'block';
+        errorBox.textContent = `Too many failed attempts. Wait ${diff}s.`;
+        resend.style.pointerEvents = 'none';
+        resend.style.color = 'gray';
+        verifyBtn.textContent = `VERIFY OTP`;
+      }, 1000);
+    }
+  
+    function resendOtp(email, verifyBtn, resendLink) {
+      blockClicks();
+      resendLink.textContent = 'LOADING...';
+      resendLink.style.pointerEvents = 'none';
+      resendLink.style.color = 'gray';
+      sessionStorage.setItem('resendOtp', true);
+      verifyBtn.disabled = true;
+  
+      fetch("/rias/templates/_components/sendemail.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({ email: email, send_email: 1 })
+      }).then(r => r.text()).then(() => {
+        alert("OTP resent!");
+        unblockClicks();
+        resendLink.textContent = 'Resend OTP';
+        verifyBtn.disabled = false;
+  
+        const cooldownEnd = Math.floor(Date.now() / 1000) + 300;
+        sessionStorage.setItem('otpEmailCooldownEnd', cooldownEnd);
+        activateEmailCooldownTimer(verifyBtn, cooldownEnd);
+        renderOtpVerificationUI();
+      }).catch(console.error);
     }
   }
 
@@ -578,7 +788,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function openForgotPasswordModal() {
     const signInModal = document.getElementById('sign-in-modal');
     const modalContent = signInModal.querySelector('.modal-content');
-
+  
     // Update modal content for Forgot Password
     modalContent.innerHTML = `
       <span class="sign-in-close-btn">&times;</span>
@@ -588,49 +798,121 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="input-group">
           <label for="forgot-email">Email</label>
           <div class="input-wrapper">
-            <input type="email" id="forgot-email" placeholder="Enter your email" required />
+            <input type="email" class="field" id="forgot-email" placeholder="Enter your email" required />
             <img src="/rias/static/images/components/email_logo.png" alt="Email Icon" class="input-icon" />
           </div>
           <span class="error forgot-email-error"></span>
         </div>
         <button type="submit" class="btn btn-primary">RESET PASSWORD</button>
+        <span class="error otp-failed-error" style="display: none;"></span>
       </form>
       <p class="subtitle">
         <a href="#" id="back-to-sign-in">Back to Sign In</a>
       </p>
     `;
-
+    
+    const savedCooldownEnd = parseInt(sessionStorage.getItem('forgotPasswordCooldownEnd'));
+    if (savedCooldownEnd && savedCooldownEnd > Math.floor(Date.now() / 1000)) {
+      activateForgotPasswordCooldown(savedCooldownEnd);
+    }
+  
     // Show the modal
     signInModal.style.display = 'flex';
     updateModalPosition();
-
+  
     // Close Forgot Password Modal
     modalContent.querySelector('.sign-in-close-btn').addEventListener('click', () => {
       closeModalWithAnimation(signInModal);
     });
-
+  
     // Back to Sign In
     modalContent.querySelector('#back-to-sign-in').addEventListener('click', (e) => {
       e.preventDefault();
-      openSignInModal(); // Reopen the Sign-In modal
+      openSignInModal();
     });
-
-    // Validate Forgot Password Form
-    modalContent.querySelector('#forgot-password-form').addEventListener('submit', (e) => {
+  
+    // Validate and Submit Forgot Password Form
+    modalContent.querySelector('#forgot-password-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-
-      const email = document.getElementById('forgot-email').value.trim();
+  
+      const emailInput = document.getElementById('forgot-email');
+      const email = emailInput.value.trim();
+      const errorElement = modalContent.querySelector('.forgot-email-error');
       const validDomains = ['@student.apc.edu.ph', '@apc.edu.ph'];
       const isValidEmail = validDomains.some((domain) => email.endsWith(domain));
-
+  
       if (!isValidEmail) {
-        modalContent.querySelector('.forgot-email-error').textContent = 'Invalid email address. Please use (Eg. @student.apc.edu.ph and @apc.edu.ph).';
-      } else {
-        modalContent.querySelector('.forgot-email-error').textContent = '';
-        alert('If the email is registered, you will receive a password reset link.');
+        errorElement.textContent = 'Invalid email address. Use @student.apc.edu.ph or @apc.edu.ph.';
+        return;
+      }
+  
+      errorElement.textContent = '';
+  
+      try {
+        blockClicks();
+        const formData = new FormData();
+        formData.append('send_email', 'true');
+        formData.append('email', email);
+  
+        const response = await fetch('/rias/templates/schooluser/login/forgotpasswordsendemail.php', {
+          method: 'POST',
+          body: formData
+        });
+  
+        const text = await response.text();
+        if (response.ok) {
+          console.error("text:", text);
+          alert("Reset link sent successfully!\nCheck your inbox.");
+          activateForgotPasswordCooldown(Date.now() / 1000 + 300);
+          openSignInModal();
+          unblockClicks();
+        } else {
+          console.error("🔴 Server error:", text);
+          errorElement.textContent = 'Failed to send reset email. Something exploded. 💥';
+        }
+      } catch (err) {
+        console.error("🐛 JS error:", err);
+        errorElement.textContent = 'Unexpected error. Try again later, meatbag.';
       }
     });
+  
+    function activateForgotPasswordCooldown(cooldownEndTime) {
+      const errorBox = modalContent.querySelector('.otp-failed-error');
+      const field = modalContent.querySelector('.field');
+      const btn = modalContent.querySelector('.btn-primary');
+      btn.style.pointerEvents = 'none';
+      btn.style.backgroundColor = 'gray';
+      field.style.pointerEvents = 'none';
+      field.disabled = true;
+      sessionStorage.setItem('forgotPasswordCooldownEnd', cooldownEndTime);
+      forgotPasswordCooldown = true;
+      const interval = setInterval(() => {
+        const now = Math.floor(Date.now() / 1000);
+        const diff = cooldownEndTime - now;
+  
+        if (diff <= 0) {
+          clearInterval(interval);
+          forgotPasswordCooldown = false;
+          sessionStorage.removeItem('forgotPasswordCooldownEnd');
+          failedOtpAttempts = 3;
+          errorBox.style.display = 'none';
+          btn.style.pointerEvents = 'auto';
+          btn.style.backgroundColor = '#213B9A';
+          field.style.pointerEvents = 'auto';
+          field.disabled = false;
+          openSignInModal();
+          return;
+        }
+  
+        errorBox.style.display = 'block';
+        errorBox.textContent = `Please wait ${diff}s before trying again.`;
+        btn.style.pointerEvents = 'none';
+        btn.style.backgroundColor = 'gray';
+        field.style.pointerEvents = 'none';
+      }, 1000);
+    }
   }
+  
 
   // Reset Hero Content Position
   function resetHeroContentPosition() {
@@ -642,4 +924,30 @@ document.addEventListener('DOMContentLoaded', () => {
   if (heroContent) {
     heroContent.classList.add('float-in');
   }
+
+  function blockClicks() {
+    const blocker = document.getElementById('click-blocker');
+    blocker.style.display = 'block';
+  }
+  
+  function unblockClicks() {
+    const blocker = document.getElementById('click-blocker');
+    blocker.style.display = 'none';
+  }
+  
+  const blocker = document.getElementById('click-blocker');
+  
+  const blockKeys = (e) => {
+    if (blocker && blocker.style.display !== 'none') {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log(`Blocked key: ${e.key}`);
+    }
+  };
+  
+  window.addEventListener('keydown', blockKeys, true);
+  window.addEventListener('keypress', blockKeys, true);
+  window.addEventListener('keyup', blockKeys, true);
+  
+  blocker.style.display = 'none';
 });
