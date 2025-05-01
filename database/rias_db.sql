@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 
 --
 -- Database: `rias_db`
+
+...php?token=placeholder_token_supervisor_1
 --
 
 -- --------------------------------------------------------

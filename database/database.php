@@ -3,12 +3,13 @@
     $user = "root";
     $password = ""; // DEAD INSIDE
     $database = "rias_db"; // Or your real DB name, dumdum
+    $port = 3306
 
     // APC
     // $user = 'mjkurumphang';
     // $password = 'SOETiny1!';
 
-    $mysqli = new mysqli($host, $user, $password, $database);
+    $mysqli = new mysqli($host, $user, $password, $database, $port);
 
     // Connection check, because life is full of betrayals
     if ($mysqli->connect_error) {
@@ -23,4 +24,6 @@
 
     // Set timezone
     date_default_timezone_set('Asia/Manila');
+
+    
 ?>

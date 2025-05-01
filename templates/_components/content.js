@@ -89,7 +89,7 @@ if (hour >= 5 && hour < 12) {
 } else if (hour >= 18 && hour < 22) {
     greeting = "Good evening";
 } else {
-    greeting = "Go to sleep you crusty goblin";
+    greeting = "Go to sleep my lovely client";
 }
 
 // Grab the current text, find the comma, and replace only before it 😎🔧
