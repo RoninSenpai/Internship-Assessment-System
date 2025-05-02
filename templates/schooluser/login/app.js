@@ -854,7 +854,7 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.append('send_email', 'true');
         formData.append('email', email);
   
-        const response = await fetch('/rias/templates/schooluser/login/forgotpasswordsendemail.php', {
+        const response = await fetch('/rias/templates/schooluser/login/changepasswordsendemail.php', {
           method: 'POST',
           body: formData
         });

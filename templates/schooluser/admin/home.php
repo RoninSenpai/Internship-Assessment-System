@@ -1167,7 +1167,7 @@
     });
   </script>
 
-  <!-- Chart.js Bar Chart -->AC
+  <!-- Chart.js Bar Chart -->
   <script>
     const ctx = document.getElementById('loginChart');
     new Chart(ctx, {
