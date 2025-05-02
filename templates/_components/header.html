@@ -1,7 +1,7 @@
 <div class="header-container">
     <div class="header-logo">
-        <a href="../../templates/schooluser\login\index.php" target="_blank" rel="noopener noreferrer">
-            <img src="../../static\images\components\header_apclogo2.png" alt="Logo" class="logo">
+        <a href="../../templates/schooluser/login/index.php" target="_blank" rel="noopener noreferrer">
+            <img src="../../static/images/components/header_apclogo2.png" alt="Logo" class="logo">
         </a>
     </div>
     <div class="header-item">
@@ -11,7 +11,6 @@
             <img src="../../static/images/components/notificationbell_icon.png" alt="Notifications" class="icon" id="notificationBell">
             <div class="notification-dropdown hidden" id="notificationDropdown">
                 <p>No new notifications</p>
-                <!-- You can later replace this with dynamic notifications -->
             </div>
         </div>
         <img src="../../static/images/components/sensei.png" alt="Profile Picture" class="profile-pic" onclick="logout()">
@@ -19,13 +18,15 @@
 </div>
 
 <link rel="stylesheet" href="styles.css">
-<script src="header.js">
 
+<!-- Place this at the bottom of body or after the DOM elements -->
+<script>
 document.addEventListener("DOMContentLoaded", () => {
     const bell = document.getElementById("notificationBell");
-    const dropdown = document.getElementById("notificationDropdown"); 
+    const dropdown = document.getElementById("notificationDropdown");
 
-    bell.addEventListener("click", () => {
+    bell.addEventListener("click", (e) => {
+        e.stopPropagation(); // Prevents document listener from instantly hiding the dropdown
         dropdown.classList.toggle("hidden");
     });
 
@@ -35,5 +36,5 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
-
 </script>
+
