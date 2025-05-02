@@ -80,6 +80,16 @@
     </title>
     <link rel="stylesheet"  href="../../../static/css/components.css"></link>
     <style>
+      .content-card {
+        max-width: 700px;
+        padding-top: 30px;
+        padding-bottom: 50px;
+      }
+
+      h2, .form-group {
+        margin-bottom: 20px;
+      }
+
       {
         box-sizing: border-box;
         margin: 0;

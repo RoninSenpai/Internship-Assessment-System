@@ -42,6 +42,7 @@
 
             document.getElementById("headerFrame").addEventListener("load", function() {
                 this.contentWindow.postMessage({ role: userRole2 }, "*");
+                // console.log("Header loaded with role: " + userRole2);
             });
         </script>
 

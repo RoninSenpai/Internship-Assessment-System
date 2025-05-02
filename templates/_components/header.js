@@ -1,5 +1,6 @@
 
 window.addEventListener("message", (event) => {
+    // console.log(event.data);
     if (event.data.role) {
         document.getElementById("roleText").textContent = event.data.role;
     }

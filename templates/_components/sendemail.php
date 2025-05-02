@@ -25,16 +25,6 @@
     // $recepientemail = "jvaquino@student.apc.edu.ph";
     // echo $_POST['email'];
 
-    // Open Command Prompt, type:
-    // ipconfig
-    // Look for the line like:
-    // IPv4 Address. . . . . . . . . . . : 192.168.0.9
-    // Replace with the actual IP address of the server
-    $ipaddress = '192.168.0.2';
-
-    // localhost makes it work on your local machine
-    // ipaddress makes it work on your local network
-
     echo "Method: " . $_SERVER['REQUEST_METHOD'] . "\n";
     echo "POST send_email: " . (isset($_POST['send_email']) ? $_POST['send_email'] : 'NOT SET') . "\n";
     
@@ -55,7 +45,7 @@
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
                 $mail->Username = 'ramsinternshipassessmentsystem@gmail.com';
-                $mail->Password = 'wacd pbka okmt bipn';
+                $mail->Password = 'fwzx meft avbo sroe';
                 $mail->SMTPSecure = 'tls';
                 $mail->Port = 587;
     

@@ -5,8 +5,6 @@
     use PHPMailer\PHPMailer\Exception;
     require '../../../vendor/autoload.php';
     
-    $ipaddress = '192.168.0.2'; // Change this to your server IP
-    
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_email'])) {
         if (isset($_POST['email']) && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $recepientemail = $_POST['email'];
@@ -17,7 +15,7 @@
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
                 $mail->Username = 'ramsinternshipassessmentsystem@gmail.com';
-                $mail->Password = 'wacd pbka okmt bipn';
+                $mail->Password = 'fwzx meft avbo sroe';
                 $mail->SMTPSecure = 'tls';
                 $mail->Port = 587;
     
@@ -71,7 +69,7 @@
                 }
     
                 // 📨 Prepare the password reset link
-                $link = "http://$ipaddress/rias/templates/schooluser/login/forgotpassword.php?token=$token";
+                $link = "http://$ipaddress/rias/templates/schooluser/login/changepassword.php?token=$token";
                 $mail->Body = "Click this link to reset your password:\n\n$link\n\nLink will expire in 5 minutes.";
     
                 // 🔥 Send the email
