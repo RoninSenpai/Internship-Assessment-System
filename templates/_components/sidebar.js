@@ -37,11 +37,11 @@ const sidebarItems = {
         { name: "USERLOG", icon: ICON_DIR + "flag_icon.png", link: "../../../templates/schooluser/admin/userlog.php" }
     ],
     faculty: [
-        { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../templates/schooluser/faculty/home.php" },
-        { name: "PROGRESS", icon: ICON_DIR + "flag_icon.png", link: "../../templates/schooluser/faculty/progress.php" },
-        { name: "MASTERLIST", icon: ICON_DIR + "masterlist_icon.png", link: "../../templates/schooluser/faculty/masterlist.php" },
-        { name: "RUBRICS", icon: ICON_DIR + "checkbox_icon.png", link: "../../templates/schooluser/faculty/rubrics.php" },
-        { name: "REPORTS", icon: ICON_DIR + "report_icon.png", link: "../../templates/schooluser/faculty/reports.php" }
+        { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../../templates/schooluser/faculty/home.php" },
+        { name: "PROGRESS", icon: ICON_DIR + "flag_icon.png", link: "../../../templates/schooluser/faculty/progress.php" },
+        { name: "MASTERLIST", icon: ICON_DIR + "masterlist_icon.png", link: "../../../templates/schooluser/faculty/masterlist.php" },
+        { name: "RUBRICS", icon: ICON_DIR + "checkbox_icon.png", link: "../../../templates/schooluser/faculty/rubrics.php" },
+        { name: "REPORTS", icon: ICON_DIR + "report_icon.png", link: "../../../templates/schooluser/faculty/reports.php" }
     ],
     supervisor: [
         { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../templates/supervisor/home.php" },
