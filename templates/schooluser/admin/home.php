@@ -1,1323 +1,290 @@
 <?php
-    session_start();
-    include '../../../database/database.php';
+session_start();
+include '../../../database/database.php';
 
-    $token = $_SESSION['user_id'] ?? '';
-    $user_role = $_SESSION['user_role'] ?? '';
+// Validate session and user role
+if (empty($_SESSION['user_id']) || $_SESSION['user_role'] !== 'Admin') {
+    http_response_code(403);
+    echo "<div style='text-align:center; font-size:24px; color:red;'>Access Denied</div>";
+    exit;
+}
 
-    // echo $_SESSION['user_role'];
-    // echo $_SESSION['user_role'] != 'Student Intern';
-    if (!$token || $_SESSION['user_role'] != 'Admin') {
-        echo "hi";
-        http_response_code(404);
-        echo "<div id='error-code'>404</div>";
-        exit;
-    }
+$token = $_SESSION['user_id'];
 
-    $stmt = $mysqli->prepare("SELECT user_first_name FROM users WHERE user_id = ?");
-    $stmt->bind_param("i", $token);
-    $stmt->execute();
-    $result = $stmt->get_result();
+// Fetch user first name
+$stmt = $mysqli->prepare("SELECT user_first_name FROM users WHERE user_id = ?");
+$stmt->bind_param("i", $token);
+$stmt->execute();
+$result = $stmt->get_result();
 
-    $userFirstName = "Unknown Goblin";
+$userFirstName = "Unknown User";
+if ($result && $result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $userFirstName = htmlspecialchars($row['user_first_name']);
+}
 
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $userFirstName = htmlspecialchars($row['user_first_name']); // Always sanitize! 🔪
-    }
-
-    $stmt->close();
-    $mysqli->close();
+$stmt->close();
+$mysqli->close();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="style_admin.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style_admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
 </head>
 <body>
-  <div class="admin-container">
-    <header class="top-info">
-      <div style="text-align:right; margin-bottom:20px;">
-        <div class="dropdown" style="display:inline-block;position:relative;">
-          <button id="registerDropdownBtn" style="background:#213B9A;color:#fff;padding:10px 20px;border:none;border-radius:5px;cursor:pointer;font-size:16px;">Register ▼</button>
-          <div id="registerDropdownMenu" style="display:none;position:absolute;right:0;top:100%;background:#fff;border:1px solid #ccc;border-radius:5px;box-shadow:0 2px 8px rgba(0,0,0,0.15);z-index:2000;min-width:200px;">
-            <div class="dropdown-item" data-modal="user" style="padding:10px 20px;cursor:pointer;">Register User</div>
-            <div class="dropdown-item" data-modal="school" style="padding:10px 20px;cursor:pointer;">Register School</div>
-            <div class="dropdown-item" data-modal="program" style="padding:10px 20px;cursor:pointer;">Register Program</div>
-            <div class="dropdown-item" data-modal="company" style="padding:10px 20px;cursor:pointer;">Register Company</div>
-            <div class="dropdown-item" data-modal="department" style="padding:10px 20px;cursor:pointer;">Register Department</div>
-          </div>
-        </div>
-        <div class="dropdown" style="display:inline-block;position:relative;">
-          <button id="manageDropdownBtn" style="background:#34c9ad;color:#fff;padding:10px 20px;border:none;border-radius:5px;cursor:pointer;font-size:16px;margin-left:10px;">Manage ▼</button>
-          <div id="manageDropdownMenu" style="display:none;position:absolute;right:0;top:100%;background:#fff;border:1px solid #ccc;border-radius:5px;box-shadow:0 2px 8px rgba(0,0,0,0.15);z-index:2000;min-width:200px;">
-            <div class="dropdown-item" data-manage="users" style="padding:10px 20px;cursor:pointer;">Manage Users</div>
-            <div class="dropdown-item" data-manage="schools" style="padding:10px 20px;cursor:pointer;">Manage Schools</div>
-            <div class="dropdown-item" data-manage="programs" style="padding:10px 20px;cursor:pointer;">Manage Programs</div>
-            <div class="dropdown-item" data-manage="companies" style="padding:10px 20px;cursor:pointer;">Manage Companies</div>
-            <div class="dropdown-item" data-manage="departments" style="padding:10px 20px;cursor:pointer;">Manage Departments</div>
-          </div>
-        </div>
-      </div>
-      <!-- Manage Modals -->
-      <div id="manageModalUsers" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; overflow:auto; background:rgba(0,0,0,0.4);">
-        <div class="modal-content" style="background:#fff; margin:5% auto; padding:30px 40px; border-radius:8px; width:100%; max-width:500px; position:relative;">
-          <span class="closeManageModal" data-manage="users" style="position:absolute; top:10px; right:20px; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
-          <h2>Manage Users</h2>
-          <div id="manageUsersContent"></div>
-        </div>
-      </div>
-      <div id="manageModalSchools" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; overflow:auto; background:rgba(0,0,0,0.4);">
-        <div class="modal-content" style="background:#fff; margin:5% auto; padding:30px 40px; border-radius:8px; width:100%; max-width:500px; position:relative;">
-          <span class="closeManageModal" data-manage="schools" style="position:absolute; top:10px; right:20px; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
-          <h2>Manage Schools</h2>
-          <div id="manageSchoolsContent"></div>
-        </div>
-      </div>
-      <div id="manageModalPrograms" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; overflow:auto; background:rgba(0,0,0,0.4);">
-        <div class="modal-content" style="background:#fff; margin:5% auto; padding:30px 40px; border-radius:8px; width:100%; max-width:500px; position:relative;">
-          <span class="closeManageModal" data-manage="programs" style="position:absolute; top:10px; right:20px; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
-          <h2>Manage Programs</h2>
-          <div id="manageProgramsContent"></div>
-        </div>
-      </div>
-      <div id="manageModalCompanies" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; overflow:auto; background:rgba(0,0,0,0.4);">
-        <div class="modal-content" style="background:#fff; margin:5% auto; padding:30px 40px; border-radius:8px; width:100%; max-width:500px; position:relative;">
-          <span class="closeManageModal" data-manage="companies" style="position:absolute; top:10px; right:20px; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
-          <h2>Manage Companies</h2>
-          <div id="manageCompaniesContent"></div>
-        </div>
-      </div>
-      <div id="manageModalDepartments" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; overflow:auto; background:rgba(0,0,0,0.4);">
-        <div class="modal-content" style="background:#fff; margin:5% auto; padding:30px 40px; border-radius:8px; width:100%; max-width:500px; position:relative;">
-          <span class="closeManageModal" data-manage="departments" style="position:absolute; top:10px; right:20px; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
-          <h2>Manage Departments</h2>
-          <div id="manageDepartmentsContent"></div>
-        </div>
-      </div>
-      <!-- Manage Modal -->
-      <div id="manageModal" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; overflow:auto; background:rgba(0,0,0,0.4);">
-        <div class="modal-content" style="background:#fff; margin:5% auto; padding:30px 40px; border-radius:8px; width:100%; max-width:500px; position:relative;">
-          <span id="closeManageModal" style="position:absolute; top:10px; right:20px; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
-          <h2>Manage Schools</h2>
-          <ul id="manageSchoolList" style="max-height:250px;overflow:auto;padding-left:20px;margin-bottom:20px;"></ul>
-          <div id="manageMsg" style="margin-top:10px;font-size:14px;"></div>
-        </div>
-      </div>
-      <!-- Registration Modals -->
-      <div id="registerModalUser" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; overflow:auto; background:rgba(0,0,0,0.4);">
-        <div class="modal-content" style="background:#fff; margin:5% auto; padding:30px 40px; border-radius:8px; width:100%; max-width:400px; position:relative;">
-          <span id="closeModal" style="position:absolute; top:10px; right:20px; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
-          <h2 style="margin-bottom:20px;">Register User</h2>
-          <form id="registerForm">
-            <label for="fname">First Name</label>
-            <input type="text" id="fname" name="fname" required style="width:100%;padding:8px;margin-bottom:10px;">
-            <label for="lname">Last Name</label>
-            <input type="text" id="lname" name="lname" required style="width:100%;padding:8px;margin-bottom:10px;">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required style="width:100%;padding:8px;margin-bottom:10px;">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required style="width:100%;padding:8px;margin-bottom:10px;">
-            <label for="role">Role</label>
-            <select id="role" name="role" required style="width:100%;padding:8px;margin-bottom:20px;">
-              <option value="Student Intern">Student Intern</option>
-              <option value="Internship Officer">Internship Officer</option>
-              <option value="Program Director">Program Director</option>
-              <option value="Executive Director">Executive Director</option>
-              <option value="Industry Partner">Industry Partner</option>
-              <option value="Admin">Admin</option>
-            </select>
-            <div id="schoolSelectContainer" style="display:none;margin-bottom:20px;"></div>
-            <div id="programSelectContainer" style="display:none;margin-bottom:20px;"></div>
-            <button type="submit" style="background:#213B9A;color:#fff;padding:10px 20px;border:none;border-radius:5px;cursor:pointer;width:100%;font-size:16px;">Register</button>
-            <div id="registerMsg" style="margin-top:10px;font-size:14px;"></div>
-          </form>
-        </div>
-      </div>
-      <div id="registerModalSchool" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; overflow:auto; background:rgba(0,0,0,0.4);">
-        <div class="modal-content" style="background:#fff; margin:5% auto; padding:30px 40px; border-radius:8px; width:100%; max-width:400px; position:relative;">
-          <span class="closeModal" data-modal="school" style="position:absolute; top:10px; right:20px; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
-          <h2>Register School</h2>
-          <form id="registerSchoolForm">
-            <label for="school_name">School Name</label>
-            <input type="text" id="school_name" name="school_name" required style="width:100%;padding:8px;margin-bottom:10px;">
-            <button type="submit" style="background:#213B9A;color:#fff;padding:10px 20px;border:none;border-radius:5px;cursor:pointer;width:100%;font-size:16px;">Register School</button>
-            <div id="registerSchoolMsg" style="margin-top:10px;font-size:14px;"></div>
-          </form>
-          <h3 style="margin-top:30px;">Existing Schools</h3>
-          <ul id="schoolList" style="max-height:120px;overflow:auto;padding-left:20px;"></ul>
-        </div>
-      </div>
-      <div id="registerModalProgram" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; overflow:auto; background:rgba(0,0,0,0.4);">
-        <div class="modal-content" style="background:#fff; margin:5% auto; padding:30px 40px; border-radius:8px; width:100%; max-width:400px; position:relative;">
-          <span class="closeModal" data-modal="program" style="position:absolute; top:10px; right:20px; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
-          <h2>Register Program</h2>
-          <form id="registerProgramForm">
-            <label for="program_name">Program Name</label>
-            <input type="text" id="program_name" name="program_name" required style="width:100%;padding:8px;margin-bottom:10px;">
-            <label for="program_school_id">School</label>
-            <select id="program_school_id" name="school_id" required style="width:100%;padding:8px;margin-bottom:10px;"></select>
-            <button type="submit" style="background:#213B9A;color:#fff;padding:10px 20px;border:none;border-radius:5px;cursor:pointer;width:100%;font-size:16px;">Register Program</button>
-            <div id="registerProgramMsg" style="margin-top:10px;font-size:14px;"></div>
-          </form>
-          <h3 style="margin-top:30px;">Existing Programs</h3>
-          <ul id="programList" style="max-height:120px;overflow:auto;padding-left:20px;"></ul>
-        </div>
-      </div>
-      <div id="registerModalCompany" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; overflow:auto; background:rgba(0,0,0,0.4);">
-        <div class="modal-content" style="background:#fff; margin:5% auto; padding:30px 40px; border-radius:8px; width:100%; max-width:400px; position:relative;">
-          <span class="closeModal" data-modal="company" style="position:absolute; top:10px; right:20px; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
-          <h2>Register Company</h2>
-          <form id="registerCompanyForm">
-            <label for="company_name">Company Name</label>
-            <input type="text" id="company_name" name="company_name" required style="width:100%;padding:8px;margin-bottom:10px;">
-            <label for="company_email">Company Email (optional)</label>
-            <input type="email" id="company_email" name="company_email" style="width:100%;padding:8px;margin-bottom:10px;">
-            <button type="submit" style="background:#213B9A;color:#fff;padding:10px 20px;border:none;border-radius:5px;cursor:pointer;width:100%;font-size:16px;">Register Company</button>
-            <div id="registerCompanyMsg" style="margin-top:10px;font-size:14px;"></div>
-          </form>
-          <h3 style="margin-top:30px;">Existing Companies</h3>
-          <ul id="companyList" style="max-height:120px;overflow:auto;padding-left:20px;"></ul>
-        </div>
-      </div>
-      <div id="registerModalDepartment" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; overflow:auto; background:rgba(0,0,0,0.4);">
-        <div class="modal-content" style="background:#fff; margin:5% auto; padding:30px 40px; border-radius:8px; width:100%; max-width:400px; position:relative;">
-          <span class="closeModal" data-modal="department" style="position:absolute; top:10px; right:20px; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
-          <h2>Register Department</h2>
-          <form id="registerDepartmentForm">
-            <label for="department_name">Department Name</label>
-            <input type="text" id="department_name" name="department_name" required style="width:100%;padding:8px;margin-bottom:10px;">
-            <label for="department_company_id">Company</label>
-            <select id="department_company_id" name="company_id" required style="width:100%;padding:8px;margin-bottom:10px;"></select>
-            <button type="submit" style="background:#213B9A;color:#fff;padding:10px 20px;border:none;border-radius:5px;cursor:pointer;width:100%;font-size:16px;">Register Department</button>
-            <div id="registerDepartmentMsg" style="margin-top:10px;font-size:14px;"></div>
-          </form>
-          <h3 style="margin-top:30px;">Existing Departments</h3>
-          <ul id="departmentList" style="max-height:120px;overflow:auto;padding-left:20px;"></ul>
-        </div>
-      </div>
-      <!-- End Registration Modals -->
-      <div class="date" id="current-date"></div>
-      <div class="last-login">
-        You previously logged in on <span id="current-datetime"></span>
-        <a href="#" class="last-page-link">
-          Go to your last visited page: <strong>Master List</strong> ⟳
-        </a>
-      </div>
-    </header>
+    <div class="admin-container">
+        <header class="top-info">
+            <h1>Welcome, <?= $userFirstName ?>!</h1>
+            <div style="text-align:right; margin-bottom:20px;">
+                <div class="dropdown" style="display:inline-block;position:relative;">
+                    <button id="registerDropdownBtn" style="background:#213B9A;color:#fff;padding:10px 20px;border:none;border-radius:5px;cursor:pointer;font-size:16px;">Register ▼</button>
+                    <div id="registerDropdownMenu" style="display:none;position:absolute;right:0;top:100%;background:#fff;border:1px solid #ccc;border-radius:5px;box-shadow:0 2px 8px rgba(0,0,0,0.15);z-index:2000;min-width:200px;">
+                        <div class="dropdown-item" data-modal="user" style="padding:10px 20px;cursor:pointer;">Register User</div>
+                        <div class="dropdown-item" data-modal="school" style="padding:10px 20px;cursor:pointer;">Register School</div>
+                        <div class="dropdown-item" data-modal="program" style="padding:10px 20px;cursor:pointer;">Register Program</div>
+                        <div class="dropdown-item" data-modal="company" style="padding:10px 20px;cursor:pointer;">Register Company</div>
+                        <div class="dropdown-item" data-modal="department" style="padding:10px 20px;cursor:pointer;">Register Department</div>
+                    </div>
+                </div>
+                <div class="dropdown" style="display:inline-block;position:relative;">
+                    <button id="manageDropdownBtn" style="background:#34c9ad;color:#fff;padding:10px 20px;border:none;border-radius:5px;cursor:pointer;font-size:16px;margin-left:10px;">Manage ▼</button>
+                    <div id="manageDropdownMenu" style="display:none;position:absolute;right:0;top:100%;background:#fff;border:1px solid #ccc;border-radius:5px;box-shadow:0 2px 8px rgba(0,0,0,0.15);z-index:2000;min-width:200px;">
+                        <div class="dropdown-item" data-manage="users" style="padding:10px 20px;cursor:pointer;">Manage Users</div>
+                        <div class="dropdown-item" data-manage="schools" style="padding:10px 20px;cursor:pointer;">Manage Schools</div>
+                        <div class="dropdown-item" data-manage="programs" style="padding:10px 20px;cursor:pointer;">Manage Programs</div>
+                        <div class="dropdown-item" data-manage="companies" style="padding:10px 20px;cursor:pointer;">Manage Companies</div>
+                        <div class="dropdown-item" data-manage="departments" style="padding:10px 20px;cursor:pointer;">Manage Departments</div>
+                    </div>
+                </div>
+            </div>
+        </header>
 
-    <section class="role-stats">
-      <div class="stat"><span>Total Users</span><strong><br>214</strong></div>
-      <div class="stat"><span>Student Intern</span><strong><br>130</strong></div>
-      <div class="stat"><span>Internship Officer</span><strong><br>1</strong></div>
-      <div class="stat"><span>Program Director</span><strong><br>36</strong></div>
-      <div class="stat"><span>Executive Director</span><strong><br>5</strong></div>
-      <div class="stat"><span>Industry Partner</span><strong><br>42</strong></div>
-    </section>
+        <section class="role-stats">
+            <div class="stat"><span>Total Users</span><strong><br>214</strong></div>
+            <div class="stat"><span>Student Intern</span><strong><br>130</strong></div>
+            <div class="stat"><span>Internship Officer</span><strong><br>1</strong></div>
+            <div class="stat"><span>Program Director</span><strong><br>36</strong></div>
+            <div class="stat"><span>Executive Director</span><strong><br>5</strong></div>
+            <div class="stat"><span>Industry Partner</span><strong><br>42</strong></div>
+        </section>
 
-    <section class="calendar-section">
-      <h2>Internship Calendar Events for the Academic Year <strong>2024-2025</strong></h2>
-      
-      <!-- Calendar Component -->
-      <div id="calendar" style="max-width: 100%; margin-bottom: 1rem; padding: 1rem; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);"></div>
+        <section class="calendar-section">
+            <h2>Internship Calendar Events for the Academic Year <strong>2024-2025</strong></h2>
+            
+            <div id="calendar" style="max-width: 100%; margin-bottom: 1rem; padding: 1rem; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);"></div>
 
-    
-      <!-- Event Table -->
-      <table>
-        <thead>
-          <tr><th>Date</th><th>Event</th></tr>
-        </thead>
-        <tbody id="event-table-body">
-          <!-- Events will be injected here dynamically -->
-        </tbody>
-      </table>
-    
-      <!-- Calendar Options -->
-      <div class="calendar-options">
-        <button id="openSetEvent">📅 Set Event</button>
-        <a href="#" id="openChangeYear">📅 Change Academic Year</a>
+            <table>
+                <thead>
+                    <tr><th>Date</th><th>Event</th></tr>
+                </thead>
+                <tbody id="event-table-body">
+                </tbody>
+            </table>
 
-      </div>
-    </section>
-    
-    <!-- Set Event Modal -->
-    <div id="setEventModal" class="modal hidden">
-      <div class="modal-content">
-        <span class="close" id="closeSetEvent">&times;</span>
-        <h3>Set New Event</h3>
-        <form id="eventForm">
-          <label for="eventDate">Date:</label>
-          <input type="date" id="eventDate" name="eventDate" required>
-          <label for="eventTitle">Title:</label>
-          <input type="text" id="eventTitle" name="eventTitle" required>
-          <button type="submit">Add Event</button>
-        </form>
-      </div>
+            <div class="calendar-options">
+                <button id="openSetEvent">📅 Set Event</button>
+                <a href="#" id="openChangeYear">📅 Change Academic Year</a>
+            </div>
+        </section>
+
+        <section class="activity-login-section">
+            <div class="log-activity">
+                <h3>Recent Log Activity</h3>
+                <div class="tags">
+                    <span class="tag green">Student Intern   25</span>
+                    <span class="tag blue">Program Director   7</span>
+                    <span class="tag pink">Internship Officer   5</span>
+                    <span class="tag orange">Industry Partner   3</span>
+                    <span class="tag yellow">Executive Director   2</span>
+                    <span class="tag gray">Admin   4</span>
+                </div>
+
+                <ul class="logs">
+                    <li>
+                        <span class="log-dot">📌</span>
+                        Internship Officer changed the master-list
+                        <small>About a minute ago - 03/12/2025</small>
+                    </li>
+                    <li>
+                        <span class="log-dot">📌</span>
+                        CpE Program director commented on the student outcomes
+                        <small>About a month ago - 02/12/2025</small>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="user-logins">
+                <h3>User Logins</h3>
+                <canvas id="loginChart" width="400" height="250"></canvas>
+            </div>
+        </section>
     </div>
 
-<!-- Change Academic Year Modal -->
-<div id="changeYearModal" class="modal hidden">
-  <div class="modal-content">
-    <span class="close" id="closeChangeYear">&times;</span>
-    <h3>Change Academic Year</h3>
-    <form id="yearForm">
-      <label for="startDate">Start Date:</label>
-      <input type="date" id="startDate" required>
-      <label for="endDate">End Date:</label>
-      <input type="date" id="endDate" required>
-      <button type="submit">Set Academic Year</button>
-      <p id="yearWarning" style="color: red; display: none;">Start and end year must be different.</p>
-    </form>
-  </div>
-</div>
-
-
-    
-
-    <section class="activity-login-section">
-      <div class="log-activity">
-        <h3>Recent Log Activity</h3>
-        <div class="tags">
-          <span class="tag green">Student Intern   25</span>
-          <span class="tag blue">Program Director   7</span>
-          <span class="tag pink">Internship Officer   5</span>
-          <span class="tag orange">Industry Partner   3</span>
-          <span class="tag yellow">Executive Director   2</span>
-          <span class="tag gray">Admin   4</span>
-        </div>
-
-        <ul class="logs">
-          <li>
-            <span class="log-dot">📌</span>
-            Internship Officer changed the master-list
-            <small>About a minute ago - 03/12/2025</small>
-          </li>
-          <li>
-            <span class="log-dot">📌</span>
-            CpE Program director commented on the student outcomes
-            <small>About a month ago - 02/12/2025</small>
-          </li>
-        </ul>
-      </div>
-
-      <div class="user-logins">
-        <h3>User Logins</h3>
-        <canvas id="loginChart" width="400" height="250"></canvas>
-      </div>
-    </section>
-  </div>
-
-  <!-- Real-time Date and Time Script -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Declare all needed variables
-      const roleSelect = document.getElementById('role');
-      const schoolSelectContainer = document.getElementById('schoolSelectContainer');
-      const programSelectContainer = document.getElementById('programSelectContainer');
-      let schoolSelect = null;
-      let programSelect = null;
-
-      function updateDateTime() {
-        const now = new Date();
-        const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
-        const fullDate = now.toLocaleDateString(undefined, dateOptions);
-        const fullTime = now.toLocaleTimeString(undefined, timeOptions);
-        const weekday = now.toLocaleDateString(undefined, { weekday: 'long' });
-
-        document.getElementById('current-date').textContent = fullDate;
-        document.getElementById('current-datetime').textContent = `${weekday}, ${fullDate} at ${fullTime}`;
-      }
-
-      updateDateTime();
-      setInterval(updateDateTime, 1000);
-
-      // --- Dropdown/modal logic for Register button ---
-      const registerDropdownBtn = document.getElementById('registerDropdownBtn');
-      const registerDropdownMenu = document.getElementById('registerDropdownMenu');
-      const modals = document.querySelectorAll('.modal');
-      const closeModalButtons = document.querySelectorAll('.closeModal');
-
-      registerDropdownBtn.onclick = function() {
-        registerDropdownMenu.style.display = registerDropdownMenu.style.display === 'block' ? 'none' : 'block';
-      };
-      document.querySelectorAll('#registerDropdownMenu .dropdown-item').forEach(item => {
-        item.onclick = function() {
-          const modalId = `registerModal${this.dataset.modal.charAt(0).toUpperCase() + this.dataset.modal.slice(1)}`;
-          document.getElementById(modalId).style.display = 'block';
-          registerDropdownMenu.style.display = 'none';
-          if (modalId === 'registerModalSchool') fetchSchoolsList();
-          if (modalId === 'registerModalProgram') { fetchSchoolsForProgram(); fetchProgramsList(); }
-          if (modalId === 'registerModalCompany') fetchCompaniesList();
-          if (modalId === 'registerModalDepartment') { fetchCompaniesForDepartment(); fetchDepartmentsList(); }
-        };
-      });
-      closeModalButtons.forEach(button => {
-        button.onclick = function() {
-          const modalId = `registerModal${this.dataset.modal.charAt(0).toUpperCase() + this.dataset.modal.slice(1)}`;
-          document.getElementById(modalId).style.display = 'none';
-        };
-      });
-      window.onclick = function(event) {
-        modals.forEach(modal => {
-          if (event.target == modal) {
-            modal.style.display = 'none';
-          }
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function updateDateTime() {
+                const now = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+                const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+                document.getElementById('current-date').textContent = now.toLocaleDateString(undefined, options);
+                document.getElementById('current-datetime').textContent = now.toLocaleTimeString(undefined, timeOptions);
+            }
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
         });
-      };
+    </script>
 
-      // --- Manage Dropdown/modal logic ---
-      const manageDropdownBtn = document.getElementById('manageDropdownBtn');
-      const manageDropdownMenu = document.getElementById('manageDropdownMenu');
-      manageDropdownBtn.onclick = function() {
-        manageDropdownMenu.style.display = manageDropdownMenu.style.display === 'block' ? 'none' : 'block';
-      };
-      document.querySelectorAll('#manageDropdownMenu .dropdown-item').forEach(item => {
-        item.onclick = function() {
-          const modalId = `manageModal${this.dataset.manage.charAt(0).toUpperCase() + this.dataset.manage.slice(1)}`;
-          document.getElementById(modalId).style.display = 'block';
-          manageDropdownMenu.style.display = 'none';
-          // Fetch and display content for each manage modal
-          switch(this.dataset.manage) {
-            case 'users':
-              fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php?get_users=1')
-                .then(res => res.json())
-                .then(data => {
-                  const div = document.getElementById('manageUsersContent');
-                  div.innerHTML = '';
-                  if (!Array.isArray(data) || data.length === 0) {
-                    div.innerHTML = '<div style="color:red;">No users found.</div>';
+    <script>
+        const ctx = document.getElementById('loginChart');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['PD', 'IO', 'SI', 'EXD', 'IP'],
+                datasets: [{
+                    label: 'INTERN1',
+                    data: [25, 10, 50, 30, 60],
+                    backgroundColor: '#f15a5a'
+                }, {
+                    label: 'INTERN2',
+                    data: [30, 15, 55, 35, 65],
+                    backgroundColor: '#34c9ad'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const calendarEl = document.getElementById('calendar');
+            const eventTableBody = document.getElementById('event-table-body');
+            const modal = document.getElementById('setEventModal');
+            const openBtn = document.getElementById('openSetEvent');
+            const closeBtn = document.getElementById('closeSetEvent');
+            const eventForm = document.getElementById('eventForm');
+            const titleInput = document.getElementById('eventTitle');
+            const dateInput = document.getElementById('eventDate');
+
+            const openChangeBtn = document.getElementById('openChangeYear');
+            const closeChangeBtn = document.getElementById('closeChangeYear');
+            const changeYearModal = document.getElementById('changeYearModal');
+            const yearForm = document.getElementById('yearForm');
+            const startDateInput = document.getElementById('startDate');
+            const endDateInput = document.getElementById('endDate');
+            const yearHeader = document.querySelector('.calendar-section h2 strong');
+            const warning = document.getElementById('yearWarning');
+
+            let events = [];
+
+            const storedStart = localStorage.getItem('startDate');
+            const storedEnd = localStorage.getItem('endDate');
+            if (storedStart && storedEnd) {
+                yearHeader.textContent = formatAcademicYear(storedStart, storedEnd);
+            }
+
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                height: 'auto',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,listMonth'
+                },
+                events: events,
+            });
+
+            calendar.render();
+
+            openBtn.addEventListener('click', () => {
+                modal.classList.remove('hidden');
+                titleInput.focus();
+            });
+
+            closeBtn.addEventListener('click', () => {
+                modal.classList.add('hidden');
+                eventForm.reset();
+            });
+
+            eventForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const title = titleInput.value.trim();
+                const date = dateInput.value;
+
+                if (title && date) {
+                    const newEvent = { title, start: date, color: '#e2f5dc' };
+                    events.push(newEvent);
+                    calendar.addEvent(newEvent);
+                    renderEventTable(events);
+                    modal.classList.add('hidden');
+                    eventForm.reset();
+                }
+            });
+
+            openChangeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                changeYearModal.classList.remove('hidden');
+            });
+
+            closeChangeBtn.addEventListener('click', () => {
+                changeYearModal.classList.add('hidden');
+            });
+
+            yearForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const start = startDateInput.value;
+                const end = endDateInput.value;
+
+                const startYear = new Date(start).getFullYear();
+                const endYear = new Date(end).getFullYear();
+
+                if (startYear === endYear) {
+                    warning.style.display = 'block';
                     return;
-                  }
-                  data.forEach(user => {
-                    const userDiv = document.createElement('div');
-                    userDiv.style.marginBottom = '10px';
-                    userDiv.innerHTML = `
-                      <span class="user-name" data-id="${user.user_id}">${user.user_first_name} ${user.user_last_name}</span>
-                      <span class="user-role" style="margin-left:10px;">(${user.user_role})</span>
-                      <button class="editUserBtn" data-id="${user.user_id}" style="margin-left:10px;">Edit</button>
-                      <button class="deleteUserBtn" data-id="${user.user_id}" style="margin-left:5px;color:#fff;background:#f15a5a;border:none;border-radius:3px;padding:2px 8px;">Delete</button>
+                }
+
+                warning.style.display = 'none';
+                localStorage.setItem('startDate', start);
+                localStorage.setItem('endDate', end);
+                yearHeader.textContent = formatAcademicYear(start, end);
+                changeYearModal.classList.add('hidden');
+            });
+
+            function formatAcademicYear(start, end) {
+                const startYear = new Date(start).getFullYear();
+                const endYear = new Date(end).getFullYear();
+                return `${startYear}-${endYear}`;
+            }
+
+            function renderEventTable(events) {
+                eventTableBody.innerHTML = '';
+                const sorted = [...events].sort((a, b) => new Date(a.start) - new Date(b.start));
+                sorted.forEach(evt => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${new Date(evt.start).toLocaleDateString(undefined, { month: 'long', day: 'numeric' })}</td>
+                        <td>${evt.title}</td>
                     `;
-                    div.appendChild(userDiv);
-                  });
-                  // Edit user
-                  div.querySelectorAll('.editUserBtn').forEach(btn => {
-                    btn.onclick = function() {
-                      const id = this.dataset.id;
-                      const userDiv = this.parentElement;
-                      const nameSpan = userDiv.querySelector('.user-name');
-                      const roleSpan = userDiv.querySelector('.user-role');
-                      const [first, ...lastArr] = nameSpan.textContent.split(' ');
-                      const last = lastArr.join(' ');
-                      const inputFirst = document.createElement('input');
-                      inputFirst.type = 'text';
-                      inputFirst.value = first;
-                      inputFirst.style = 'width:80px;margin-right:5px;';
-                      const inputLast = document.createElement('input');
-                      inputLast.type = 'text';
-                      inputLast.value = last;
-                      inputLast.style = 'width:100px;margin-right:5px;';
-                      const selectRole = document.createElement('select');
-                      ['Student Intern','Internship Officer','Program Director','Executive Director','Industry Partner','Admin'].forEach(r => {
-                        const opt = document.createElement('option');
-                        opt.value = r;
-                        opt.textContent = r;
-                        if (roleSpan.textContent.replace(/[()]/g,'').trim() === r) opt.selected = true;
-                        selectRole.appendChild(opt);
-                      });
-                      nameSpan.replaceWith(inputFirst);
-                      roleSpan.replaceWith(inputLast);
-                      userDiv.insertBefore(selectRole, this);
-                      // Add containers for school/program dropdowns
-                      let schoolDropdown = document.createElement('span');
-                      let programDropdown = document.createElement('span');
-                      schoolDropdown.style.marginLeft = '10px';
-                      programDropdown.style.marginLeft = '10px';
-                      userDiv.insertBefore(schoolDropdown, this);
-                      userDiv.insertBefore(programDropdown, this);
-                      // Helper functions
-                      function fetchSchoolsDropdown(selectedId) {
-                        fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php?get_schools=1')
-                          .then(res => res.json())
-                          .then(data => {
-                            schoolDropdown.innerHTML = '';
-                            if (!Array.isArray(data) || data.length === 0) {
-                              schoolDropdown.innerHTML = '<span style="color:red;">No schools found</span>';
-                              return;
-                            }
-                            const sel = document.createElement('select');
-                            sel.name = 'edit_school_id';
-                            sel.required = true;
-                            sel.style = 'width:140px;';
-                            data.forEach(school => {
-                              const opt = document.createElement('option');
-                              opt.value = school.school_id;
-                              opt.textContent = school.school_name;
-                              if (selectedId && selectedId == school.school_id) opt.selected = true;
-                              sel.appendChild(opt);
-                            });
-                            schoolDropdown.appendChild(sel);
-                          });
-                      }
-                      function fetchProgramsDropdown(selectedId) {
-                        fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php?get_programs=1')
-                          .then(res => res.json())
-                          .then(data => {
-                            programDropdown.innerHTML = '';
-                            if (!Array.isArray(data) || data.length === 0) {
-                              programDropdown.innerHTML = '<span style="color:red;">No programs found</span>';
-                              return;
-                            }
-                            const sel = document.createElement('select');
-                            sel.name = 'edit_program_id';
-                            sel.required = true;
-                            sel.style = 'width:140px;';
-                            data.forEach(program => {
-                              const opt = document.createElement('option');
-                              opt.value = program.program_id;
-                              opt.textContent = program.program_name;
-                              if (selectedId && selectedId == program.program_id) opt.selected = true;
-                              sel.appendChild(opt);
-                            });
-                            programDropdown.appendChild(sel);
-                          });
-                      }
-                      // Show dropdowns based on initial role
-                      if (selectRole.value === 'Executive Director') fetchSchoolsDropdown();
-                      if (selectRole.value === 'Program Director' || selectRole.value === 'Student Intern') fetchProgramsDropdown();
-                      // Change dropdowns on role change
-                      selectRole.onchange = function() {
-                        schoolDropdown.innerHTML = '';
-                        programDropdown.innerHTML = '';
-                        if (this.value === 'Executive Director') fetchSchoolsDropdown();
-                        if (this.value === 'Program Director' || this.value === 'Student Intern') fetchProgramsDropdown();
-                      };
-                      this.style.display = 'none';
-                      const saveBtn = document.createElement('button');
-                      saveBtn.textContent = 'Save';
-                      saveBtn.style = 'margin-left:5px;background:#213B9A;color:#fff;border:none;border-radius:3px;padding:2px 8px;';
-                      userDiv.insertBefore(saveBtn, this.nextSibling);
-                      saveBtn.onclick = () => {
-                        let extra = '';
-                        if (selectRole.value === 'Executive Director') {
-                          const sel = schoolDropdown.querySelector('select');
-                          if (!sel || !sel.value) { schoolDropdown.style.color = 'red'; return; }
-                          extra = `&edit_school_id=${encodeURIComponent(sel.value)}`;
-                        }
-                        if (selectRole.value === 'Program Director' || selectRole.value === 'Student Intern') {
-                          const sel = programDropdown.querySelector('select');
-                          if (!sel || !sel.value) { programDropdown.style.color = 'red'; return; }
-                          extra = `&edit_program_id=${encodeURIComponent(sel.value)}`;
-                        }
-                        fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                          body: `edit_user_id=${id}&edit_user_first_name=${encodeURIComponent(inputFirst.value)}&edit_user_last_name=${encodeURIComponent(inputLast.value)}&edit_user_role=${encodeURIComponent(selectRole.value)}${extra}`
-                        })
-                        .then(res => res.text())
-                        .then(msg => {
-                          if (msg.toLowerCase().includes('error')) {
-                            div.innerHTML = `<div style='color:red;'>${msg}</div>`;
-                          } else {
-                            div.innerHTML = `<div style='color:green;'>${msg}</div>`;
-                            setTimeout(() => { item.onclick(); }, 1000);
-                          }
-                        });
-                      };
-                    };
-                  });
-                  // Delete user
-                  div.querySelectorAll('.deleteUserBtn').forEach(btn => {
-                    btn.onclick = function() {
-                      if (!confirm('Are you sure you want to delete this user?')) return;
-                      const id = this.dataset.id;
-                      fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                        body: `delete_user_id=${id}`
-                      })
-                      .then(res => res.text())
-                      .then(msg => {
-                        if (msg.toLowerCase().includes('error')) {
-                          div.innerHTML = `<div style='color:red;'>${msg}</div>`;
-                        } else {
-                          div.innerHTML = `<div style='color:green;'>${msg}</div>`;
-                          setTimeout(() => { item.onclick(); }, 1000);
-                        }
-                      });
-                    };
-                  });
+                    row.style.backgroundColor = evt.color || '#f9f9f9';
+                    eventTableBody.appendChild(row);
                 });
-              break;
-            case 'schools':
-              fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php?get_schools=1')
-                .then(res => res.json())
-                .then(data => {
-                  const div = document.getElementById('manageSchoolsContent');
-                  div.innerHTML = '';
-                  if (!Array.isArray(data) || data.length === 0) {
-                    div.innerHTML = '<div style="color:red;">No schools found.</div>';
-                    return;
-                  }
-                  data.forEach(school => {
-                    const schoolDiv = document.createElement('div');
-                    schoolDiv.style.marginBottom = '10px';
-                    schoolDiv.innerHTML = `
-                      <span class="school-name" data-id="${school.school_id}">${school.school_name}</span>
-                      <button class="editSchoolBtn" data-id="${school.school_id}" style="margin-left:10px;">Edit</button>
-                      <button class="deleteSchoolBtn" data-id="${school.school_id}" style="margin-left:5px;color:#fff;background:#f15a5a;border:none;border-radius:3px;padding:2px 8px;">Delete</button>
-                    `;
-                    div.appendChild(schoolDiv);
-                  });
-                  // Edit school
-                  div.querySelectorAll('.editSchoolBtn').forEach(btn => {
-                    btn.onclick = function() {
-                      const id = this.dataset.id;
-                      const schoolDiv = this.parentElement;
-                      const nameSpan = schoolDiv.querySelector('.school-name');
-                      const oldName = nameSpan.textContent;
-                      const input = document.createElement('input');
-                      input.type = 'text';
-                      input.value = oldName;
-                      input.style = 'width:60%;margin-right:5px;';
-                      nameSpan.replaceWith(input);
-                      this.style.display = 'none';
-                      const saveBtn = document.createElement('button');
-                      saveBtn.textContent = 'Save';
-                      saveBtn.style = 'margin-left:5px;background:#213B9A;color:#fff;border:none;border-radius:3px;padding:2px 8px;';
-                      schoolDiv.insertBefore(saveBtn, this.nextSibling);
-                      saveBtn.onclick = () => {
-                        fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                          body: `edit_school_id=${id}&edit_school_name=${encodeURIComponent(input.value)}`
-                        })
-                        .then(res => res.text())
-                        .then(msg => {
-                          if (msg.toLowerCase().includes('error')) {
-                            div.innerHTML = `<div style='color:red;'>${msg}</div>`;
-                          } else {
-                            div.innerHTML = `<div style='color:green;'>${msg}</div>`;
-                            setTimeout(() => { item.onclick(); }, 1000);
-                          }
-                        });
-                      };
-                    };
-                  });
-                  // Delete school
-                  div.querySelectorAll('.deleteSchoolBtn').forEach(btn => {
-                    btn.onclick = function() {
-                      if (!confirm('Are you sure you want to delete this school?')) return;
-                      const id = this.dataset.id;
-                      fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                        body: `delete_school_id=${id}`
-                      })
-                      .then(res => res.text())
-                      .then(msg => {
-                        if (msg.toLowerCase().includes('error')) {
-                          div.innerHTML = `<div style='color:red;'>${msg}</div>`;
-                        } else {
-                          div.innerHTML = `<div style='color:green;'>${msg}</div>`;
-                          setTimeout(() => { item.onclick(); }, 1000);
-                        }
-                      });
-                    };
-                  });
-                });
-              break;
-            case 'programs':
-              fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php?get_programs=1')
-                .then(res => res.json())
-                .then(data => {
-                  const div = document.getElementById('manageProgramsContent');
-                  div.innerHTML = '';
-                  if (!Array.isArray(data) || data.length === 0) {
-                    div.innerHTML = '<div style="color:red;">No programs found.</div>';
-                    return;
-                  }
-                  data.forEach(program => {
-                    const programDiv = document.createElement('div');
-                    programDiv.style.marginBottom = '10px';
-                    programDiv.innerHTML = `
-                      <span class="program-name" data-id="${program.program_id}">${program.program_name}</span>
-                      <button class="editProgramBtn" data-id="${program.program_id}" style="margin-left:10px;">Edit</button>
-                      <button class="deleteProgramBtn" data-id="${program.program_id}" style="margin-left:5px;color:#fff;background:#f15a5a;border:none;border-radius:3px;padding:2px 8px;">Delete</button>
-                    `;
-                    div.appendChild(programDiv);
-                  });
-                  // Edit program
-                  div.querySelectorAll('.editProgramBtn').forEach(btn => {
-                    btn.onclick = function() {
-                      const id = this.dataset.id;
-                      const programDiv = this.parentElement;
-                      const nameSpan = programDiv.querySelector('.program-name');
-                      const oldName = nameSpan.textContent;
-                      const input = document.createElement('input');
-                      input.type = 'text';
-                      input.value = oldName;
-                      input.style = 'width:60%;margin-right:5px;';
-                      nameSpan.replaceWith(input);
-                      this.style.display = 'none';
-                      const saveBtn = document.createElement('button');
-                      saveBtn.textContent = 'Save';
-                      saveBtn.style = 'margin-left:5px;background:#213B9A;color:#fff;border:none;border-radius:3px;padding:2px 8px;';
-                      programDiv.insertBefore(saveBtn, this.nextSibling);
-                      saveBtn.onclick = () => {
-                        fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                          body: `edit_program_id=${id}&edit_program_name=${encodeURIComponent(input.value)}`
-                        })
-                        .then(res => res.text())
-                        .then(msg => {
-                          if (msg.toLowerCase().includes('error')) {
-                            div.innerHTML = `<div style='color:red;'>${msg}</div>`;
-                          } else {
-                            div.innerHTML = `<div style='color:green;'>${msg}</div>`;
-                            setTimeout(() => { item.onclick(); }, 1000);
-                          }
-                        });
-                      };
-                    };
-                  });
-                  // Delete program
-                  div.querySelectorAll('.deleteProgramBtn').forEach(btn => {
-                    btn.onclick = function() {
-                      if (!confirm('Are you sure you want to delete this program?')) return;
-                      const id = this.dataset.id;
-                      fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                        body: `delete_program_id=${id}`
-                      })
-                      .then(res => res.text())
-                      .then(msg => {
-                        if (msg.toLowerCase().includes('error')) {
-                          div.innerHTML = `<div style='color:red;'>${msg}</div>`;
-                        } else {
-                          div.innerHTML = `<div style='color:green;'>${msg}</div>`;
-                          setTimeout(() => { item.onclick(); }, 1000);
-                        }
-                      });
-                    };
-                  });
-                });
-              break;
-            case 'companies':
-              fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php?get_companies=1')
-                .then(res => res.json())
-                .then(data => {
-                  const div = document.getElementById('manageCompaniesContent');
-                  div.innerHTML = '';
-                  if (!Array.isArray(data) || data.length === 0) {
-                    div.innerHTML = '<div style="color:red;">No companies found.</div>';
-                    return;
-                  }
-                  data.forEach(company => {
-                    const companyDiv = document.createElement('div');
-                    companyDiv.style.marginBottom = '10px';
-                    companyDiv.innerHTML = `
-                      <span class="company-name" data-id="${company.company_id}">${company.company_name}</span>
-                      <button class="editCompanyBtn" data-id="${company.company_id}" style="margin-left:10px;">Edit</button>
-                      <button class="deleteCompanyBtn" data-id="${company.company_id}" style="margin-left:5px;color:#fff;background:#f15a5a;border:none;border-radius:3px;padding:2px 8px;">Delete</button>
-                    `;
-                    div.appendChild(companyDiv);
-                  });
-                  // Edit company
-                  div.querySelectorAll('.editCompanyBtn').forEach(btn => {
-                    btn.onclick = function() {
-                      const id = this.dataset.id;
-                      const companyDiv = this.parentElement;
-                      const nameSpan = companyDiv.querySelector('.company-name');
-                      const oldName = nameSpan.textContent;
-                      const input = document.createElement('input');
-                      input.type = 'text';
-                      input.value = oldName;
-                      input.style = 'width:60%;margin-right:5px;';
-                      nameSpan.replaceWith(input);
-                      this.style.display = 'none';
-                      const saveBtn = document.createElement('button');
-                      saveBtn.textContent = 'Save';
-                      saveBtn.style = 'margin-left:5px;background:#213B9A;color:#fff;border:none;border-radius:3px;padding:2px 8px;';
-                      companyDiv.insertBefore(saveBtn, this.nextSibling);
-                      saveBtn.onclick = () => {
-                        fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                          body: `edit_company_id=${id}&edit_company_name=${encodeURIComponent(input.value)}`
-                        })
-                        .then(res => res.text())
-                        .then(msg => {
-                          if (msg.toLowerCase().includes('error')) {
-                            div.innerHTML = `<div style='color:red;'>${msg}</div>`;
-                          } else {
-                            div.innerHTML = `<div style='color:green;'>${msg}</div>`;
-                            setTimeout(() => { item.onclick(); }, 1000);
-                          }
-                        });
-                      };
-                    };
-                  });
-                  // Delete company
-                  div.querySelectorAll('.deleteCompanyBtn').forEach(btn => {
-                    btn.onclick = function() {
-                      if (!confirm('Are you sure you want to delete this company?')) return;
-                      const id = this.dataset.id;
-                      fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                        body: `delete_company_id=${id}`
-                      })
-                      .then(res => res.text())
-                      .then(msg => {
-                        if (msg.toLowerCase().includes('error')) {
-                          div.innerHTML = `<div style='color:red;'>${msg}</div>`;
-                        } else {
-                          div.innerHTML = `<div style='color:green;'>${msg}</div>`;
-                          setTimeout(() => { item.onclick(); }, 1000);
-                        }
-                      });
-                    };
-                  });
-                });
-              break;
-            case 'departments':
-              fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php?get_departments=1')
-                .then(res => res.json())
-                .then(data => {
-                  const div = document.getElementById('manageDepartmentsContent');
-                  div.innerHTML = '';
-                  if (!Array.isArray(data) || data.length === 0) {
-                    div.innerHTML = '<div style="color:red;">No departments found.</div>';
-                    return;
-                  }
-                  data.forEach(dept => {
-                    const deptDiv = document.createElement('div');
-                    deptDiv.style.marginBottom = '10px';
-                    deptDiv.innerHTML = `
-                      <span class="department-name" data-id="${dept.department_id}">${dept.department_name}</span>
-                      <button class="editDepartmentBtn" data-id="${dept.department_id}" style="margin-left:10px;">Edit</button>
-                      <button class="deleteDepartmentBtn" data-id="${dept.department_id}" style="margin-left:5px;color:#fff;background:#f15a5a;border:none;border-radius:3px;padding:2px 8px;">Delete</button>
-                    `;
-                    div.appendChild(deptDiv);
-                  });
-                  // Edit department
-                  div.querySelectorAll('.editDepartmentBtn').forEach(btn => {
-                    btn.onclick = function() {
-                      const id = this.dataset.id;
-                      const deptDiv = this.parentElement;
-                      const nameSpan = deptDiv.querySelector('.department-name');
-                      const oldName = nameSpan.textContent;
-                      const input = document.createElement('input');
-                      input.type = 'text';
-                      input.value = oldName;
-                      input.style = 'width:60%;margin-right:5px;';
-                      nameSpan.replaceWith(input);
-                      this.style.display = 'none';
-                      const saveBtn = document.createElement('button');
-                      saveBtn.textContent = 'Save';
-                      saveBtn.style = 'margin-left:5px;background:#213B9A;color:#fff;border:none;border-radius:3px;padding:2px 8px;';
-                      deptDiv.insertBefore(saveBtn, this.nextSibling);
-                      saveBtn.onclick = () => {
-                        fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                          body: `edit_department_id=${id}&edit_department_name=${encodeURIComponent(input.value)}`
-                        })
-                        .then(res => res.text())
-                        .then(msg => {
-                          if (msg.toLowerCase().includes('error')) {
-                            div.innerHTML = `<div style='color:red;'>${msg}</div>`;
-                          } else {
-                            div.innerHTML = `<div style='color:green;'>${msg}</div>`;
-                            setTimeout(() => { item.onclick(); }, 1000);
-                          }
-                        });
-                      };
-                    };
-                  });
-                  // Delete department
-                  div.querySelectorAll('.deleteDepartmentBtn').forEach(btn => {
-                    btn.onclick = function() {
-                      if (!confirm('Are you sure you want to delete this department?')) return;
-                      const id = this.dataset.id;
-                      fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                        body: `delete_department_id=${id}`
-                      })
-                      .then(res => res.text())
-                      .then(msg => {
-                        if (msg.toLowerCase().includes('error')) {
-                          div.innerHTML = `<div style='color:red;'>${msg}</div>`;
-                        } else {
-                          div.innerHTML = `<div style='color:green;'>${msg}</div>`;
-                          setTimeout(() => { item.onclick(); }, 1000);
-                        }
-                      });
-                    };
-                  });
-                });
-              break;
-          }
-        };
-      });
-      document.querySelectorAll('.closeManageModal').forEach(button => {
-        button.onclick = function() {
-          const modalId = `manageModal${this.dataset.manage.charAt(0).toUpperCase() + this.dataset.manage.slice(1)}`;
-          document.getElementById(modalId).style.display = 'none';
-        };
-      });
-      window.onclick = function(event) {
-        document.querySelectorAll('.modal').forEach(modal => {
-          if (event.target == modal) {
-            modal.style.display = 'none';
-          }
-        });
-      };
-
-      // --- Register User Role Dropdown Logic ---
-      roleSelect.addEventListener('change', function() {
-        schoolSelectContainer.innerHTML = '';
-        schoolSelectContainer.style.display = 'none';
-        programSelectContainer.innerHTML = '';
-        programSelectContainer.style.display = 'none';
-        schoolSelect = null;
-        programSelect = null;
-        if (this.value === 'Executive Director') {
-          fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php?get_schools=1')
-            .then(res => res.json())
-            .then(data => {
-              if (!Array.isArray(data) || data.length === 0) {
-                schoolSelectContainer.innerHTML = '<div style="color:red;">No schools found. Please add schools to the database.</div>';
-                schoolSelectContainer.style.display = '';
-                return;
-              }
-              schoolSelect = document.createElement('select');
-              schoolSelect.name = 'school_id';
-              schoolSelect.id = 'school_id';
-              schoolSelect.required = true;
-              schoolSelect.style = 'width:100%;padding:8px;margin-bottom:10px;';
-              data.forEach(school => {
-                const opt = document.createElement('option');
-                opt.value = school.school_id;
-                opt.textContent = school.school_name;
-                schoolSelect.appendChild(opt);
-              });
-              schoolSelectContainer.innerHTML = '';
-              schoolSelectContainer.appendChild(schoolSelect);
-              schoolSelectContainer.style.display = '';
-            });
-        }
-        if (this.value === 'Student Intern') {
-          fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php?get_programs=1')
-            .then(res => res.json())
-            .then(data => {
-              if (!Array.isArray(data) || data.length === 0) {
-                programSelectContainer.innerHTML = '<div style="color:red;">No programs found. Please add programs to the database.</div>';
-                programSelectContainer.style.display = '';
-                return;
-              }
-              programSelect = document.createElement('select');
-              programSelect.name = 'program_id';
-              programSelect.id = 'program_id';
-              programSelect.required = true;
-              programSelect.style = 'width:100%;padding:8px;margin-bottom:10px;';
-              data.forEach(program => {
-                const opt = document.createElement('option');
-                opt.value = program.program_id;
-                opt.textContent = program.program_name;
-                programSelect.appendChild(opt);
-              });
-              programSelectContainer.innerHTML = '';
-              programSelectContainer.appendChild(programSelect);
-              programSelectContainer.style.display = '';
-            });
-        }
-        if (this.value === 'Program Director') {
-          fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php?get_programs=1&pd_only=1')
-            .then(res => res.json())
-            .then(data => {
-              if (!Array.isArray(data) || data.length === 0) {
-                programSelectContainer.innerHTML = '<div style="color:red;">No available programs. All programs already have a Program Director.</div>';
-                programSelectContainer.style.display = '';
-                return;
-              }
-              programSelect = document.createElement('select');
-              programSelect.name = 'program_id';
-              programSelect.id = 'program_id';
-              programSelect.required = true;
-              programSelect.style = 'width:100%;padding:8px;margin-bottom:10px;';
-              data.forEach(program => {
-                const opt = document.createElement('option');
-                opt.value = program.program_id;
-                opt.textContent = program.program_name;
-                programSelect.appendChild(opt);
-              });
-              programSelectContainer.innerHTML = '';
-              programSelectContainer.appendChild(programSelect);
-              programSelectContainer.style.display = '';
-            });
-        }
-      });
-
-      // --- Register School: fetch and show existing schools ---
-      function fetchSchoolsList() {
-        fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php?get_schools=1')
-          .then(res => res.json())
-          .then(data => {
-            const ul = document.getElementById('schoolList');
-            ul.innerHTML = '';
-            if (!Array.isArray(data) || data.length === 0) {
-              ul.innerHTML = '<li style="color:red;">No schools found.</li>';
-              return;
             }
-            data.forEach(school => {
-              const li = document.createElement('li');
-              li.textContent = school.school_name;
-              ul.appendChild(li);
-            });
-          });
-      }
-      // --- Register Program: fetch and show schools in dropdown, and show existing programs ---
-      function fetchSchoolsForProgram() {
-        fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php?get_schools=1')
-          .then(res => res.json())
-          .then(data => {
-            const sel = document.getElementById('program_school_id');
-            sel.innerHTML = '';
-            if (!Array.isArray(data) || data.length === 0) {
-              sel.innerHTML = '<option value="">No schools found</option>';
-              return;
-            }
-            data.forEach(school => {
-              const opt = document.createElement('option');
-              opt.value = school.school_id;
-              opt.textContent = school.school_name;
-              sel.appendChild(opt);
-            });
-          });
-      }
-      function fetchProgramsList() {
-        fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php?get_programs=1')
-          .then(res => res.json())
-          .then(data => {
-            const ul = document.getElementById('programList');
-            ul.innerHTML = '';
-            if (!Array.isArray(data) || data.length === 0) {
-              ul.innerHTML = '<li style="color:red;">No programs found.</li>';
-              return;
-            }
-            data.forEach(program => {
-              const li = document.createElement('li');
-              li.textContent = program.program_name;
-              ul.appendChild(li);
-            });
-          });
-      }
-      // --- Register Company: fetch and show existing companies ---
-      function fetchCompaniesList() {
-        fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php?get_companies=1')
-          .then(res => res.json())
-          .then(data => {
-            const ul = document.getElementById('companyList');
-            ul.innerHTML = '';
-            if (!Array.isArray(data) || data.length === 0) {
-              ul.innerHTML = '<li style="color:red;">No companies found.</li>';
-              return;
-            }
-            data.forEach(company => {
-              const li = document.createElement('li');
-              li.textContent = company.company_name;
-              ul.appendChild(li);
-            });
-          });
-      }
-      // --- Register Department: fetch and show companies in dropdown, and show existing departments ---
-      function fetchCompaniesForDepartment() {
-        fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php?get_companies=1')
-          .then(res => res.json())
-          .then(data => {
-            const sel = document.getElementById('department_company_id');
-            sel.innerHTML = '';
-            if (!Array.isArray(data) || data.length === 0) {
-              sel.innerHTML = '<option value="">No companies found</option>';
-              return;
-            }
-            data.forEach(company => {
-              const opt = document.createElement('option');
-              opt.value = company.company_id;
-              opt.textContent = company.company_name;
-              sel.appendChild(opt);
-            });
-          });
-      }
-      function fetchDepartmentsList() {
-        fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php?get_departments=1')
-          .then(res => res.json())
-          .then(data => {
-            const ul = document.getElementById('departmentList');
-            ul.innerHTML = '';
-            if (!Array.isArray(data) || data.length === 0) {
-              ul.innerHTML = '<li style="color:red;">No departments found.</li>';
-              return;
-            }
-            data.forEach(dept => {
-              const li = document.createElement('li');
-              li.textContent = dept.department_name;
-              ul.appendChild(li);
-            });
-          });
-      }
-      // --- Register School form submit ---
-      document.getElementById('registerSchoolForm').onsubmit = function(e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-        fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php', {
-          method: 'POST', body: formData
-        })
-        .then(res => res.text())
-        .then(msg => {
-          document.getElementById('registerSchoolMsg').textContent = msg;
-          fetchSchoolsList();
-          this.reset();
         });
-      };
-      // --- Register Program form submit ---
-      document.getElementById('registerProgramForm').onsubmit = function(e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-        fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php', {
-          method: 'POST', body: formData
-        })
-        .then(res => res.text())
-        .then(msg => {
-          document.getElementById('registerProgramMsg').textContent = msg;
-          fetchProgramsList();
-          this.reset();
-          fetchSchoolsForProgram();
-        });
-      };
-      // --- Register Company form submit ---
-      document.getElementById('registerCompanyForm').onsubmit = function(e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-        fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php', {
-          method: 'POST', body: formData
-        })
-        .then(res => res.text())
-        .then(msg => {
-          document.getElementById('registerCompanyMsg').textContent = msg;
-          fetchCompaniesList();
-          this.reset();
-        });
-      };
-      // --- Register Department form submit ---
-      document.getElementById('registerDepartmentForm').onsubmit = function(e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-        fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php', {
-          method: 'POST', body: formData
-        })
-        .then(res => res.text())
-        .then(msg => {
-          document.getElementById('registerDepartmentMsg').textContent = msg;
-          fetchDepartmentsList();
-          this.reset();
-          fetchCompaniesForDepartment();
-        });
-      };
-      // --- Registration AJAX: Show success and do not close modal immediately ---
-      document.getElementById('registerForm').onsubmit = function(e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-        fetch('/Internship-Assessment-System/templates/schooluser/admin/register.php', {
-          method: 'POST',
-          body: formData
-        })
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById('registerMsg').textContent = data;
-          if (data.toLowerCase().includes('successful')) {
-            setTimeout(() => {
-              document.getElementById('registerModalUser').style.display = 'none';
-              document.getElementById('registerForm').reset();
-              document.getElementById('registerMsg').textContent = '';
-              schoolSelectContainer.innerHTML = '';
-              schoolSelectContainer.style.display = 'none';
-              programSelectContainer.innerHTML = '';
-              programSelectContainer.style.display = 'none';
-            }, 2000);
-          }
-        })
-        .catch((err) => {
-          document.getElementById('registerMsg').textContent = 'Registration failed. Please try again.';
-        });
-      };
-    });
-  </script>
-
-  <!-- Chart.js Bar Chart -->
-  <script>
-    const ctx = document.getElementById('loginChart');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['PD', 'IO', 'SI', 'EXD', 'IP'],
-        datasets: [{
-          label: 'INTERN1',AC
-          data: [25, 10, 50, 30, 60],
-          backgroundColor: '#f15a5a'
-        }, {
-          label: 'INTERN2',
-          data: [30, 15, 55, 35, 65],
-          backgroundColor: '#34c9ad'
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
-  </script>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const calendarEl = document.getElementById('calendar');
-    const eventTableBody = document.getElementById('event-table-body');
-    const modal = document.getElementById('setEventModal');
-    const openBtn = document.getElementById('openSetEvent');
-    const closeBtn = document.getElementById('closeSetEvent');
-    const eventForm = document.getElementById('eventForm');
-    const titleInput = document.getElementById('eventTitle');
-    const dateInput = document.getElementById('eventDate');
-
-    const openChangeBtn = document.getElementById('openChangeYear');
-    const closeChangeBtn = document.getElementById('closeChangeYear');
-    const changeYearModal = document.getElementById('changeYearModal');
-    const yearForm = document.getElementById('yearForm');
-    const startDateInput = document.getElementById('startDate');
-    const endDateInput = document.getElementById('endDate');
-    const yearHeader = document.querySelector('.calendar-section h2 strong');
-    const warning = document.getElementById('yearWarning');
-
-    let events = [];
-
-    // Load stored academic year
-    const storedStart = localStorage.getItem('startDate');
-    const storedEnd = localStorage.getItem('endDate');
-    if (storedStart && storedEnd) {
-      yearHeader.textContent = formatAcademicYear(storedStart, storedEnd);
-    }
-
-    // Initialize FullCalendar
-    const calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
-      height: 'auto',
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,listMonth'
-      },
-      events: events,
-    });
-
-    calendar.render();
-
-    // Set Event Modal
-    openBtn.addEventListener('click', () => {
-      modal.classList.remove('hidden');
-      titleInput.focus();
-    });
-
-    closeBtn.addEventListener('click', () => {
-      modal.classList.add('hidden');
-      eventForm.reset();
-    });
-
-    // Add Event
-    eventForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const title = titleInput.value.trim();
-      const date = dateInput.value;
-
-      if (title && date) {
-        const newEvent = { title, start: date, color: '#e2f5dc' };
-        events.push(newEvent);
-        calendar.addEvent(newEvent);
-        renderEventTable(events);
-        modal.classList.add('hidden');
-        eventForm.reset();
-      }
-    });
-
-    // Change Academic Year Modal
-    openChangeBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      changeYearModal.classList.remove('hidden');
-    });
-
-    closeChangeBtn.addEventListener('click', () => {
-      changeYearModal.classList.add('hidden');
-    });
-
-    yearForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const start = startDateInput.value;
-      const end = endDateInput.value;
-
-      const startYear = new Date(start).getFullYear();
-      const endYear = new Date(end).getFullYear();
-
-      if (startYear === endYear) {
-        warning.style.display = 'block';
-        return;
-      }
-
-      warning.style.display = 'none';
-      localStorage.setItem('startDate', start);
-      localStorage.setItem('endDate', end);
-      yearHeader.textContent = formatAcademicYear(start, end);
-      changeYearModal.classList.add('hidden');
-    });
-
-    function formatAcademicYear(start, end) {
-      const startYear = new Date(start).getFullYear();
-      const endYear = new Date(end).getFullYear();
-      return `${startYear}-${endYear}`;
-    }
-
-    // Render Event Table
-    function renderEventTable(events) {
-      eventTableBody.innerHTML = '';
-      const sorted = [...events].sort((a, b) => new Date(a.start) - new Date(b.start));
-      sorted.forEach(evt => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${new Date(evt.start).toLocaleDateString(undefined, { month: 'long', day: 'numeric' })}</td>
-          <td>${evt.title}</td>
-        `;
-        row.style.backgroundColor = evt.color || '#f9f9f9';
-        eventTableBody.appendChild(row);
-      });
-    }
-  });
-</script>
-
+    </script>
 </body>
 </html>
 
