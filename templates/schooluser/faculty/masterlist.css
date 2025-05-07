@@ -183,21 +183,15 @@ hr {
     background-color: #f1f1f1;
 }
 
-.table-wrapper {
-    width: 100%;
-    overflow-x: auto; /* SCROLL, BABY, SCROLLLLLL!! */
-}
-
-
-table {
+table.masterlist {
     border-collapse: collapse;
     border-radius: 8px;
     margin-bottom: 24px;
-    min-width: 600px; /* Prevent it from shrinking to microscopic hell */
     border-collapse: collapse;
     overflow: hidden;
-    table-layout: auto; /* LET THE COLUMNS SIZE NATURALLY, NYAAA!! */
-    width: max-content; /* GROW BABY, GROW!! OUTWARDS!! */
+    table-layout: fixed;
+    font-size: 14px;
+    width: 250px; /* Set a fixed width for the table */
 }
 
 tbody tr:nth-child(even) {
@@ -211,21 +205,31 @@ tbody tr:hover {
 th,
 td {
     position: relative;
-    padding: 12px;
+    padding: 8px 12px;
     text-align: left;
-    border: 1px solid #ccc;
-    word-wrap: break-word; /* for those long boi values */
+    /* border: 1px solid #ccc; */
+    /* word-wrap: break-word; */
+    white-space: nowrap; /* So it doesn't wrap like a coward */
     overflow: hidden;
-    text-overflow: ellipsis;
+    font-weight: normal;
+}
+
+.name-column {
+    overflow: hidden;        /* Chop the overflow like a guillotine */
+    white-space: nowrap;     /* NO WRAP!! NO MERCY!! */
+    text-overflow: ellipsis; /* DOTDOTDOT, YOU’RE DEAD!! */
+}
+
+.fit {
+    white-space: nowrap; /* So it doesn't wrap like a coward */
 }
 
 thead {
     position: sticky; /* Optional: makes headers STICK when scrolling */
     top: 0;
     z-index: 1;
-    background-color: #213b9a;
-    color: white;
-    font-weight: bold;
+    background-color: #213b9a; /* Light gray background for even rows */
+    color: #e4e6ed;
     padding: 8px;
 }
 
@@ -236,4 +240,47 @@ tfoot {
     font-size: 12px;
     text-align: right;
     padding: 14px 8px;
+}
+
+.masterlist-view {
+    display: flex;
+    gap: 10px;
+}
+
+.user-info {
+    flex-grow: 1;
+    overflow-x: auto;
+    white-space: nowrap; /* Prevent wrapping! force horizontal overflow */
+}
+
+.user-info-content {
+    display: inline-block; /* Makes it respect its own width */
+}
+
+h2 {
+    font-size: 12px;
+    color: gray;
+    margin-bottom: 10px;
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background-color: #000000;
+    margin: 15px 0;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.clickable-row {
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.clickable-row:hover {
+    background-color: #f0f0f0;
+}
+
+.clickable-row.active {
+    background-color: #9f9f9f;
 }

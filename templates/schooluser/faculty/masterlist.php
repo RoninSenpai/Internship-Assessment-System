@@ -74,7 +74,7 @@
     <link rel="stylesheet" href="masterlist.css" />
 </head>
 
-<body>
+<body class="content">
     <div class="box-shadow">
         <div class="content-card">
             <div class="cards">
