@@ -82,9 +82,8 @@
           <li>Industry Collaboration: We collaborate with top-tier companies to provide diverse and meaningful internship opportunities.</li>
           <li>User-Friendly Interface: Designed with simplicity and accessibility in mind, the IAS platform ensures a seamless experience for all users.</li>
           <li>Transparency: From application to assessment, every step is clear and trackable.</li>
-          <li>Efficiency: Automating administrative tasks allows more time for mentorship and skill-building.</li>
-          <li>Innovation: We utilize modern technologies to create a system that evolves with the needs of students and industries.</li>
-        </ul>
+
+        </ul> 
         <p>
           <strong>Who We Serve:</strong>
         </p>
