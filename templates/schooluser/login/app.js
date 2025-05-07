@@ -127,6 +127,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Refactor: openPrivacyPolicyModal logic
   function openPrivacyPolicyModal() {
+    if (sessionStorage.getItem('privacyPolicy')) {
+      openSignInModal(); // Open the sign-in modal
+      return;
+    }
+
     modal.style.display = 'flex';
     document.body.classList.add('modal-open');
     agreeCheckbox.disabled = true;
@@ -141,6 +146,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Enable Proceed Button when Checkbox is Checked
   agreeCheckbox.addEventListener('change', () => {
     proceedBtn.disabled = !agreeCheckbox.checked; // Enable/disable button
+
+    sessionStorage.setItem('privacyPolicy', true);
   });
 
   // Proceed to Sign In
@@ -541,8 +548,7 @@ document.addEventListener('DOMContentLoaded', () => {
           sessionStorage.setItem('otpEmailCooldownEnd', cooldownEnd);
           sessionStorage.setItem('lastOtpEmail', email);
           alert("OTP sent!");
-          unblockClicks();
-          renderOtpVerificationUI(modalContent, email);
+          renderOtpVerificationUI(email);
         }).catch(console.error);
       });
   
@@ -553,7 +559,7 @@ document.addEventListener('DOMContentLoaded', () => {
       };
     }
   
-    function renderOtpVerificationUI() {
+    function renderOtpVerificationUI(email) {
       modalContent.innerHTML = `
         <span class="sign-in-close-btn">&times;</span>
         <h1 class="modal-title">Verify OTP</h1>
@@ -607,6 +613,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (cooldownEnd && cooldownEnd > now) {
         activateEmailCooldownTimer(verifyBtn, cooldownEnd);
       }
+
+      unblockClicks();
   
       modalContent.querySelector('#otp-form').addEventListener('submit', (e) => {
         e.preventDefault();
@@ -626,7 +634,6 @@ document.addEventListener('DOMContentLoaded', () => {
             sessionStorage.removeItem('otpCooldownEnd');
             sessionStorage.removeItem('otpEmailCooldownEnd');
             activateEmailCooldownTimer(verifyBtn, null);
-            renderOtpVerificationUI();
             alert("OTP Verified!");
             
             fetch('signin.php', {
@@ -676,6 +683,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
           } else {
             unblockClicks();
+            
             verifyBtn.style.pointerEvents = 'auto';
             verifyBtn.style.backgroundColor = '#213B9A';
             errorMsg.textContent = 'Invalid OTP.';

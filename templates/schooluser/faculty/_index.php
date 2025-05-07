@@ -29,7 +29,7 @@
     
     <div class="container">
         <!-- Sidebar -->
-        <iframe src="../../../templates/_components/sidebar.html" class="sidebar" id="sidebarFrame"></iframe>
+        <iframe src="../../../templates/_components/sidebar.php" class="sidebar" id="sidebarFrame"></iframe>
 
         <script>
             const userRole = "faculty";

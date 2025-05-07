@@ -1,0 +1,239 @@
+.header {
+    background-color: #FFF3E2;
+    padding: 20px;
+    margin: 0;
+    height: 100vh;
+    /* Adjust to content height */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    /* Align child elements horizontally */
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    /* Make sure it takes full width */
+}
+
+.back button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: flex-start;
+    /* Align search bar to the right */
+    margin-bottom: 5px;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.search-bar button {
+    padding: 8px 15px;
+    background-color: #FF8C42;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.mainpanel {
+    display: flex;
+    flex-direction: row;
+    /* Align child elements horizontally */
+    align-items: stretch;
+    width: 100%;
+    /* Make sure it takes full width */
+}
+
+.sidepanel {
+    display: flex;
+    flex-direction: column;
+    /* Align child elements horizontally */
+    justify-content: flex-start;
+    align-items: stretch;
+    width: 25%;
+    /* Make sure it takes full width */
+}
+
+.list-panel {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    /* Align child elements horizontally */
+    justify-content: flex-start;
+    align-items: stretch;
+    width: 100%;
+    /* Make sure it takes full width */
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.custom-tree {
+    list-style: none;
+    padding-left: 5px;
+    font-family: sans-serif;
+    font-size: 16px;
+}
+
+.custom-tree summary {
+    cursor: pointer;
+    font-weight: bold;
+    list-style: none;
+}
+
+.custom-tree ul {
+    padding-left: 2em;
+}
+
+.information-panel {
+    background-color: #ffffff;
+    padding: 10;
+    /* width: 185vh; */
+    /* height: 100vh; */
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    align-items: stretch;
+    margin-left: 20px;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 3px 0;
+    font-size: 16px;
+    min-width: 100%;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.styled-table thead tr {
+    background-color: #ffaad4;
+    color: rgb(0, 0, 0);
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 10px 10px;
+    border: 1px solid #eee;
+}
+
+.styled-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.styled-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.information-data-panel-header {
+    font-size: 30px;
+    margin: 0 0 0 0px;
+}
+
+.information-data-professors {
+    font-size: 16px;
+    margin: 0 0 0 0px;
+}
+
+hr {
+    border: none;
+    height: 2px;
+    background-color: #ff69b4;
+    margin: 15px 0;
+}
+
+.cards {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 800px;
+}
+
+.card {
+    border: 1px solid #000000;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.card:hover {
+    color: #ff69b4;
+    background-color: #f1f1f1;
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto; /* SCROLL, BABY, SCROLLLLLL!! */
+}
+
+
+table {
+    border-collapse: collapse;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    min-width: 600px; /* Prevent it from shrinking to microscopic hell */
+    border-collapse: collapse;
+    overflow: hidden;
+    table-layout: auto; /* LET THE COLUMNS SIZE NATURALLY, NYAAA!! */
+    width: max-content; /* GROW BABY, GROW!! OUTWARDS!! */
+}
+
+tbody tr:nth-child(even) {
+    background-color: #e4e6ed; /* Light gray background for even rows */
+}
+
+tbody tr:hover {
+    background-color: #fbad415a; /* Light gray background when hovering */
+}
+
+th,
+td {
+    position: relative;
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ccc;
+    word-wrap: break-word; /* for those long boi values */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+thead {
+    position: sticky; /* Optional: makes headers STICK when scrolling */
+    top: 0;
+    z-index: 1;
+    background-color: #213b9a;
+    color: white;
+    font-weight: bold;
+    padding: 8px;
+}
+
+tfoot {
+    background-color: #213b9a;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: right;
+    padding: 14px 8px;
+}

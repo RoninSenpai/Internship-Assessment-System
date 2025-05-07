@@ -1323,3 +1323,178 @@ POST Data: Array
     [send_email] => 1
 )
 
+Request method: POST
+POST Data: Array
+(
+    [email] => riasadmin@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => riasadmin@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => riasadmin@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => riasadmin@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => riasadmin@apc.edu.ph
+    [send_email] => 1
+)
+
+Request method: POST
+POST Data: Array
+(
+    [email] => unicai@apc.edu.ph
+    [send_email] => 1
+)
+

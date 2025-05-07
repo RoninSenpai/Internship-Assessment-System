@@ -1,5 +1,28 @@
 {
   "dependencies": {
     "nodemailer": "^6.10.1"
-  }
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.1.5"
+  },
+  "scripts": {
+    "tw:init": "tailwindcss init -p"
+  },
+  "name": "rias",
+  "version": "1.0.0",
+  "description": "Rams Internship Assessment System",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RoninSenpai/Internship-Assessment-System.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RoninSenpai/Internship-Assessment-System/issues"
+  },
+  "homepage": "https://github.com/RoninSenpai/Internship-Assessment-System#readme"
 }
