@@ -37,7 +37,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="style_fac.css"/>
+    <link rel="stylesheet" href="home.css"/>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
@@ -192,147 +192,6 @@
                         <h4 class="text-lg font-bold">Mr. Sen S. Ei</h4>
                         <p class="text-sm text-gray-600">Internship Officer of the School of Management for the Academic Year 2024-2025</p>
                         <a href="#" class="text-blue-500">View Complete Profile</a>
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/static\css\components.css">
-    <link rel="stylesheet" href="home.css" />
-</head>
-
-<body class="content">
-    <h1 id="greeting">Good day, Mr. John Park!</h1>
-  
-    <p class="date">Wednesday, March 12, 2025</p>
-    <script src="/templates/_components/date.js"></script>
-
-    <div class="box-shadow">
-        <div class="content-card">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-2xl font-bold">03/12/2025</h2>
-                <p class="text-sm text-gray-600">You previously logged in on Saturday, March 09, 2025 at 01:59
-                    PM</p>
-            </div>
-
-            <div class="flex space-x-4">
-                <div class="user-card">
-                    <p class="text-lg font-bold">214</p>
-                    <p>Total Users</p>
-                </div>
-                <div class="user-card">
-                    <p class="text-lg font-bold">130</p>
-                    <p>Student Intern</p>
-                </div>
-                <div class="user-card">
-                    <p class="text-lg font-bold">1</p>
-                    <p>Internship Officer</p>
-                </div>
-                <div class="user-card">
-                    <p class="text-lg font-bold">36</p>
-                    <p>Program Director</p>
-                </div>
-                <div class="user-card">
-                    <p class="text-lg font-bold">5</p>
-                    <p>Executive Director</p>
-                </div>
-
-            </div>
-
-            <h3 class="text-xl font-bold mt-4">Internship Calendar Events for the Academic Year 2024-2025</h3>
-            <table class="calendar-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Event</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>September 1</td>
-                        <td>INTERNS' End</td>
-                    </tr>
-                    <tr>
-                        <td>August 30</td>
-                        <td>INTERNS' End</td>
-                    </tr>
-                    <tr>
-                        <td>December 16</td>
-                        <td>Internship Consultation</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="flex justify-between items-center mt-4">
-                <button class="btn">Set Event</button>
-                <button class="btn">Change Academic Year</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="box-shadow">
-        <div class="content-card">
-            <div class="grid grid-cols-3 gap-4 mt-6">
-                <!-- Intern1 Card -->
-                <div class="stats-card">
-                    <h3 class="text-lg font-bold">Intern1</h3>
-                    <div class="flex justify-between">
-                        <div class="text-center">
-                            <p class="text-2xl font-bold">10</p>
-                            <p class="text-gray-500">New</p>
-                        </div>
-                        <div class="text-center">
-                            <p class="text-2xl font-bold">13</p>
-                            <p class="text-gray-500">Active</p>
-                        </div>
-                        <div class="text-center">
-                            <p class="text-2xl font-bold">31</p>
-                            <p class="text-gray-500">Completed</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Progress Card -->
-                <div class="stats-card">
-                    <h3 class="text-lg font-bold">Progress</h3>
-                    <div class="flex justify-between">
-                        <div class="text-center">
-                            <p class="text-2xl font-bold">40</p>
-                            <p class="text-gray-500">New</p>
-                        </div>
-                        <div class="text-center">
-                            <p class="text-2xl font-bold">90</p>
-                            <p class="text-gray-500">Active</p>
-                        </div>
-                        <div class="text-center">
-                            <p class="text-2xl font-bold">20</p>
-                            <p class="text-gray-500">Completed</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Interns Chart Card -->
-                <div class="stats-card">
-                    <h3 class="text-lg font-bold">130 Interns</h3>
-                    <img src="https://www.ielts-mentor.com/images/writingsamples/ielts-pie-chart245-important-aspects-internship-students-have-learned.png"
-                        alt="Interns Tracking" class="w-full rounded" />
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="box-shadow">
-        <div class="content-card">
-            <div class="profile-card">
-                <img src="https://th.bing.com/th/id/OIP.fXLkbSOJEBn5W1jRnNQc6wAAAA?rs=1&pid=ImgDetMain" alt="Mr. Sen S. Ei"
-                    class="profile-img" />
-                <div>
-                    <h4 class="text-lg font-bold">Mr. Sen S. Ei</h4>
-                    <p class="text-sm text-gray-600">Internship Officer of the School of Management for the Academic
-                        Year 2024-2025</p>
-                    <a href="#" class="text-blue-500">View Complete Profile</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script>
 
@@ -544,17 +403,7 @@ function editEvent(index) {
         document.getElementById("eventModal").classList.add("hidden");
     }
 
-    window.onload = () => {
-        const stored = Object.keys(eventsByYear);
-        if (stored.length > 0) {
-            currentAcademicYear = stored[stored.length - 1];
-            const [start, end] = currentAcademicYear.split("-");
-            document.getElementById("academicYearLabel").textContent = `Internship Calendar for Academic Year ${start}-${end}`;
-            renderEvents();
-        } else {
-            openYearModal();
-        }
-    };
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

@@ -3,7 +3,7 @@
     $host = "localhost";
     $user = "root";
     $password = ""; // DEAD INSIDE
-    $database = "RIAS_db"; // Or your real DB name, dumdum
+    $database = "aeerr"; // Or your real DB name, dumdum
     $port = 3306;
 
     // APC
@@ -11,7 +11,7 @@
     // $user = 'mjkurumphang';
     // $password = 'SOETiny1!';
 
-    $mysqli = new mysqli($host, $user, $password, $database);
+    $mysqli = new mysqli($host, $user, $password, $database, 3306);
 
     // Connection check, because life is full of betrayals
     if ($mysqli->connect_error) {
@@ -19,7 +19,7 @@
     }
 
     // Optional: uncomment if you need a little pat on the back
-    // echo "😈 Connection to database successful, nyahahaha~!";
+    // echo "😈 Connection to database successful, nyahahaha~!";    
 
     // Set character set to utf8mb4
     $mysqli->set_charset("utf8mb4");
