@@ -1,5 +1,5 @@
 .header {
-    background-color: #FFF3E2;
+    background-color: #fff3e2;
     padding: 20px;
     margin: 0;
     height: 100vh;
@@ -41,7 +41,7 @@
 
 .search-bar button {
     padding: 8px 15px;
-    background-color: #FF8C42;
+    background-color: #ff8c42;
     color: white;
     border: none;
     border-radius: 5px;
@@ -183,7 +183,7 @@ hr {
     background-color: #f1f1f1;
 }
 
-table.masterlist {
+table {
     border-collapse: collapse;
     border-radius: 8px;
     margin-bottom: 24px;
@@ -191,6 +191,9 @@ table.masterlist {
     overflow: hidden;
     table-layout: fixed;
     font-size: 14px;
+}
+
+table.masterlist {
     width: 250px; /* Set a fixed width for the table */
 }
 
@@ -215,8 +218,8 @@ td {
 }
 
 .name-column {
-    overflow: hidden;        /* Chop the overflow like a guillotine */
-    white-space: nowrap;     /* NO WRAP!! NO MERCY!! */
+    overflow: hidden; /* Chop the overflow like a guillotine */
+    white-space: nowrap; /* NO WRAP!! NO MERCY!! */
     text-overflow: ellipsis; /* DOTDOTDOT, YOU’RE DEAD!! */
 }
 
@@ -283,4 +286,94 @@ hr {
 
 .clickable-row.active {
     background-color: #9f9f9f;
+}
+
+.inputSort {
+    width: 100%;
+    max-width: 768px;
+    min-height: 50px;
+    resize: none;
+    overflow: hidden;
+    padding: 10px;
+    font-size: 16px;
+    line-height: 1.4;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px #aaa;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.inputSort:focus {
+    border-color: #ff69b4;
+    box-shadow: 0 0 10px #ff69b4aa;
+    outline: none;
+}
+
+.btnSort {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(135deg, #ff69b4, #ff1493);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btnSort:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.6);
+}
+
+.btnSort:active {
+    transform: scale(0.95);
+    box-shadow: 0 3px 10px rgba(255, 20, 147, 0.8);
+}
+
+details {
+    margin: 10px 0;
+    font-family: Arial, sans-serif;
+}
+
+summary input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.checkbox-container {
+    padding-left: 20px;
+}
+
+.checkbox-container label {
+    margin-left: 20px;
+}
+
+.sort-icon {
+    font-size: 0.8em;
+    margin-left: 4px;
+    /* visibility: hidden; */
+}
+
+th.sorted .sort-icon {
+    visibility: visible;
+}
+
+.selected-row {
+    background-color: #fbaf41 !important;
+    transition: background-color 0.3s ease;
+}
+
+tbody tr.selected-row {
+    background-color: #ffffcc; /* your pale yellow */
+}
+
+.sortable {
+    cursor: pointer;
+    user-select: none;
+}
+
+.sort-icon {
+    margin-left: 5px;
+    font-size: 0.8em;
 }
