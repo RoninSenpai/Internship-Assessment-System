@@ -5,22 +5,42 @@
     $token = $_SESSION['user_id'] ?? '';
 
     $query = "
-        SELECT
-            COUNT(*) AS total_users,
-            SUM(user_role = 'Industry Supervisor') AS total_industry_supervisors,
-            SUM(user_role = 'Executive Director') AS total_executive_directors,
-            SUM(user_role = 'Program Director') AS total_program_directors,
-            SUM(user_role = 'Student Intern') AS total_student_interns,
-            SUM(user_role = 'Admin') AS total_admins,
+    SELECT
+    COUNT(*) AS total_users,
+    SUM(u.user_role = 'Industry Supervisor') AS total_industry_supervisors,
+    SUM(u.user_role = 'Executive Director')   AS total_executive_directors,
+    SUM(u.user_role = 'Program Director')     AS total_program_directors,
+    SUM(u.user_role = 'Student Intern')       AS total_student_interns,
+    SUM(
+        CASE
+        WHEN u.user_role = 'Student Intern'
+        AND ip.internship_year = 'INTERN1'
+        THEN 1
+        ELSE 0
+        END
+    ) AS total_student_intern1,
+    SUM(
+        CASE
+        WHEN u.user_role = 'Student Intern'
+        AND ip.internship_year = 'INTERN2'
+        THEN 1
+        ELSE 0
+        END
+    ) AS total_student_intern2,
+    SUM(u.user_role = 'Admin') AS total_admins,
 
-            SUM(user_is_archived = 1) AS total_archived_users,
-            SUM(user_is_archived = 1 AND user_role = 'Industry Supervisor') AS archived_industry_supervisors,
-            SUM(user_is_archived = 1 AND user_role = 'Executive Director') AS archived_executive_directors,
-            SUM(user_is_archived = 1 AND user_role = 'Program Director') AS archived_program_directors,
-            SUM(user_is_archived = 1 AND user_role = 'Student Intern') AS archived_student_interns,
-            SUM(user_is_archived = 1 AND user_role = 'Admin') AS archived_admins
-        FROM users;
-    ";
+    /* Archived users */
+    SUM(u.user_is_archived = 1)                                      AS total_archived_users,
+    SUM(u.user_is_archived = 1 AND u.user_role = 'Industry Supervisor') AS archived_industry_supervisors,
+    SUM(u.user_is_archived = 1 AND u.user_role = 'Executive Director')   AS archived_executive_directors,
+    SUM(u.user_is_archived = 1 AND u.user_role = 'Program Director')     AS archived_program_directors,
+    SUM(u.user_is_archived = 1 AND u.user_role = 'Student Intern')       AS archived_student_interns,
+    SUM(u.user_is_archived = 1 AND u.user_role = 'Admin')               AS archived_admins
+    FROM users u
+    LEFT JOIN school_users su ON u.user_id = su.user_id
+    LEFT JOIN interns       it ON su.schooluser_id = it.schooluser_id
+    LEFT JOIN internships   ip ON it.intern_id = ip.intern_id;
+    ;";
 
     $stmt = $mysqli->prepare($query);
     $stmt->execute();
@@ -79,17 +99,21 @@
         <div class="content-card">
             <div class="cards">
                 <div class="card" onclick="changeIframe('../../../templates/schooluser/faculty/masterlist_users.php?token=<?php echo urlencode($token); ?>')">
-                    <h3>Users</h3>
-                    <p>Total Student Interns: <?php echo $stats['total_student_interns']; echo " (" . $stats['archived_student_interns']; ?> archived)</p>
-                    <p>Total Industry Partners: <?php echo $stats['total_industry_supervisors']; echo " (" . $stats['archived_industry_supervisors']; ?> archived)</p>
+                    <h3>Students</h3>
+                    <p>Total Student Interns: <?php echo $stats['total_student_interns'];?></p>
+                    <p>INTERN1: <?php echo $stats['total_student_intern1'];?></p>
+                    <p>INTERN2: <?php echo $stats['total_student_intern2'];?></p>
                 </div>
                 <div class="card">
                     <h3>Schools</h3>
-                    <p><?php echo $stats['total_schools']; ?></p>
+                    <p>Schools: <?php echo $stats['total_schools']; ?></p>
+                    <p>Executive Directors: <?php echo $stats['total_executive_directors'];?></p>
+                    <p>Program Directors: <?php echo $stats['total_program_directors'];?></p>
                 </div>
                 <div class="card">
                     <h3>Companies</h3>
-                    <p><?php echo $stats['total_companies']; echo " (" . $stats['pending_companies']; ?> inactive)</p>
+                    <p>Total Industry Supervisors: <?php echo $stats['total_industry_supervisors']; echo " (" . $stats['archived_industry_supervisors']; ?> archived)</p>
+                    <p>Total Companies: <?php echo $stats['total_companies']; echo " (" . $stats['pending_companies']; ?> inactive)</p>
                 </div>
             </div>
         </div>

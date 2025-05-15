@@ -1,5 +1,5 @@
 .header {
-    background-color: #FFF3E2;
+    background-color: #fff3e2;
     padding: 20px;
     margin: 0;
     height: 100vh;
@@ -41,7 +41,7 @@
 
 .search-bar button {
     padding: 8px 15px;
-    background-color: #FF8C42;
+    background-color: #ff8c42;
     color: white;
     border: none;
     border-radius: 5px;
@@ -183,7 +183,7 @@ hr {
     background-color: #f1f1f1;
 }
 
-table.masterlist {
+table {
     border-collapse: collapse;
     border-radius: 8px;
     margin-bottom: 24px;
@@ -191,6 +191,9 @@ table.masterlist {
     overflow: hidden;
     table-layout: fixed;
     font-size: 14px;
+}
+
+table.masterlist {
     width: 250px; /* Set a fixed width for the table */
 }
 
@@ -215,8 +218,8 @@ td {
 }
 
 .name-column {
-    overflow: hidden;        /* Chop the overflow like a guillotine */
-    white-space: nowrap;     /* NO WRAP!! NO MERCY!! */
+    overflow: hidden; /* Chop the overflow like a guillotine */
+    white-space: nowrap; /* NO WRAP!! NO MERCY!! */
     text-overflow: ellipsis; /* DOTDOTDOT, YOU’RE DEAD!! */
 }
 
@@ -283,4 +286,341 @@ hr {
 
 .clickable-row.active {
     background-color: #9f9f9f;
+}
+
+.inputSort {
+    width: 100%;
+    max-width: 768px;
+    min-height: 50px;
+    resize: none;
+    overflow: hidden;
+    padding: 10px;
+    font-size: 16px;
+    line-height: 1.4;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px #aaa;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.inputSort:focus {
+    border-color: #ff69b4;
+    box-shadow: 0 0 10px #ff69b4aa;
+    outline: none;
+}
+
+.btnSort {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(135deg, #ff69b4, #ff1493);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btnSort:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.6);
+}
+
+.btnSort:active {
+    transform: scale(0.95);
+    box-shadow: 0 3px 10px rgba(255, 20, 147, 0.8);
+}
+
+details {
+    margin: 10px 0;
+    font-family: Arial, sans-serif;
+}
+
+summary input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.checkbox-container {
+    padding-left: 20px;
+}
+
+.checkbox-container label {
+    margin-left: 20px;
+}
+
+.sort-icon {
+    font-size: 0.8em;
+    margin-left: 4px;
+    /* visibility: hidden; */
+}
+
+th.sorted .sort-icon {
+    visibility: visible;
+}
+
+.selected-row {
+    background-color: #fbaf41 !important;
+    transition: background-color 0.3s ease;
+}
+
+tbody tr.selected-row {
+    background-color: #fbaf41 !important;
+}
+
+.sortable {
+    cursor: pointer;
+    user-select: none;
+}
+
+.sort-icon {
+    margin-left: 5px;
+    font-size: 0.8em;
+}
+
+.edit-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.edit-buttons button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, filter 0.3s ease;
+    position: relative;
+}
+
+/* 🎨 Color-coding each button */
+.edit-buttons button:nth-child(1) {
+    background-color: #28a745;
+}
+.edit-buttons button:nth-child(2) {
+    background-color: #007bff;
+}
+.edit-buttons button:nth-child(3) {
+    background-color: #6f42c1;
+}
+.edit-buttons button:nth-child(4) {
+    background-color: #fbaf41;
+}
+
+/* 🔥 Hover flair for enabled buttons */
+.edit-buttons button:hover:enabled {
+    filter: brightness(1.2);
+}
+
+/* 😵 DISABLED state */
+.edit-buttons button:disabled {
+    background-color: #666 !important; /* Sad grey... like your chances at life */
+    cursor: default;
+    opacity: 0.8;
+}
+
+/* 🧠 TOOLTIP on hover when disabled */
+.edit-buttons button:disabled::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: -30px;
+    right: 50%;
+    transform: translateX(50%);
+    background-color: #333;
+    color: #fff;
+    padding: 4px 8px;
+    font-size: 12px;
+    white-space: nowrap;
+    border-radius: 4px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 999;
+}
+
+.edit-buttons button:disabled:hover::after {
+    opacity: 1;
+}
+
+/* ⚰️ Dark overlay behind the pane */
+#floating-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(20, 20, 20, 0.7); /* Abyssal black */
+    z-index: 9998;
+    display: none;
+}
+
+/* 🔮 The floating pane now centers itself */
+.floating-pane {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    max-height: 80vh;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    /* overflow-y: auto; */
+    z-index: 9999;
+    display: none;
+}
+
+.floating-pane-content {
+    position: relative;
+}
+
+.floating-pane h2 {
+    margin-top: 0;
+}
+
+.info-group {
+    margin-bottom: 10px;
+}
+
+.close-pane {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: crimson;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.difference-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+.difference-table th,
+.difference-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+.difference-table th {
+    background-color: #f4f4f4;
+}
+
+.batchmates-table .view-user-btn {
+    padding: 6px 12px;
+    background-color: #3498db; /* Sexy sky blue */
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.batchmates-table .view-user-btn:hover {
+    background-color: #2980b9; /* Slightly darker blue */
+    transform: scale(1.05);
+}
+
+.batchmates-table .view-user-btn:active {
+    background-color: #1c5980;
+    transform: scale(0.95);
+}
+
+.batch-button {
+    padding: 4px 8px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.85em;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.batch-button:hover {
+    background-color: #27ae60;
+    transform: scale(1.05);
+}
+
+.batch-button:active {
+    background-color: #1e8449;
+    transform: scale(0.95);
+}
+
+.edit-button,
+.cancel-button,
+.update-button,
+.archive-button {
+    padding: 6px 12px;
+    margin: 8px 5px 0 0;
+    font-size: 0.9em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.archive-button {
+    background-color: #dc3545;
+    color: white;
+}
+.archive-button:hover {
+    background-color: #ae2936;
+}
+
+.edit-button {
+    background-color: #3498db;
+    color: white;
+}
+.edit-button:hover {
+    background-color: #2980b9;
+}
+
+.cancel-button {
+    background-color: #e74c3c;
+    color: white;
+}
+.cancel-button:hover {
+    background-color: #c0392b;
+}
+
+.update-button {
+    background-color: #27ae60;
+    color: white;
+}
+.update-button:hover {
+    background-color: #1e8449;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 6px;
+    margin: 4px 0 10px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+@keyframes blink {
+    0%,
+    100% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(2);
+    }
+}
+
+.blink {
+    animation: blink 0.1s ease-in-out 2;
 }

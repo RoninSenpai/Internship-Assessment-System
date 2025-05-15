@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 01, 2025 at 05:46 PM
+-- Generation Time: May 15, 2025 at 04:54 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 
 --
 -- Database: `rias_db`
-
-...php?token=placeholder_token_supervisor_1
 --
 
 -- --------------------------------------------------------
@@ -317,19 +315,20 @@ CREATE TABLE `internships` (
   `internship_year` varchar(10) NOT NULL,
   `internship_date_started` date NOT NULL,
   `internship_date_ended` date NOT NULL,
-  `internship_job_role` varchar(255) NOT NULL
+  `internship_job_role` varchar(255) NOT NULL,
+  `batch` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `internships`
 --
 
-INSERT INTO `internships` (`internship_id`, `intern_id`, `supervisor_id`, `schooluser_id`, `internship_year`, `internship_date_started`, `internship_date_ended`, `internship_job_role`) VALUES
-(2, 1, 1, 32, 'INTERN1', '2025-06-01', '2025-12-01', 'Intern - Development'),
-(3, 2, 2, 32, 'INTERN1', '2025-06-01', '2025-12-01', 'Intern - Marketing'),
-(4, 3, 1, 32, 'INTERN1', '2025-06-01', '2025-12-01', 'Intern - Design'),
-(5, 4, 2, 32, 'INTERN2', '2025-06-01', '2025-12-01', 'Intern - HR'),
-(6, 5, 1, 32, 'INTERN2', '2025-06-01', '2025-12-01', 'Intern - Finance');
+INSERT INTO `internships` (`internship_id`, `intern_id`, `supervisor_id`, `schooluser_id`, `internship_year`, `internship_date_started`, `internship_date_ended`, `internship_job_role`, `batch`) VALUES
+(2, 1, 1, 32, 'INTERN1', '2025-06-01', '2025-12-01', 'Intern - Development', 1),
+(3, 2, 2, 32, 'INTERN1', '2025-06-01', '2025-12-01', 'Intern - Marketing', 1),
+(4, 3, 1, 32, 'INTERN1', '2025-06-01', '2025-12-01', 'Intern - Design', 1),
+(5, 4, 2, 32, 'INTERN2', '2025-06-01', '2025-12-01', 'Intern - HR', 1),
+(6, 5, 1, 32, 'INTERN2', '2025-06-01', '2025-12-01', 'Intern - Finance', 1);
 
 -- --------------------------------------------------------
 
@@ -431,7 +430,32 @@ INSERT INTO `otps` (`otp_id`, `schooluser_id`, `otp_code`, `otp_date_created`, `
 (90, 33, '133052', '2025-05-01 16:34:41', '2025-05-01 16:44:41', 1),
 (91, 33, '414694', '2025-05-01 16:36:30', '2025-05-01 16:46:30', 0),
 (92, 33, '843796', '2025-05-01 22:43:10', '2025-05-01 22:53:10', 1),
-(93, 27, '419736', '2025-05-01 23:36:34', '2025-05-01 23:46:34', 0);
+(93, 27, '419736', '2025-05-01 23:36:34', '2025-05-01 23:46:34', 0),
+(94, 33, '299419', '2025-05-02 22:13:32', '2025-05-02 22:23:32', 1),
+(95, 32, '381054', '2025-05-02 22:15:03', '2025-05-02 22:25:03', 1),
+(96, 32, '303274', '2025-05-04 08:59:59', '2025-05-04 09:09:59', 0),
+(97, 32, '446218', '2025-05-04 09:02:54', '2025-05-04 09:12:54', 1),
+(98, 32, '864303', '2025-05-04 09:03:57', '2025-05-04 09:13:57', 0),
+(99, 32, '261056', '2025-05-04 09:04:56', '2025-05-04 09:14:56', 1),
+(100, 32, '325564', '2025-05-05 20:19:35', '2025-05-05 20:29:35', 1),
+(101, 32, '429021', '2025-05-05 20:20:47', '2025-05-05 20:30:47', 1),
+(102, 32, '893193', '2025-05-05 20:22:44', '2025-05-05 20:32:44', 1),
+(103, 32, '307358', '2025-05-05 20:24:09', '2025-05-05 20:34:09', 0),
+(104, 32, '524785', '2025-05-07 09:51:50', '2025-05-07 10:01:50', 1),
+(105, 32, '359849', '2025-05-07 09:56:05', '2025-05-07 10:06:05', 0),
+(106, 32, '373463', '2025-05-07 09:59:31', '2025-05-07 10:09:31', 1),
+(107, 33, '328632', '2025-05-07 10:00:06', '2025-05-07 10:10:06', 1),
+(108, 32, '225332', '2025-05-07 10:00:49', '2025-05-07 10:10:49', 0),
+(109, 32, '683038', '2025-05-07 10:08:31', '2025-05-07 10:18:31', 1),
+(110, 33, '938325', '2025-05-07 10:09:23', '2025-05-07 10:19:23', 1),
+(111, 32, '596029', '2025-05-07 10:10:59', '2025-05-07 10:20:59', 1),
+(112, 32, '182259', '2025-05-07 10:11:37', '2025-05-07 10:21:37', 1),
+(113, 33, '182453', '2025-05-07 10:12:35', '2025-05-07 10:22:35', 1),
+(114, 32, '131986', '2025-05-07 10:13:45', '2025-05-07 10:23:45', 1),
+(115, 32, '169950', '2025-05-07 10:15:02', '2025-05-07 10:25:02', 0),
+(116, 32, '340627', '2025-05-07 10:16:46', '2025-05-07 10:26:46', 1),
+(117, 33, '664765', '2025-05-07 10:17:12', '2025-05-07 10:27:12', 1),
+(118, 32, '599007', '2025-05-07 10:24:08', '2025-05-07 10:34:08', 1);
 
 -- --------------------------------------------------------
 
@@ -478,7 +502,11 @@ INSERT INTO `passwordresets` (`passreset_id`, `schooluser_id`, `passreset_token`
 (23, 33, 'bebfb6ce208099a801e2bf50f0be1a0c', '2025-05-01 23:21:15', '2025-05-01 23:31:15', 0),
 (24, 33, 'e0f7740f3cdd624daa036230ab77187e', '2025-05-01 23:25:28', '2025-05-01 23:30:28', 0),
 (25, 33, 'a4af56d247ce263bd5cac0fa85426371', '2025-05-01 23:27:53', '2025-05-01 23:32:53', 0),
-(26, 33, '58fb709609c0b3819590e9a8f15faa3d', '2025-05-01 23:33:34', '2025-05-01 23:38:34', 0);
+(26, 33, '58fb709609c0b3819590e9a8f15faa3d', '2025-05-01 23:33:34', '2025-05-01 23:38:34', 0),
+(27, 27, '55ee47ef0c18fb4aedac5482bcd9fbe9', '2025-05-02 20:14:20', '2025-05-02 20:19:20', 0),
+(28, 27, '8e0cd3285439f5b2ff9f0f9a2bd8f0b5', '2025-05-02 20:17:45', '2025-05-02 20:22:45', 0),
+(29, 27, 'c98cd18a7c73c10012c8d48a7e4b7805', '2025-05-02 20:23:29', '2025-05-02 20:28:29', 0),
+(30, 27, '97b24d27170619259147713beb99a32e', '2025-05-02 20:28:43', '2025-05-02 20:33:43', 0);
 
 -- --------------------------------------------------------
 
@@ -550,19 +578,20 @@ INSERT INTO `program_directors` (`programdirector_id`, `schooluser_id`, `program
 
 CREATE TABLE `schools` (
   `school_id` int(11) NOT NULL,
-  `school_name` varchar(50) NOT NULL
+  `school_name` varchar(50) NOT NULL,
+  `school_acr` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `schools`
 --
 
-INSERT INTO `schools` (`school_id`, `school_name`) VALUES
-(1, 'School of Architecture'),
-(2, 'School of Computing and Information Technologies'),
-(3, 'School of Engineering'),
-(4, 'School of Management'),
-(5, 'School of Multimedia and Arts');
+INSERT INTO `schools` (`school_id`, `school_name`, `school_acr`) VALUES
+(1, 'School of Architecture', 'SOA'),
+(2, 'School of Computing and Information Technologies', 'SOCIT'),
+(3, 'School of Engineering', 'SOE'),
+(4, 'School of Management', 'SOM'),
+(5, 'School of Multimedia and Arts', 'SOMA');
 
 -- --------------------------------------------------------
 
@@ -975,13 +1004,13 @@ ALTER TABLE `internship_grades`
 -- AUTO_INCREMENT for table `otps`
 --
 ALTER TABLE `otps`
-  MODIFY `otp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
+  MODIFY `otp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
 
 --
 -- AUTO_INCREMENT for table `passwordresets`
 --
 ALTER TABLE `passwordresets`
-  MODIFY `passreset_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `passreset_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `programs`
