@@ -46,7 +46,7 @@
             $data['departments'][] = $row;
         }
 
-        // SUPERVISORS (fixed)
+        // SUPERVISORS
         $supQuery = "
             SELECT 
                 s.supervisor_id,
@@ -107,28 +107,33 @@
         $internshipEnd = $_POST["internship_end"];
         $schoolId = $_POST["school"];
         $programId = $_POST["program"];
-        $companyId = $_POST["company"]; // still unused
-        $departmentId = $_POST["department"]; // still unused
+        $companyId = $_POST["company"];
+        $departmentId = $_POST["department"];
         $supervisorId = $_POST["supervisor"];
         $jobRole = $_POST["job_role"];
-        $defaultPassword = password_hash("intern123", PASSWORD_DEFAULT); // set default pw if needed
-        $schoolGivenId = uniqid("stu_"); // generate dummy ID for now
-    
+        $defaultPassword = password_hash("intern123", PASSWORD_DEFAULT);
+        $schoolGivenId = uniqid("stu_");
+
         $mysqli->begin_transaction();
-    
+
         try {
-            // 1. Insert into users
+            // 1. Insert into users (NO user_role here!)
             $stmt = $mysqli->prepare("INSERT INTO users (
                 user_first_name, 
                 user_last_name, 
                 user_email, 
-                user_role, 
                 user_is_archived
-            ) VALUES (?, ?, ?, 'intern', 0)");
+            ) VALUES (?, ?, ?, 0)");
             $stmt->bind_param("sss", $firstName, $lastName, $email);
             $stmt->execute();
             $userId = $stmt->insert_id;
-    
+
+            // 1.5. Insert role into user_roles
+            $roleName = 'Student Intern';
+            $stmtRole = $mysqli->prepare("INSERT INTO user_roles (user_id, role_name) VALUES (?, ?)");
+            $stmtRole->bind_param("is", $userId, $roleName);
+            $stmtRole->execute();
+
             // 2. Insert into school_users
             $stmt2 = $mysqli->prepare("INSERT INTO school_users (
                 user_id, 
@@ -138,7 +143,7 @@
             $stmt2->bind_param("iss", $userId, $schoolGivenId, $defaultPassword);
             $stmt2->execute();
             $schooluserId = $stmt2->insert_id;
-    
+
             // 3. Insert into interns
             $stmt3 = $mysqli->prepare("INSERT INTO interns (
                 schooluser_id, 
@@ -153,7 +158,9 @@
             $stmt3->bind_param("iissssss", $schooluserId, $programId, $birthdate, $gender, $city, $province, $postal, $country);
             $stmt3->execute();
             $internId = $stmt3->insert_id;
-    
+
+            $internshipYear = "INTERN1";
+
             // 4. Insert into internships
             $stmt4 = $mysqli->prepare("INSERT INTO internships (
                 intern_id,
@@ -165,19 +172,22 @@
                 internship_job_role,
                 batch
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt4->bind_param("iiisssss", $internId, $supervisorId, $schooluserId, $batch, $internshipStart, $internshipEnd, $jobRole, $batch);
+            $stmt4->bind_param("iiisssss", $internId, $supervisorId, $schooluserId, $internshipYear, $internshipStart, $internshipEnd, $jobRole, $batch);
             $stmt4->execute();
-    
+
             $mysqli->commit();
+
+            require_once 'PATH/TO/send_newuser_email.php';
+            sendPasswordSetupEmail($email, $schooluserId, $_SERVER['SERVER_ADDR']);
+
             echo json_encode(["success" => true]);
         } catch (Exception $e) {
             $mysqli->rollback();
             echo json_encode(["success" => false, "message" => $e->getMessage()]);
         }
-    
+
         exit;
     }
-        
+
     echo json_encode(["error" => "Invalid request"]);
 ?>
-        

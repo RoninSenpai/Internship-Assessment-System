@@ -914,7 +914,7 @@ function showAddUserForm() {
                         </label><br><br>
 
                         <label for="add-gender"><strong>Gender:</strong><br>
-                            <select id="add-gender" name="gender">
+                            <select id="add-gender" name="gender" required>
                                 <option value="">-- Select Gender --</option>
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
@@ -951,7 +951,7 @@ function showAddUserForm() {
                         </label><br><br>
 
                         <label for="add-school"><strong>School:</strong><br>
-                            <select id="add-school" name="school">
+                            <select id="add-school" name="school" required>
                                 <option value="">-- Select School --</option>
                             </select>
                         </label><br><br>
@@ -965,7 +965,7 @@ function showAddUserForm() {
                         </div>
 
                         <label for="add-company"><strong>Company:</strong><br>
-                            <select id="add-company" name="company">
+                            <select id="add-company" name="company" required>
                                 <option value="">-- Select Company --</option>
                                 <!-- Options filled dynamically -->
                             </select>
@@ -1211,6 +1211,7 @@ function handleAddUserFormSubmit(e) {
             if (data.success) {
                 alert("User added successfully! 💥");
                 togglePane(false); // or reload something if needed
+                updateTable();
             } else {
                 alert(
                     "Failed to add user: " + (data.message || "Unknown error")
