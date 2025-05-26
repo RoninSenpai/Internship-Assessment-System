@@ -1,9 +1,9 @@
 <?php    
-    $ipaddress = '192.168.0.2';
+    $ipaddress = 'localhost';
     $host = "localhost";
     $user = "root";
     $password = ""; // DEAD INSIDE
-    $database = "aeerr"; // Or your real DB name, dumdum
+    $database = "rias_db"; // Or your real DB name, dumdum
     $port = 3306;
 
     // APC

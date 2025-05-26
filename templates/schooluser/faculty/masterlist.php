@@ -4,43 +4,46 @@
 
     $token = $_SESSION['user_id'] ?? '';
 
+    // Updated stats query using user_roles
     $query = "
     SELECT
-    COUNT(*) AS total_users,
-    SUM(u.user_role = 'Industry Supervisor') AS total_industry_supervisors,
-    SUM(u.user_role = 'Executive Director')   AS total_executive_directors,
-    SUM(u.user_role = 'Program Director')     AS total_program_directors,
-    SUM(u.user_role = 'Student Intern')       AS total_student_interns,
-    SUM(
-        CASE
-        WHEN u.user_role = 'Student Intern'
-        AND ip.internship_year = 'INTERN1'
-        THEN 1
-        ELSE 0
-        END
-    ) AS total_student_intern1,
-    SUM(
-        CASE
-        WHEN u.user_role = 'Student Intern'
-        AND ip.internship_year = 'INTERN2'
-        THEN 1
-        ELSE 0
-        END
-    ) AS total_student_intern2,
-    SUM(u.user_role = 'Admin') AS total_admins,
+        COUNT(*) AS total_users,
+        SUM(r.role_name = 'Industry Supervisor') AS total_industry_supervisors,
+        SUM(r.role_name = 'Executive Director')   AS total_executive_directors,
+        SUM(r.role_name = 'Program Director')     AS total_program_directors,
+        SUM(r.role_name = 'Student Intern')       AS total_student_interns,
+        SUM(
+            CASE
+                WHEN r.role_name = 'Student Intern'
+                AND ip.internship_year = 'INTERN1'
+                THEN 1
+                ELSE 0
+            END
+        ) AS total_student_intern1,
+        SUM(
+            CASE
+                WHEN r.role_name = 'Student Intern'
+                AND ip.internship_year = 'INTERN2'
+                THEN 1
+                ELSE 0
+            END
+        ) AS total_student_intern2,
+        SUM(r.role_name = 'Admin') AS total_admins,
 
-    /* Archived users */
-    SUM(u.user_is_archived = 1)                                      AS total_archived_users,
-    SUM(u.user_is_archived = 1 AND u.user_role = 'Industry Supervisor') AS archived_industry_supervisors,
-    SUM(u.user_is_archived = 1 AND u.user_role = 'Executive Director')   AS archived_executive_directors,
-    SUM(u.user_is_archived = 1 AND u.user_role = 'Program Director')     AS archived_program_directors,
-    SUM(u.user_is_archived = 1 AND u.user_role = 'Student Intern')       AS archived_student_interns,
-    SUM(u.user_is_archived = 1 AND u.user_role = 'Admin')               AS archived_admins
+        /* Archived users */
+        SUM(u.user_is_archived = 1)                                      AS total_archived_users,
+        SUM(u.user_is_archived = 1 AND r.role_name = 'Industry Supervisor') AS archived_industry_supervisors,
+        SUM(u.user_is_archived = 1 AND r.role_name = 'Executive Director')   AS archived_executive_directors,
+        SUM(u.user_is_archived = 1 AND r.role_name = 'Program Director')     AS archived_program_directors,
+        SUM(u.user_is_archived = 1 AND r.role_name = 'Student Intern')       AS archived_student_interns,
+        SUM(u.user_is_archived = 1 AND r.role_name = 'Admin')               AS archived_admins
     FROM users u
+    JOIN user_roles r ON u.user_id = r.user_id
     LEFT JOIN school_users su ON u.user_id = su.user_id
-    LEFT JOIN interns       it ON su.schooluser_id = it.schooluser_id
-    LEFT JOIN internships   ip ON it.intern_id = ip.intern_id;
-    ;";
+    LEFT JOIN interns it ON su.schooluser_id = it.schooluser_id
+    LEFT JOIN internships ip ON it.intern_id = ip.intern_id
+    ;
+    ";
 
     $stmt = $mysqli->prepare($query);
     $stmt->execute();
