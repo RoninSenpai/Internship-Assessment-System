@@ -1,4 +1,3 @@
-
 function toggleSidebar(forceState = null) {
     const sidebar = window.parent.document.querySelector(".sidebar");
     const content = window.parent.document.querySelector(".content");
@@ -13,16 +12,16 @@ function toggleSidebar(forceState = null) {
 
     if (forceState === "open") {
         sidebar.classList.add("open");
-        sidebarItems.forEach(item => item.classList.add("open"));
+        sidebarItems.forEach((item) => item.classList.add("open"));
         content.classList.add("open");
     } else if (forceState === "close") {
         sidebar.classList.remove("open");
-        sidebarItems.forEach(item => item.classList.remove("open"));
+        sidebarItems.forEach((item) => item.classList.remove("open"));
         content.classList.remove("open");
-    } else {    
+    } else {
         // default toggle mode if no forceState specified
         sidebar.classList.toggle("open");
-        sidebarItems.forEach(item => item.classList.toggle("open"));
+        sidebarItems.forEach((item) => item.classList.toggle("open"));
         content.classList.toggle("open");
     }
 }
@@ -31,28 +30,88 @@ const ICON_DIR = "../../static/images/components/";
 
 const sidebarItems = {
     admin: [
-        { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../../templates/schooluser/admin/home.php" },
-        { name: "MASTERLIST", icon: ICON_DIR + "masterlist_icon.png", link: "../../../templates/schooluser/admin/masterlist.php" },
-        { name: "DATABASE", icon: ICON_DIR + "database_icon.png", link: "../../../templates/schooluser/admin/database.php" },
-        { name: "USERLOG", icon: ICON_DIR + "flag_icon.png", link: "../../../templates/schooluser/admin/userlog.php" }
+        {
+            name: "HOME",
+            icon: ICON_DIR + "home_icon.png",
+            link: "../../../templates/schooluser/admin/home.php",
+        },
+        {
+            name: "MASTERLIST",
+            icon: ICON_DIR + "masterlist_icon.png",
+            link: "../../../templates/schooluser/admin/masterlist.php",
+        },
+        {
+            name: "DATABASE",
+            icon: ICON_DIR + "database_icon.png",
+            link: "../../../templates/schooluser/admin/database.php",
+        },
+        {
+            name: "USERLOG",
+            icon: ICON_DIR + "flag_icon.png",
+            link: "../../../templates/schooluser/admin/userlog.php",
+        },
     ],
     faculty: [
-        { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../../templates/schooluser/faculty/home.php" },
-        { name: "PROGRESS", icon: ICON_DIR + "flag_icon.png", link: "../../../templates/schooluser/faculty/progress.php" },
-        { name: "MASTERLIST", icon: ICON_DIR + "masterlist_icon.png", link: "../../../templates/schooluser/faculty/masterlist.php" },
-        { name: "RUBRICS", icon: ICON_DIR + "checkbox_icon.png", link: "../../../templates/schooluser/faculty/rubrics.php" },
-        { name: "REPORTS", icon: ICON_DIR + "report_icon.png", link: "../../../templates/schooluser/faculty/reports.php" }
+        {
+            name: "HOME",
+            icon: ICON_DIR + "home_icon.png",
+            link: "../../../templates/schooluser/faculty/home.php",
+        },
+        {
+            name: "PROGRESS",
+            icon: ICON_DIR + "flag_icon.png",
+            link: "../../../templates/schooluser/faculty/progress.php",
+        },
+        {
+            name: "MASTERLIST",
+            icon: ICON_DIR + "masterlist_icon.png",
+            link: "../../../templates/schooluser/faculty/masterlist.php",
+        },
+        {
+            name: "RUBRICS",
+            icon: ICON_DIR + "checkbox_icon.png",
+            link: "../../../templates/schooluser/faculty/rubrics.php",
+        },
+        {
+            name: "REPORTS",
+            icon: ICON_DIR + "report_icon.png",
+            link: "../../../templates/schooluser/faculty/reports.php",
+        },
     ],
     supervisor: [
-        { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../templates/supervisor/home.php" },
-        { name: "MASTERLIST", icon: ICON_DIR + "masterlist_icon.png", link: "../../templates/supervisor/masterlist.php" }
+        {
+            name: "HOME",
+            icon: ICON_DIR + "home_icon.png",
+            link: "../../templates/supervisor/home.php",
+        },
+        {
+            name: "MASTERLIST",
+            icon: ICON_DIR + "masterlist_icon.png",
+            link: "../../templates/supervisor/masterlist.php",
+        },
     ],
     student: [
-        { name: "HOME", icon: ICON_DIR + "home_icon.png", link: "../../../templates/schooluser/student/home.php" },
-        { name: "PROFILE", icon: ICON_DIR + "masterlist_icon.png", link: "../../../templates/schooluser/student/profile.php" },
-        { name: "EVALUATION", icon: ICON_DIR + "checkbox_icon.png", link: "../../../templates/schooluser/student/evaluation.php" },
-        { name: "PORTFOLIO", icon: ICON_DIR + "report_icon.png", link: "../../../templates/schooluser/student/portfolio.php" }
-    ]
+        {
+            name: "HOME",
+            icon: ICON_DIR + "home_icon.png",
+            link: "../../../templates/schooluser/student/home.php",
+        },
+        {
+            name: "PROFILE",
+            icon: ICON_DIR + "masterlist_icon.png",
+            link: "../../../templates/schooluser/student/profile.php",
+        },
+        {
+            name: "EVALUATION",
+            icon: ICON_DIR + "checkbox_icon.png",
+            link: "../../../templates/schooluser/student/evaluation.php",
+        },
+        {
+            name: "PORTFOLIO",
+            icon: ICON_DIR + "report_icon.png",
+            link: "../../../templates/schooluser/student/portfolio.php",
+        },
+    ],
 };
 
 function loadSidebar(role) {
@@ -73,7 +132,7 @@ function loadSidebar(role) {
     sidebar.appendChild(burger);
 
     // USER ROLE ITEMS
-    sidebarItems[role].forEach(item => {
+    sidebarItems[role].forEach((item) => {
         const div = document.createElement("div");
         div.className = "sidebar-item";
 
@@ -83,7 +142,11 @@ function loadSidebar(role) {
         }
 
         // console.log("authtoken: ", encodeURIComponent(authToken));
-        const linkWithToken = item.link + (item.link.includes("?") ? "&" : "?") + "token=" + encodeURIComponent(authToken);
+        const linkWithToken =
+            item.link +
+            (item.link.includes("?") ? "&" : "?") +
+            "token=" +
+            encodeURIComponent(authToken);
         div.setAttribute("onclick", `changeIframe('${linkWithToken}')`);
 
         const span = document.createElement("span");
@@ -98,7 +161,7 @@ function loadSidebar(role) {
         div.appendChild(img);
         sidebar.appendChild(div);
     });
-    
+
     const firstItem = sidebar.querySelectorAll(".sidebar-item")[1]; // skip burger, grab da HOME
     if (firstItem) firstItem.classList.add("active");
 }
@@ -109,26 +172,28 @@ window.addEventListener("message", (event) => {
     }
 });
 
-const sidebar = document.getElementById('sidebar-content');
+const sidebar = document.getElementById("sidebar-content");
 
 let timeout;
 
 if (sidebar) {
-    sidebar.addEventListener('mouseleave', () => {
-    timeout = setTimeout(() => {
-        toggleSidebar("close");
-    }, 100); // wait 300ms before closing
+    sidebar.addEventListener("mouseleave", () => {
+        timeout = setTimeout(() => {
+            toggleSidebar("close");
+        }, 100); // wait 300ms before closing
     });
 
-    sidebar.addEventListener('mouseenter', () => {
-    clearTimeout(timeout); // cancel if they come back in
+    sidebar.addEventListener("mouseenter", () => {
+        clearTimeout(timeout); // cancel if they come back in
     });
 }
 
-function changeIframe(newSrc, text="Are you sure you want to leave this page?\nUnsaved changes may be lost!", force=true) {
-    const pagesThatNeedConfirmation = [
-        "evaluation1.html"
-    ];
+function changeIframe(
+    newSrc,
+    text = "Are you sure you want to leave this page?\nUnsaved changes may be lost!",
+    force = true
+) {
+    const pagesThatNeedConfirmation = ["evaluation1.html"];
 
     const contentFrame = window.parent.document.getElementById("content");
     const currentSrc = contentFrame?.src || "";
@@ -136,11 +201,15 @@ function changeIframe(newSrc, text="Are you sure you want to leave this page?\nU
     const url = new URL(contentFrame.src);
     const params = new URLSearchParams(url.search);
 
-    // then you can grab stuff
-    force = !(params.get('data-status') == 'evaluate' || params.get('data-status') == 'continue');
-    
-    const isLeavingImportantPage = page => currentSrc.includes(page);
-    const isEnteringImportantPage = pagesThatNeedConfirmation.some(page => newSrc.includes(page));
+    force = !(
+        params.get("data-status") == "evaluate" ||
+        params.get("data-status") == "continue"
+    );
+
+    const isLeavingImportantPage = (page) => currentSrc.includes(page);
+    const isEnteringImportantPage = pagesThatNeedConfirmation.some((page) =>
+        newSrc.includes(page)
+    );
 
     // console.log("Text: ", text);
     if (!force) {
@@ -156,22 +225,23 @@ function changeIframe(newSrc, text="Are you sure you want to leave this page?\nU
     contentFrame.src = newSrc;
 
     // local iframe cleanup
-    document.querySelectorAll('.sidebar-item').forEach(el => {
+    document.querySelectorAll(".sidebar-item").forEach((el) => {
         el.classList.remove("active");
     });
 
     // sidebar update
-    const sidebarIframe = window.parent.document.getElementById('sidebarFrame');
+    const sidebarIframe = window.parent.document.getElementById("sidebarFrame");
 
     if (sidebarIframe) {
         const sidebarDoc = sidebarIframe.contentWindow.document;
 
-        sidebarDoc.querySelectorAll('.sidebar-item').forEach(el => {
+        sidebarDoc.querySelectorAll(".sidebar-item").forEach((el) => {
             el.classList.remove("active");
         });
 
-        const matchingItem = Array.from(sidebarDoc.querySelectorAll('.sidebar-item'))
-            .find(item => item.getAttribute("onclick")?.includes(newSrc));
+        const matchingItem = Array.from(
+            sidebarDoc.querySelectorAll(".sidebar-item")
+        ).find((item) => item.getAttribute("onclick")?.includes(newSrc));
 
         if (matchingItem) {
             matchingItem.classList.add("active");
