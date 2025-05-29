@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $invalidateStmt->close();
 
                 $_SESSION['user_id'] = $user['user_id'];
-                $_SESSION['user_role'] = $user['role_name'];
+                $_SESSION['user_roles'] = $user['role_name'];
 
                 echo json_encode([
                     'status' => 'success',
@@ -62,24 +62,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = trim($_POST['email']);
     $password = $_POST['password'];
 
-    $stmt = $mysqli->prepare("
-        SELECT u.*, s.schooluser_password, s.schooluser_id, r.role_name 
-        FROM users u 
-        JOIN school_users s ON u.user_id = s.user_id 
-        JOIN user_roles r ON u.user_id = r.user_id
-        WHERE u.user_email = ? AND u.user_is_archived = 0 
-        LIMIT 1
-    ");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
+
+$stmt = $mysqli->prepare("
+    SELECT u.*, s.schooluser_password, s.schooluser_id, r.role_name 
+    FROM users u 
+    JOIN school_users s ON u.user_id = s.user_id 
+    JOIN user_roles r ON u.user_id = r.user_id
+    WHERE u.user_email = ? AND u.user_is_archived = 0 
+    LIMIT 1
+");
+if (!$stmt) {
+    die("Prepare failed: " . $mysqli->error);
+}
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
 
     if ($result->num_rows === 1) {
         $user = $result->fetch_assoc();
 
         if (password_verify($password, $user['schooluser_password'])) {
             $_SESSION['user_id'] = $user['user_id'];
-            $_SESSION['user_role'] = $user['role_name'];
+            $_SESSION['user_roles'] = $user['role_name'];
 
             echo json_encode([
                 'status' => 'success',

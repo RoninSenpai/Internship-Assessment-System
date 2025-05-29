@@ -21,6 +21,15 @@
     <title>RAMS Internship Assessment System - INTERNSHIP OFFICER</title>
     <link rel="stylesheet" href="../../../static/css/components.css">
     <link rel="icon" type="image/png" href="../../../static/images/components\rias_icon.png">
+    <style>
+        /* Style to position dropdown outside header */
+        #notificationDropdown {
+            position: absolute;
+            top: 60px; /* Adjust as needed */
+            right: 20px; /* Adjust as needed */
+            z-index: 1000; /* Ensure it's above other elements */
+        }
+    </style>
 </head>
 <body class="body">
 
@@ -68,7 +77,43 @@
         </script>
     </div>
 
+     <script>
+            window.addEventListener("message", function(event) {
+                console.log("Parent: received message from content iframe", event.data);
+                // Forward notification messages to the header iframe
+                if (event.data && event.data.type === "addNotification") {
+                    const headerFrame = document.getElementById("headerFrame");
+                    if (headerFrame && headerFrame.contentWindow) {
+                        console.log("Parent: forwarding message to header iframe", event.data);
+                        headerFrame.contentWindow.postMessage(event.data, "*");
+                    }
+                }
+            });
+        </script>
+
+    </div>
+
+
     <!-- Footer -->
     <iframe src="../../../templates/_components/footer.html" class="footer"></iframe>
+ <script>
+        // Function to move the notification dropdown outside the header iframe
+        function moveNotificationDropdown() {
+            const headerFrame = document.getElementById("headerFrame");
+            if (headerFrame && headerFrame.contentDocument) {
+                const dropdown = headerFrame.contentDocument.getElementById("notificationDropdown");
+                if (dropdown) {
+                    document.body.appendChild(dropdown);
+                    dropdown.style.position = "absolute";
+                    dropdown.style.top = "60px"; // Adjust as needed
+                    dropdown.style.right = "20px"; // Adjust as needed
+                    dropdown.style.zIndex = "1000"; // Ensure it's above other elements
+                }
+            }
+        }
+
+        // Call the function after the header iframe has loaded
+        document.getElementById("headerFrame").addEventListener("load", moveNotificationDropdown);
+    </script>
 </body>
 </html>

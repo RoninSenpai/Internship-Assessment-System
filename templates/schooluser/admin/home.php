@@ -3,7 +3,7 @@ session_start();
 include '../../../database/database.php';
 
 // Validate session and user role
-if (empty($_SESSION['user_id']) || $_SESSION['user_role'] !== 'Admin') {
+if (empty($_SESSION['user_id']) || $_SESSION['user_roles'] !== 'Admin') {
     http_response_code(403);
     echo "<div style='text-align:center; font-size:24px; color:red;'>Access Denied</div>";
     exit;
@@ -40,6 +40,38 @@ $mysqli->close();
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
 </head>
 <body>
+ 
+<!-- Set Event Modal -->
+<div id="setEventModal" class="modal hidden">
+  <div class="modal-content">
+    <span id="closeSetEvent" class="modal-close">&times;</span>
+    <h2>Set Event</h2>
+    <form id="eventForm">
+      <label for="eventTitle">Event Name:</label>
+      <input type="text" id="eventTitle" required>
+      <label for="eventDate">Date:</label>
+      <input type="date" id="eventDate" required>
+      <button type="submit">Add Event</button>
+    </form>
+  </div>
+</div>
+
+<!-- Change Academic Year Modal -->
+<div id="changeYearModal" class="modal hidden">
+  <div class="modal-content">
+    <span id="closeChangeYear" class="modal-close">&times;</span>
+    <h2>Change Academic Year</h2>
+    <form id="yearForm">
+      <label for="startDate">Start Date:</label>
+      <input type="date" id="startDate" required>
+      <label for="endDate">End Date:</label>
+      <input type="date" id="endDate" required>
+      <div id="yearWarning" style="display:none;color:red;font-size:0.9em;">Start and end year cannot be the same.</div>
+      <button type="submit">Save</button>
+    </form>
+  </div>
+</div>
+
     <div class="admin-container">
         <header class="top-info">
             <h1>Welcome, <?= $userFirstName ?>!</h1>
@@ -170,121 +202,130 @@ $mysqli->close();
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const calendarEl = document.getElementById('calendar');
-            const eventTableBody = document.getElementById('event-table-body');
-            const modal = document.getElementById('setEventModal');
-            const openBtn = document.getElementById('openSetEvent');
-            const closeBtn = document.getElementById('closeSetEvent');
-            const eventForm = document.getElementById('eventForm');
-            const titleInput = document.getElementById('eventTitle');
-            const dateInput = document.getElementById('eventDate');
+document.addEventListener('DOMContentLoaded', () => {
+    const calendarEl = document.getElementById('calendar');
+    const eventTableBody = document.getElementById('event-table-body');
+    const modal = document.getElementById('setEventModal');
+    const openBtn = document.getElementById('openSetEvent');
+    const closeBtn = document.getElementById('closeSetEvent');
+    const eventForm = document.getElementById('eventForm');
+    const titleInput = document.getElementById('eventTitle');
+    const dateInput = document.getElementById('eventDate');
 
-            const openChangeBtn = document.getElementById('openChangeYear');
-            const closeChangeBtn = document.getElementById('closeChangeYear');
-            const changeYearModal = document.getElementById('changeYearModal');
-            const yearForm = document.getElementById('yearForm');
-            const startDateInput = document.getElementById('startDate');
-            const endDateInput = document.getElementById('endDate');
-            const yearHeader = document.querySelector('.calendar-section h2 strong');
-            const warning = document.getElementById('yearWarning');
+    const openChangeBtn = document.getElementById('openChangeYear');
+    const closeChangeBtn = document.getElementById('closeChangeYear');
+    const changeYearModal = document.getElementById('changeYearModal');
+    const yearForm = document.getElementById('yearForm');
+    const startDateInput = document.getElementById('startDate');
+    const endDateInput = document.getElementById('endDate');
+    const yearHeader = document.querySelector('.calendar-section h2 strong');
+    const warning = document.getElementById('yearWarning');
 
-            let events = [];
+    let events = [];
 
-            const storedStart = localStorage.getItem('startDate');
-            const storedEnd = localStorage.getItem('endDate');
-            if (storedStart && storedEnd) {
-                yearHeader.textContent = formatAcademicYear(storedStart, storedEnd);
-            }
+    const storedStart = localStorage.getItem('startDate');
+    const storedEnd = localStorage.getItem('endDate');
+    if (storedStart && storedEnd) {
+        yearHeader.textContent = formatAcademicYear(storedStart, storedEnd);
+    }
 
-            const calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                height: 'auto',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,listMonth'
-                },
-                events: events,
-            });
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        height: 'auto',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,listMonth'
+        },
+        events: events,
+    });
 
-            calendar.render();
+    calendar.render();
 
-            openBtn.addEventListener('click', () => {
-                modal.classList.remove('hidden');
-                titleInput.focus();
-            });
+    openBtn.addEventListener('click', () => {
+        modal.classList.remove('hidden');
+        titleInput.focus();
+    });
 
-            closeBtn.addEventListener('click', () => {
-                modal.classList.add('hidden');
-                eventForm.reset();
-            });
+    closeBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+        eventForm.reset();
+    });
 
-            eventForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const title = titleInput.value.trim();
-                const date = dateInput.value;
+    eventForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const title = titleInput.value.trim();
+    const date = dateInput.value;
 
-                if (title && date) {
-                    const newEvent = { title, start: date, color: '#e2f5dc' };
-                    events.push(newEvent);
-                    calendar.addEvent(newEvent);
-                    renderEventTable(events);
-                    modal.classList.add('hidden');
-                    eventForm.reset();
-                }
-            });
+    if (title && date) {
+        const newEvent = { title, start: date, color: '#e2f5dc' };
+        events.push(newEvent);
+        calendar.addEvent(newEvent);
+        renderEventTable(events);
 
-            openChangeBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                changeYearModal.classList.remove('hidden');
-            });
+        // Send notification to header
+window.parent.postMessage({
+    type: "addNotification",
+    message: `New event added: ${title} (${new Date(date).toLocaleDateString(undefined, { month: 'long', day: 'numeric' })})`,
+    meta: { type: "event" }
+}, "*");
 
-            closeChangeBtn.addEventListener('click', () => {
-                changeYearModal.classList.add('hidden');
-            });
+        modal.classList.add('hidden');
+        eventForm.reset();
+    }
+});
 
-            yearForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const start = startDateInput.value;
-                const end = endDateInput.value;
 
-                const startYear = new Date(start).getFullYear();
-                const endYear = new Date(end).getFullYear();
+    openChangeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        changeYearModal.classList.remove('hidden');
+    });
 
-                if (startYear === endYear) {
-                    warning.style.display = 'block';
-                    return;
-                }
+    closeChangeBtn.addEventListener('click', () => {
+        changeYearModal.classList.add('hidden');
+    });
 
-                warning.style.display = 'none';
-                localStorage.setItem('startDate', start);
-                localStorage.setItem('endDate', end);
-                yearHeader.textContent = formatAcademicYear(start, end);
-                changeYearModal.classList.add('hidden');
-            });
+    yearForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const start = startDateInput.value;
+        const end = endDateInput.value;
 
-            function formatAcademicYear(start, end) {
-                const startYear = new Date(start).getFullYear();
-                const endYear = new Date(end).getFullYear();
-                return `${startYear}-${endYear}`;
-            }
+        const startYear = new Date(start).getFullYear();
+        const endYear = new Date(end).getFullYear();
 
-            function renderEventTable(events) {
-                eventTableBody.innerHTML = '';
-                const sorted = [...events].sort((a, b) => new Date(a.start) - new Date(b.start));
-                sorted.forEach(evt => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${new Date(evt.start).toLocaleDateString(undefined, { month: 'long', day: 'numeric' })}</td>
-                        <td>${evt.title}</td>
-                    `;
-                    row.style.backgroundColor = evt.color || '#f9f9f9';
-                    eventTableBody.appendChild(row);
-                });
-            }
+        if (startYear === endYear) {
+            warning.style.display = 'block';
+            return;
+        }
+
+        warning.style.display = 'none';
+        localStorage.setItem('startDate', start);
+        localStorage.setItem('endDate', end);
+        yearHeader.textContent = formatAcademicYear(start, end);
+        changeYearModal.classList.add('hidden');
+    });
+
+    function formatAcademicYear(start, end) {
+        const startYear = new Date(start).getFullYear();
+        const endYear = new Date(end).getFullYear();
+        return `${startYear}-${endYear}`;
+    }
+
+    function renderEventTable(events) {
+        eventTableBody.innerHTML = '';
+        const sorted = [...events].sort((a, b) => new Date(a.start) - new Date(b.start));
+        sorted.forEach(evt => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${new Date(evt.start).toLocaleDateString(undefined, { month: 'long', day: 'numeric' })}</td>
+                <td>${evt.title}</td>
+            `;
+            row.style.backgroundColor = evt.color || '#f9f9f9';
+            eventTableBody.appendChild(row);
         });
-    </script>
+    }
+});
+</script>
 </body>
 </html>
 

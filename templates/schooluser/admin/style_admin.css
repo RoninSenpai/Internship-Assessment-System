@@ -2,7 +2,6 @@ body {
     font-family: 'Consolas', 'Josefin Sans', sans-serif;
     background: #f2f4f7;
     margin: 0;
-    padding: 20px;
   }
   
   .admin-container {
@@ -196,7 +195,124 @@ body {
     font-size: 1.5rem;
     cursor: pointer;
   }
+ /* Notification Bell Wrapper - fixed at top right */
+        .notification-wrapper {
+            position: fixed;
+            top: 24px;
+            right: 40px;
+            z-index: 2000;
+            user-select: none;
+            cursor: pointer;
+        }
 
-  
-  
-  
+        /* Notification Bell Icon */
+        .notification-wrapper .icon {
+            height: 30px;
+            width: auto;
+            cursor: pointer;
+        }
+
+        /* Notification Badge */
+        #notificationBadge {
+            display: none;
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: #e74c3c;
+            color: #fff;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            padding: 2px 6px;
+            min-width: 18px;
+            text-align: center;
+            line-height: 1.2;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        /* Notification Dropdown */
+       .notification-dropdown {
+  position: absolute;
+  top: 120%; /* appears below the bell */
+  right: 0;
+  background: #fff;
+  border-radius: 8px;
+  min-width: 320px;
+  max-width: 350px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  z-index: 2100;
+  display: none;
+  padding: 0;
+}
+        .notification-dropdown:not(.hidden) {
+            display: block;
+        }
+
+        /* Notification Dropdown Header */
+        .notification-bar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #213B9A;
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: 8px 8px 0 0;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        /* Notification List */
+        #notificationList {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            max-height: 220px;
+            overflow-y: auto;
+        }
+
+        /* Notification Item */
+        .notification-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 10px 16px;
+            border-bottom: 1px solid #f1f1f1;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .notification-item:hover {
+            background: #f5f7fa;
+        }
+        .notification-item.read {
+            opacity: 0.6;
+        }
+
+        /* Notification Message & Time */
+        .notification-msg {
+            display: block;
+            font-size: 0.98rem;
+            color: #213B9A;
+        }
+        .notification-time {
+            display: block;
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        /* Dismiss Button */
+        .notification-dismiss {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+
+        /* Empty State */
+        .notification-empty {
+            color: #aaa;
+            text-align: center;
+            padding: 16px;
+        }

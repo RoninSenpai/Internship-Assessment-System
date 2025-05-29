@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 15, 2025 at 04:54 AM
+-- Generation Time: May 29, 2025 at 03:18 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -296,7 +296,6 @@ CREATE TABLE `interns` (
 
 INSERT INTO `interns` (`intern_id`, `schooluser_id`, `program_id`, `intern_birthdate`, `intern_gender`, `intern_city`, `intern_province_or_state`, `intern_postal_code`, `intern_country`) VALUES
 (1, 27, 1, '2003-08-15', 'Male', 'Las Piñas', 'Metro Manila', '1740', 'Philippines'),
-(2, 28, 2, '2002-11-20', 'Female', 'Quezon City', 'Metro Manila', '1100', 'Philippines'),
 (3, 29, 1, '2004-03-10', 'Male', 'Pasig City', 'Metro Manila', '1600', 'Philippines'),
 (4, 30, 3, '2003-05-01', 'Female', 'Makati City', 'Metro Manila', '0771', 'Philippines'),
 (5, 31, 2, '2002-12-25', 'Male', 'Manila', 'Metro Manila', '1000', 'Philippines');
@@ -316,7 +315,7 @@ CREATE TABLE `internships` (
   `internship_date_started` date NOT NULL,
   `internship_date_ended` date NOT NULL,
   `internship_job_role` varchar(255) NOT NULL,
-  `batch` int(11) DEFAULT NULL
+  `batch` varchar(9) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -324,11 +323,10 @@ CREATE TABLE `internships` (
 --
 
 INSERT INTO `internships` (`internship_id`, `intern_id`, `supervisor_id`, `schooluser_id`, `internship_year`, `internship_date_started`, `internship_date_ended`, `internship_job_role`, `batch`) VALUES
-(2, 1, 1, 32, 'INTERN1', '2025-06-01', '2025-12-01', 'Intern - Development', 1),
-(3, 2, 2, 32, 'INTERN1', '2025-06-01', '2025-12-01', 'Intern - Marketing', 1),
-(4, 3, 1, 32, 'INTERN1', '2025-06-01', '2025-12-01', 'Intern - Design', 1),
-(5, 4, 2, 32, 'INTERN2', '2025-06-01', '2025-12-01', 'Intern - HR', 1),
-(6, 5, 1, 32, 'INTERN2', '2025-06-01', '2025-12-01', 'Intern - Finance', 1);
+(2, 1, 1, 32, 'INTERN1', '2025-06-01', '2025-12-01', 'Intern - Development', '2025-0001'),
+(4, 3, 1, 32, 'INTERN1', '2025-06-01', '2025-12-01', 'Intern - Design', '2025-0001'),
+(5, 4, 2, 32, 'INTERN2', '2025-06-01', '2025-12-01', 'Intern - HR', '2025-0002'),
+(6, 5, 1, 32, 'INTERN2', '2025-06-01', '2025-12-01', 'Intern - Finance', '2025-0002');
 
 -- --------------------------------------------------------
 
@@ -506,7 +504,10 @@ INSERT INTO `passwordresets` (`passreset_id`, `schooluser_id`, `passreset_token`
 (27, 27, '55ee47ef0c18fb4aedac5482bcd9fbe9', '2025-05-02 20:14:20', '2025-05-02 20:19:20', 0),
 (28, 27, '8e0cd3285439f5b2ff9f0f9a2bd8f0b5', '2025-05-02 20:17:45', '2025-05-02 20:22:45', 0),
 (29, 27, 'c98cd18a7c73c10012c8d48a7e4b7805', '2025-05-02 20:23:29', '2025-05-02 20:28:29', 0),
-(30, 27, '97b24d27170619259147713beb99a32e', '2025-05-02 20:28:43', '2025-05-02 20:33:43', 0);
+(30, 27, '97b24d27170619259147713beb99a32e', '2025-05-02 20:28:43', '2025-05-02 20:33:43', 0),
+(31, NULL, '9fa098c3b7fdae36b3357ed38fe7485d', '2025-05-28 08:12:27', '2025-05-28 08:27:27', 0),
+(32, NULL, '3a5696b8aec308cbb35a692e15040420', '2025-05-28 08:24:35', '2025-05-28 08:39:35', 0),
+(33, NULL, 'e46ab856cedb6f199df28ae371c12eb6', '2025-05-28 08:33:01', '2025-05-28 08:48:01', 0);
 
 -- --------------------------------------------------------
 
@@ -537,7 +538,8 @@ INSERT INTO `programs` (`program_id`, `program_name`, `school_id`) VALUES
 (10, 'BS Business Administration', 4),
 (11, 'BS Tourism Management', 4),
 (12, 'Bachelor of Multimedia Arts', 5),
-(13, 'Bachelor of Arts in Psychology', 5);
+(13, 'Bachelor of Arts in Psychology', 5),
+(17, 'Architecture', 1);
 
 -- --------------------------------------------------------
 
@@ -556,19 +558,7 @@ CREATE TABLE `program_directors` (
 --
 
 INSERT INTO `program_directors` (`programdirector_id`, `schooluser_id`, `program_id`) VALUES
-(4, 14, 1),
-(5, 15, 2),
-(6, 16, 3),
-(7, 17, 4),
-(8, 18, 5),
-(9, 19, 6),
-(10, 20, 7),
-(11, 21, 8),
-(12, 22, 9),
-(13, 23, 10),
-(14, 24, 11),
-(15, 25, 12),
-(16, 26, 13);
+(5, 15, 2);
 
 -- --------------------------------------------------------
 
@@ -611,31 +601,24 @@ CREATE TABLE `school_users` (
 --
 
 INSERT INTO `school_users` (`schooluser_id`, `user_id`, `school_given_id`, `schooluser_password`) VALUES
-(9, 11, 'EDARCH001', '$2y$12$i0vYrlR/D/HBhj46c53A8OtfHhMwJAMDs49rIFptodJEYhk88jbKe'),
-(10, 12, 'EDCIT001', '$2y$12$i0vYrlR/D/HBhj46c53A8OtfHhMwJAMDs49rIFptodJEYhk88jbKe'),
-(11, 13, 'EDENG001', '$2y$12$i0vYrlR/D/HBhj46c53A8OtfHhMwJAMDs49rIFptodJEYhk88jbKe'),
-(12, 14, 'EDMGT001', '$2y$12$i0vYrlR/D/HBhj46c53A8OtfHhMwJAMDs49rIFptodJEYhk88jbKe'),
-(13, 15, 'EDMMA001', '$2y$12$i0vYrlR/D/HBhj46c53A8OtfHhMwJAMDs49rIFptodJEYhk88jbKe'),
-(14, 16, 'PDARCH001', '$2y$12$X/eCXGMPqdTDpdtFmW5hE.ANnn3i2/44g4OIfWiNuIB...\n'),
-(15, 17, 'PDCIT001', '$2y$12$X/eCXGMPqdTDpdtFmW5hE.ANnn3i2/44g4OIfWiNuIBnlKExe/ZCK'),
-(16, 18, 'PDCIT002', '$2y$12$X/eCXGMPqdTDpdtFmW5hE.ANnn3i2/44g4OIfWiNuIBnlKExe/ZCK'),
-(17, 19, 'PDCIT003', '$2y$12$X/eCXGMPqdTDpdtFmW5hE.ANnn3i2/44g4OIfWiNuIBnlKExe/ZCK'),
-(18, 20, 'PDCIT004', '$2y$12$X/eCXGMPqdTDpdtFmW5hE.ANnn3i2/44g4OIfWiNuIBnlKExe/ZCK'),
-(19, 21, 'PDENG001', '$2y$12$X/eCXGMPqdTDpdtFmW5hE.ANnn3i2/44g4OIfWiNuIBnlKExe/ZCK'),
-(20, 22, 'PDENG002', '$2y$12$X/eCXGMPqdTDpdtFmW5hE.ANnn3i2/44g4OIfWiNuIBnlKExe/ZCK'),
-(21, 23, 'PDENG003', '$2y$12$X/eCXGMPqdTDpdtFmW5hE.ANnn3i2/44g4OIfWiNuIBnlKExe/ZCK'),
-(22, 24, 'PDMGT001', '$2y$12$X/eCXGMPqdTDpdtFmW5hE.ANnn3i2/44g4OIfWiNuIBnlKExe/ZCK'),
-(23, 25, 'PDMGT002', '$2y$12$X/eCXGMPqdTDpdtFmW5hE.ANnn3i2/44g4OIfWiNuIBnlKExe/ZCK'),
-(24, 26, 'PDMGT003', '$2y$12$X/eCXGMPqdTDpdtFmW5hE.ANnn3i2/44g4OIfWiNuIBnlKExe/ZCK'),
-(25, 27, 'PDMMA001', '$2y$12$X/eCXGMPqdTDpdtFmW5hE.ANnn3i2/44g4OIfWiNuIBnlKExe/ZCK'),
-(26, 28, 'PDMMA002', '$2y$12$X/eCXGMPqdTDpdtFmW5hE.ANnn3i2/44g4OIfWiNuIBnlKExe/ZCK'),
-(27, 29, 'SI2025-001', '$2y$12$ZSrLR4f7aVsWUlijwmkDkOhvmIE1Xp4w.HRVocQ9syDGg76Yo7XbW'),
-(28, 30, 'SI2025-002', '$2y$12$ZSrLR4f7aVsWUlijwmkDkOhvmIE1Xp4w.HRVocQ9syDGg76Yo7XbW'),
-(29, 31, 'SI2025-003', '$2y$12$ZSrLR4f7aVsWUlijwmkDkOhvmIE1Xp4w.HRVocQ9syDGg76Yo7XbW'),
-(30, 32, 'SI2025-004', '$2y$12$ZSrLR4f7aVsWUlijwmkDkOhvmIE1Xp4w.HRVocQ9syDGg76Yo7XbW'),
-(31, 33, 'SI2025-005', '$2y$12$ZSrLR4f7aVsWUlijwmkDkOhvmIE1Xp4w.HRVocQ9syDGg76Yo7XbW'),
-(32, 35, 'IO2025-001', '$2y$12$aOtGBu.ZQtR2eELNgavXDuWGhg8p8Y66qJRu/e7sREurN4D7lJrM.'),
-(33, 36, '1', '$2y$10$kgbOjzZpmnpDs6BNQGawK.rkoypx2373oMzjiq.oFZXiOCDYkPSo.');
+(9, 1, 'EDARCH001', '$2y$12$i0vYrlR/D/HBhj46c53A8OtfHhMwJAMDs49rIFptodJEYhk88jbKe'),
+(10, 9, 'EDCIT001', '$2y$12$i0vYrlR/D/HBhj46c53A8OtfHhMwJAMDs49rIFptodJEYhk88jbKe'),
+(11, 5, 'EDENG001', '$2y$12$i0vYrlR/D/HBhj46c53A8OtfHhMwJAMDs49rIFptodJEYhk88jbKe'),
+(12, 4, 'EDMGT001', '$2y$12$i0vYrlR/D/HBhj46c53A8OtfHhMwJAMDs49rIFptodJEYhk88jbKe'),
+(13, 11, 'EDMMA001', '$2y$12$i0vYrlR/D/HBhj46c53A8OtfHhMwJAMDs49rIFptodJEYhk88jbKe'),
+(15, 13, 'PDCIT001', '$2y$12$X/eCXGMPqdTDpdtFmW5hE.ANnn3i2/44g4OIfWiNuIBnlKExe/ZCK'),
+(19, 15, 'PDENG001', '$2y$12$X/eCXGMPqdTDpdtFmW5hE.ANnn3i2/44g4OIfWiNuIBnlKExe/ZCK'),
+(20, 12, 'PDENG002', '$2y$12$X/eCXGMPqdTDpdtFmW5hE.ANnn3i2/44g4OIfWiNuIBnlKExe/ZCK'),
+(22, 8, 'PDMGT001', '$2y$12$X/eCXGMPqdTDpdtFmW5hE.ANnn3i2/44g4OIfWiNuIBnlKExe/ZCK'),
+(23, 7, 'PDMGT002', '$2y$12$X/eCXGMPqdTDpdtFmW5hE.ANnn3i2/44g4OIfWiNuIBnlKExe/ZCK'),
+(24, 14, 'PDMGT003', '$2y$12$X/eCXGMPqdTDpdtFmW5hE.ANnn3i2/44g4OIfWiNuIBnlKExe/ZCK'),
+(25, 6, 'PDMMA001', '$2y$12$X/eCXGMPqdTDpdtFmW5hE.ANnn3i2/44g4OIfWiNuIBnlKExe/ZCK'),
+(27, 16, 'SI2025-001', '$2y$12$ZSrLR4f7aVsWUlijwmkDkOhvmIE1Xp4w.HRVocQ9syDGg76Yo7XbW'),
+(29, 17, 'SI2025-003', '$2y$12$ZSrLR4f7aVsWUlijwmkDkOhvmIE1Xp4w.HRVocQ9syDGg76Yo7XbW'),
+(30, 18, 'SI2025-004', '$2y$12$ZSrLR4f7aVsWUlijwmkDkOhvmIE1Xp4w.HRVocQ9syDGg76Yo7XbW'),
+(31, 19, 'SI2025-005', '$2y$12$ZSrLR4f7aVsWUlijwmkDkOhvmIE1Xp4w.HRVocQ9syDGg76Yo7XbW'),
+(32, 20, 'IO2025-001', '$2y$12$aOtGBu.ZQtR2eELNgavXDuWGhg8p8Y66qJRu/e7sREurN4D7lJrM.'),
+(33, 10, '1', '$2y$10$kgbOjzZpmnpDs6BNQGawK.rkoypx2373oMzjiq.oFZXiOCDYkPSo.');
 
 -- --------------------------------------------------------
 
@@ -683,16 +666,17 @@ CREATE TABLE `supervisors` (
   `supervisor_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `supervisor_job_role` varchar(255) NOT NULL,
-  `department_id` int(11) NOT NULL
+  `department_id` int(11) NOT NULL,
+  `supervisor_contact_no` varchar(20) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `supervisors`
 --
 
-INSERT INTO `supervisors` (`supervisor_id`, `user_id`, `supervisor_job_role`, `department_id`) VALUES
-(1, 1, 'Super Visorj Obrole', 1),
-(2, 34, 'Super Visorj Obrole2', 2);
+INSERT INTO `supervisors` (`supervisor_id`, `user_id`, `supervisor_job_role`, `department_id`, `supervisor_contact_no`) VALUES
+(1, 2, 'Super Visorj Obrole', 1, '+1-766-909-3450'),
+(2, 3, 'Super Visorj Obrole2', 2, '+1-698-556-5853');
 
 -- --------------------------------------------------------
 
@@ -706,8 +690,7 @@ CREATE TABLE `users` (
   `user_last_name` varchar(50) NOT NULL,
   `user_email` varchar(255) NOT NULL,
   `user_date_created` timestamp NOT NULL DEFAULT current_timestamp(),
-  `user_date_updated` timestamp NOT NULL DEFAULT current_timestamp(),
-  `user_role` varchar(50) NOT NULL,
+  `user_date_updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `user_is_archived` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -715,34 +698,68 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `user_first_name`, `user_last_name`, `user_email`, `user_date_created`, `user_date_updated`, `user_role`, `user_is_archived`) VALUES
-(1, 'Indus Trysup', 'Ervisor', 'industrysupervisor@company.com', '2025-04-23 04:14:40', '2025-04-23 04:14:40', 'Industry Supervisor', 0),
-(11, 'Harry Joseph', 'Serrano', 'harryjosephs@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 'Executive Director', 0),
-(12, 'Rhea-Luz', 'Valbuena', 'rhear@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 'Executive Director', 0),
-(13, 'Leonardo', 'Samaniego Jr.', 'leonardojrs@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 'Executive Director', 0),
-(14, 'Edwin', 'Loma', 'jedl@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 'Executive Director', 0),
-(15, 'Robert Nelson', 'Besana', 'robertb@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 'Executive Director', 0),
-(16, 'Harry Joseph', 'Serrano', 'harryjosephs@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 'Program Director', 0),
-(17, 'Roselle Wednesday', 'Gardon', 'roselleg@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 'Program Director', 0),
-(18, 'Rhea-Luz', 'Valbuena', 'rhear@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 'Program Director', 0),
-(19, 'Rhea-Luz', 'Valbuena', 'rhear@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 'Program Director', 0),
-(20, 'Rhea-Luz', 'Valbuena', 'rhear@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 'Program Director', 0),
-(21, 'Ronaldo', 'Gallardo', 'ronaldog@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 'Program Director', 0),
-(22, 'Sergio', 'Peruda Jr.', 'sergiop@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 'Program Director', 0),
-(23, 'Leonardo', 'Samaniego Jr.', 'leonardojrs@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 'Program Director', 0),
-(24, 'Osler', 'Aquino', 'oslera@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 'Program Director', 0),
-(25, 'Manuel', 'Magbuhat', 'manuelm@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 'Program Director', 0),
-(26, 'Rosemarie Arhlene', 'Ampil', 'rosemariea@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 'Program Director', 0),
-(27, 'Robert Nelson', 'Besana', 'robertb@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 'Program Director', 0),
-(28, 'Liza', 'Mapagu', 'lizam@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 'Program Director', 0),
-(29, 'Stud Entint1', 'Ern1', 'studentintern1@student.apc.edu.ph', '2025-04-23 14:23:23', '2025-04-23 14:23:23', 'Student Intern', 0),
-(30, 'Stud Entint2', 'Ern2', 'studentintern2@student.apc.edu.ph', '2025-04-23 14:23:23', '2025-04-23 14:23:23', 'Student Intern', 0),
-(31, 'Stud Entint3', 'Ern3', 'studentintern3@student.apc.edu.ph', '2025-04-23 14:23:24', '2025-04-23 14:23:24', 'Student Intern', 0),
-(32, 'Stud Entint4', 'Ern4', 'studentintern4@student.apc.edu.ph', '2025-04-23 14:23:24', '2025-04-23 14:23:24', 'Student Intern', 0),
-(33, 'Stud Entint5', 'Ern5', 'studentintern5@student.apc.edu.ph', '2025-04-23 14:23:24', '2025-04-23 14:23:24', 'Student Intern', 0),
-(34, 'Indus Trysup2', 'Ervisor2', 'industrysupervisor2@company.com', '2025-04-23 14:32:36', '2025-04-23 14:32:36', 'Industry Supervisor', 0),
-(35, 'Unica Althea', 'Iranta', 'unicai@apc.edu.ph', '2025-04-23 14:48:40', '2025-04-23 14:48:40', 'Internship Officer', 0),
-(36, 'Admin', '', 'riasadmin@apc.edu.ph', '2025-04-28 12:36:41', '2025-04-28 12:36:41', 'Admin', 0);
+INSERT INTO `users` (`user_id`, `user_first_name`, `user_last_name`, `user_email`, `user_date_created`, `user_date_updated`, `user_is_archived`) VALUES
+(1, 'Harry Joseph', 'Serrano', 'harryjosephs@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 0),
+(2, 'Indus Trysup2', 'Ervisor2', 'industrysupervisor2@company.com', '2025-04-23 14:32:36', '2025-04-23 14:32:36', 0),
+(3, 'Indus Trysup', 'Ervisor', 'industrysupervisor@company.com', '2025-04-23 04:14:40', '2025-04-23 04:14:40', 0),
+(4, 'Edwin', 'Loma', 'jedl@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 0),
+(5, 'Leonardo', 'Samaniego Jr.', 'leonardojrs@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 0),
+(6, 'Liza', 'Mapagu', 'lizam@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 0),
+(7, 'Manuel', 'Magbuhat', 'manuelm@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 0),
+(8, 'Osler', 'Aquino', 'oslera@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 0),
+(9, 'Rhea-Luz', 'Valbuena', 'rhear@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 0),
+(10, 'Admin', '', 'riasadmin@apc.edu.ph', '2025-04-28 12:36:41', '2025-04-28 12:36:41', 0),
+(11, 'Robert Nelson', 'Besana', 'robertb@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 0),
+(12, 'Ronaldo', 'Gallardo', 'ronaldog@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 0),
+(13, 'Roselle Wednesday', 'Gardon', 'roselleg@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 0),
+(14, 'Rosemarie Arhlene', 'Ampil', 'rosemariea@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 0),
+(15, 'Sergio', 'Peruda Jr.', 'sergiop@apc.edu.ph', '2025-04-23 13:44:42', '2025-04-23 13:44:42', 0),
+(16, 'Marques', 'Baltazar', 'studentintern1@student.apc.edu.ph', '2025-04-23 14:23:23', '2025-05-21 06:01:04', 0),
+(17, 'Juan', 'Dela Cruz', 'studentintern3@student.apc.edu.ph', '2025-04-23 14:23:24', '2025-05-18 01:05:06', 0),
+(18, 'Stud Entint4', 'Ern4', 'studentintern4@student.apc.edu.ph', '2025-04-23 14:23:24', '2025-05-18 01:14:21', 0),
+(19, 'Stud Entint5', 'Ern5', 'studentintern5@student.apc.edu.ph', '2025-04-23 14:23:24', '2025-05-18 01:16:06', 0),
+(20, 'Unica Althea', 'Iranta', 'unicai@apc.edu.ph', '2025-04-23 14:48:40', '2025-04-23 14:48:40', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_roles`
+--
+
+CREATE TABLE `user_roles` (
+  `user_id` int(11) NOT NULL,
+  `role_name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_roles`
+--
+
+INSERT INTO `user_roles` (`user_id`, `role_name`) VALUES
+(1, 'Executive Director'),
+(1, 'Program Director'),
+(2, 'Industry Supervisor'),
+(3, 'Industry Supervisor'),
+(4, 'Executive Director'),
+(5, 'Executive Director'),
+(5, 'Program Director'),
+(6, 'Program Director'),
+(7, 'Program Director'),
+(8, 'Program Director'),
+(9, 'Executive Director'),
+(9, 'Program Director'),
+(10, 'Admin'),
+(11, 'Executive Director'),
+(11, 'Program Director'),
+(12, 'Program Director'),
+(13, 'Program Director'),
+(14, 'Program Director'),
+(15, 'Program Director'),
+(16, 'Student Intern'),
+(17, 'Student Intern'),
+(18, 'Student Intern'),
+(19, 'Student Intern'),
+(20, 'Internship Officer');
 
 -- --------------------------------------------------------
 
@@ -765,6 +782,37 @@ CREATE TABLE `user_sessions` (
 INSERT INTO `user_sessions` (`session_id`, `user_id`, `session_token`, `created_at`, `expires_at`) VALUES
 (1, 35, '785c7bc5930ee8c2f4d78bf59227637b1a3f3477307a45fc09d721511996edc5', '2025-04-28 14:21:00', '2025-04-28 15:21:00');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_updates`
+--
+
+CREATE TABLE `user_updates` (
+  `update_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `update_type` varchar(100) NOT NULL,
+  `update_description` text DEFAULT NULL,
+  `update_timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_updates`
+--
+
+INSERT INTO `user_updates` (`update_id`, `user_id`, `update_type`, `update_description`, `update_timestamp`) VALUES
+(7, 29, 'Manual Edit', 'Name Update', '2025-05-18 00:46:21'),
+(8, 31, 'Manual Edit', 'Name updated', '2025-05-18 01:05:06'),
+(10, 33, 'ARCHIVE', 'jus a prank bro XP', '2025-05-18 01:12:44'),
+(11, 32, 'ARCHIVE', 'Student Died', '2025-05-18 01:14:21'),
+(12, 33, 'ARCHIVE', 'hehe', '2025-05-18 01:16:06'),
+(17, 29, 'Manual Edit', 'Name Update', '2025-05-20 08:22:45'),
+(18, 16, 'Manual Edit', 'Name Update', '2025-05-21 06:01:04'),
+(19, 32, 'ARCHIVE', 'hehe', '2025-05-21 06:08:17'),
+(20, 41, 'ARCHIVE', 'fdsa', '2025-05-26 12:53:06'),
+(21, 43, 'ARCHIVE', 'fdsa', '2025-05-26 14:29:18'),
+(22, 44, 'ARCHIVE', 'f', '2025-05-27 23:53:16');
+
 --
 -- Indexes for dumped tables
 --
@@ -774,7 +822,7 @@ INSERT INTO `user_sessions` (`session_id`, `user_id`, `session_token`, `created_
 --
 ALTER TABLE `assessments`
   ADD PRIMARY KEY (`assessments_id`),
-  ADD KEY `schooluser_id` (`schooluser_id`);
+  ADD KEY `assessments_ibfk_1` (`schooluser_id`);
 
 --
 -- Indexes for table `assessment_contents`
@@ -824,8 +872,8 @@ ALTER TABLE `executive_directors`
 --
 ALTER TABLE `feedback`
   ADD PRIMARY KEY (`feedback_id`),
-  ADD KEY `internship_id` (`internship_id`),
-  ADD KEY `afeedback_content_id` (`afeedback_content_id`);
+  ADD KEY `afeedback_content_id` (`afeedback_content_id`),
+  ADD KEY `feedback_ibfk_1` (`internship_id`);
 
 --
 -- Indexes for table `interns`
@@ -849,7 +897,7 @@ ALTER TABLE `internships`
 --
 ALTER TABLE `internship_grades`
   ADD PRIMARY KEY (`internshipgrade_id`),
-  ADD KEY `internship_id` (`internship_id`);
+  ADD KEY `internship_grades_ibfk_1` (`internship_id`);
 
 --
 -- Indexes for table `otps`
@@ -877,8 +925,8 @@ ALTER TABLE `programs`
 --
 ALTER TABLE `program_directors`
   ADD PRIMARY KEY (`programdirector_id`),
-  ADD KEY `schooluser_id` (`schooluser_id`),
-  ADD KEY `program_id` (`program_id`);
+  ADD KEY `program_id` (`program_id`),
+  ADD KEY `program_directors_ibfk_1` (`schooluser_id`);
 
 --
 -- Indexes for table `schools`
@@ -921,14 +969,28 @@ ALTER TABLE `supervisors`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_id`);
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `user_email` (`user_email`);
+
+--
+-- Indexes for table `user_roles`
+--
+ALTER TABLE `user_roles`
+  ADD PRIMARY KEY (`user_id`,`role_name`);
 
 --
 -- Indexes for table `user_sessions`
 --
 ALTER TABLE `user_sessions`
   ADD PRIMARY KEY (`session_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_sessions_ibfk_1` (`user_id`);
+
+--
+-- Indexes for table `user_updates`
+--
+ALTER TABLE `user_updates`
+  ADD PRIMARY KEY (`update_id`),
+  ADD KEY `user_updates_ibfk_1` (`user_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -986,13 +1048,13 @@ ALTER TABLE `feedback`
 -- AUTO_INCREMENT for table `interns`
 --
 ALTER TABLE `interns`
-  MODIFY `intern_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `intern_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `internships`
 --
 ALTER TABLE `internships`
-  MODIFY `internship_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `internship_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `internship_grades`
@@ -1010,13 +1072,13 @@ ALTER TABLE `otps`
 -- AUTO_INCREMENT for table `passwordresets`
 --
 ALTER TABLE `passwordresets`
-  MODIFY `passreset_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `passreset_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `programs`
 --
 ALTER TABLE `programs`
-  MODIFY `program_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `program_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `program_directors`
@@ -1034,7 +1096,7 @@ ALTER TABLE `schools`
 -- AUTO_INCREMENT for table `school_users`
 --
 ALTER TABLE `school_users`
-  MODIFY `schooluser_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `schooluser_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT for table `send_assessments`
@@ -1058,13 +1120,19 @@ ALTER TABLE `supervisors`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `user_sessions`
 --
 ALTER TABLE `user_sessions`
   MODIFY `session_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `user_updates`
+--
+ALTER TABLE `user_updates`
+  MODIFY `update_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Constraints for dumped tables
@@ -1074,7 +1142,7 @@ ALTER TABLE `user_sessions`
 -- Constraints for table `assessments`
 --
 ALTER TABLE `assessments`
-  ADD CONSTRAINT `assessments_ibfk_1` FOREIGN KEY (`schooluser_id`) REFERENCES `school_users` (`schooluser_id`);
+  ADD CONSTRAINT `assessments_ibfk_1` FOREIGN KEY (`schooluser_id`) REFERENCES `school_users` (`schooluser_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `assessment_contents`
@@ -1112,29 +1180,29 @@ ALTER TABLE `executive_directors`
 -- Constraints for table `feedback`
 --
 ALTER TABLE `feedback`
-  ADD CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`internship_id`) REFERENCES `internships` (`internship_id`),
+  ADD CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`internship_id`) REFERENCES `internships` (`internship_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `feedback_ibfk_2` FOREIGN KEY (`afeedback_content_id`) REFERENCES `assessment_feedback` (`afeedback_content_id`);
 
 --
 -- Constraints for table `interns`
 --
 ALTER TABLE `interns`
-  ADD CONSTRAINT `interns_ibfk_1` FOREIGN KEY (`schooluser_id`) REFERENCES `school_users` (`schooluser_id`),
+  ADD CONSTRAINT `interns_ibfk_1` FOREIGN KEY (`schooluser_id`) REFERENCES `school_users` (`schooluser_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `interns_ibfk_2` FOREIGN KEY (`program_id`) REFERENCES `programs` (`program_id`);
 
 --
 -- Constraints for table `internships`
 --
 ALTER TABLE `internships`
-  ADD CONSTRAINT `internships_ibfk_1` FOREIGN KEY (`intern_id`) REFERENCES `interns` (`intern_id`),
+  ADD CONSTRAINT `internships_ibfk_1` FOREIGN KEY (`intern_id`) REFERENCES `interns` (`intern_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `internships_ibfk_2` FOREIGN KEY (`supervisor_id`) REFERENCES `supervisors` (`supervisor_id`),
-  ADD CONSTRAINT `internships_ibfk_3` FOREIGN KEY (`schooluser_id`) REFERENCES `users` (`user_id`);
+  ADD CONSTRAINT `internships_ibfk_3` FOREIGN KEY (`schooluser_id`) REFERENCES `school_users` (`schooluser_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `internship_grades`
 --
 ALTER TABLE `internship_grades`
-  ADD CONSTRAINT `internship_grades_ibfk_1` FOREIGN KEY (`internship_id`) REFERENCES `internships` (`internship_id`);
+  ADD CONSTRAINT `internship_grades_ibfk_1` FOREIGN KEY (`internship_id`) REFERENCES `internships` (`internship_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `otps`
@@ -1146,7 +1214,7 @@ ALTER TABLE `otps`
 -- Constraints for table `passwordresets`
 --
 ALTER TABLE `passwordresets`
-  ADD CONSTRAINT `fk_passreset_schooluser` FOREIGN KEY (`schooluser_id`) REFERENCES `school_users` (`schooluser_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_passreset_schooluser` FOREIGN KEY (`schooluser_id`) REFERENCES `school_users` (`schooluser_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `programs`
@@ -1158,39 +1226,38 @@ ALTER TABLE `programs`
 -- Constraints for table `program_directors`
 --
 ALTER TABLE `program_directors`
-  ADD CONSTRAINT `program_directors_ibfk_1` FOREIGN KEY (`schooluser_id`) REFERENCES `school_users` (`schooluser_id`),
+  ADD CONSTRAINT `program_directors_ibfk_1` FOREIGN KEY (`schooluser_id`) REFERENCES `school_users` (`schooluser_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `program_directors_ibfk_2` FOREIGN KEY (`program_id`) REFERENCES `programs` (`program_id`);
 
 --
 -- Constraints for table `school_users`
 --
 ALTER TABLE `school_users`
-  ADD CONSTRAINT `school_users_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+  ADD CONSTRAINT `school_users_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `send_assessments`
 --
 ALTER TABLE `send_assessments`
-  ADD CONSTRAINT `send_assessments_ibfk_1` FOREIGN KEY (`supervisor_id`) REFERENCES `supervisors` (`supervisor_id`);
+  ADD CONSTRAINT `send_assessments_ibfk_1` FOREIGN KEY (`supervisor_id`) REFERENCES `supervisors` (`supervisor_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `string_literals`
 --
 ALTER TABLE `string_literals`
-  ADD CONSTRAINT `fk_schooluser` FOREIGN KEY (`schooluser_id`) REFERENCES `school_users` (`schooluser_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_schooluser` FOREIGN KEY (`schooluser_id`) REFERENCES `school_users` (`schooluser_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `supervisors`
 --
 ALTER TABLE `supervisors`
-  ADD CONSTRAINT `supervisors_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `supervisors_ibfk_2` FOREIGN KEY (`department_id`) REFERENCES `departments` (`department_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `user_sessions`
+-- Constraints for table `user_roles`
 --
-ALTER TABLE `user_sessions`
-  ADD CONSTRAINT `user_sessions_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+ALTER TABLE `user_roles`
+  ADD CONSTRAINT `user_roles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

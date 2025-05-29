@@ -7,12 +7,32 @@
     <div class="header-item">
         <div class="role" id="roleText">[[USER ROLE]]</div>
         <div class="vertical-line"></div>
-        <div class="header-item notification-wrapper">
-            <img src="../../static/images/components/notificationbell_icon.png" alt="Notifications" class="icon" id="notificationBell">
-            <div class="notification-dropdown hidden" id="notificationDropdown">
-                <p>No new notifications</p>
-            </div>
+       <!-- Notification Bell with Badge -->
+<div class="header-item notification-wrapper" style="position:relative;">
+    <img src="../../static/images/components/notificationbell_icon.png" alt="Notifications" class="icon" id="notificationBell" style="cursor:pointer;">
+    <span id="notificationBadge" style="
+        display:none;
+        position:absolute;
+        top:2px; right:2px;
+        background:#e74c3c;
+        color:#fff;
+        border-radius:50%;
+        font-size:0.8rem;
+        padding:2px 6px;
+        min-width:18px;
+        text-align:center;
+        line-height:1.2;
+        font-weight:bold;
+        z-index:2;
+    ">0</span>
+    <div class="notification-dropdown hidden" id="notificationDropdown">
+        <div class="notification-bar-header">
+            <span>Notifications</span>
+            <button id="clearNotificationsBtn" title="Clear all notifications" style="background:none;border:none;font-size:1.2rem;cursor:pointer;">&times;</button>
         </div>
+        <ul id="notificationList"></ul>
+    </div>
+</div>
         <img src="../../static/images/components/logout_icon.png" alt="Profile Picture" class="profile-pic" onclick="logout()">
     </div>
 </div>
@@ -24,17 +44,86 @@
 document.addEventListener("DOMContentLoaded", () => {
     const bell = document.getElementById("notificationBell");
     const dropdown = document.getElementById("notificationDropdown");
+    const badge = document.getElementById("notificationBadge");
+    const list = document.getElementById("notificationList");
+    const clearBtn = document.getElementById("clearNotificationsBtn");
 
+    function getNotifications() {
+        return JSON.parse(localStorage.getItem("rias_notifications") || "[]");
+    }
+    function saveNotifications(notifs) {
+        localStorage.setItem("rias_notifications", JSON.stringify(notifs));
+    }
+    function renderNotifications() {
+        const notifs = getNotifications();
+        const unreadCount = notifs.filter(n => !n.read).length;
+        badge.textContent = unreadCount;
+        badge.style.display = unreadCount > 0 ? "inline-block" : "none";
+        list.innerHTML = "";
+        if (notifs.length === 0) {
+            list.innerHTML = "<li class='notification-empty' style='color:#aaa;text-align:center;padding:16px;'>No notifications yet.</li>";
+            return;
+        }
+        notifs.forEach((notif, idx) => {
+            const li = document.createElement("li");
+            li.className = "notification-item" + (notif.read ? " read" : "");
+            li.style.cssText = "display:flex;justify-content:space-between;align-items:flex-start;padding:10px 16px;border-bottom:1px solid #f1f1f1;cursor:pointer;";
+            li.innerHTML = `
+                <div>
+                    <span class="notification-msg" style="display:block;font-size:0.98rem;color:#213B9A;">${notif.message}</span>
+                    <span class="notification-time" style="display:block;font-size:0.8rem;color:#888;margin-top:2px;">${new Date(notif.timestamp).toLocaleString()}</span>
+                </div>
+                <button class="notification-dismiss" title="Dismiss" style="background:none;border:none;color:#888;font-size:1.1rem;cursor:pointer;margin-left:8px;">&times;</button>
+            `;
+            li.querySelector(".notification-dismiss").onclick = (e) => {
+                e.stopPropagation();
+                notifs.splice(idx, 1);
+                saveNotifications(notifs);
+                renderNotifications();
+            };
+            li.onclick = () => {
+                notif.read = true;
+                saveNotifications(notifs);
+                renderNotifications();
+            };
+            list.appendChild(li);
+        });
+    }
+    clearBtn.onclick = () => {
+        saveNotifications([]);
+        renderNotifications();
+    };
     bell.addEventListener("click", (e) => {
-        e.stopPropagation(); // Prevents document listener from instantly hiding the dropdown
+        e.stopPropagation();
         dropdown.classList.toggle("hidden");
     });
-
     document.addEventListener("click", (e) => {
         if (!bell.contains(e.target) && !dropdown.contains(e.target)) {
             dropdown.classList.add("hidden");
         }
     });
+    renderNotifications();
+
+    // Make addNotification globally available
+    window.addNotification = function(message, meta = {}) {
+        const notifs = getNotifications();
+        notifs.unshift({
+            message,
+            meta,
+            timestamp: Date.now(),
+            read: false
+        });
+        saveNotifications(notifs);
+        renderNotifications();
+    };
+
+    // Listen for postMessage from other iframes (e.g., admin/faculty pages)
+window.addEventListener("message", function(event) {
+    console.log("Header: received message", event.data);
+    if (event.data && event.data.type === "addNotification") {
+        window.addNotification(event.data.message, event.data.meta);
+    }
+});
 });
 </script>
 

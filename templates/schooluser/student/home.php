@@ -3,11 +3,11 @@
     include '../../../database/database.php';
 
     $token = $_SESSION['user_id'] ?? '';
-    $user_role = $_SESSION['user_role'] ?? '';
+    $user_role = $_SESSION['user_roles'] ?? '';
 
     // echo $_SESSION['user_role'];
     // echo $_SESSION['user_role'] != 'Student Intern';
-    if (!$token || $_SESSION['user_role'] != 'Student Intern') {
+    if (!$token || $_SESSION['user_roles'] != 'Student Intern') {
         echo "hi";
         http_response_code(404);
         echo "<div id='error-code'>404</div>";

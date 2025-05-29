@@ -1,4 +1,4 @@
-{
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -749,7 +749,7 @@ body {
 
 .links a:hover {/* -- (0) General Styling -- */
 
-  {
+  * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -1493,7 +1493,7 @@ body {
   
   /* Prevent background reset when modal closes */
   body.modal-open .hero {
-    background: url(../../static/images/components/bg_login.png) no-repeat center center;
+    background: url(../../../static/images/components/bg_login.png) no-repeat center center;
     background-size: cover;
     background-attachment: fixed;
   
@@ -1553,7 +1553,7 @@ body {
 
 /* Prevent background reset when modal closes */
 body.modal-open .hero {
-  background: url(../../static/images/components/bg_login.png) no-repeat center center;
+  background: url(../../../static/images/components/bg_login.png) no-repeat center center;
   background-size: cover;
   background-attachment: fixed;
 

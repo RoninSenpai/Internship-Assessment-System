@@ -1,4 +1,4 @@
-<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap" rel="stylesheet">
+<!-- <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
 
 <html lang="en">
@@ -115,4 +115,4 @@
                         <button class="attendance-buttons" onclick="window.location.href='/schooluser/student/finals'">Add Finals Reports</button>
                 </div>
             </div>
-    </div>
+    </div> -->

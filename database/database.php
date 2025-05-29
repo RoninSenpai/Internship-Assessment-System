@@ -3,7 +3,7 @@
     $host = "localhost";
     $user = "root";
     $password = ""; // DEAD INSIDE
-    $database = "aeerr"; // Or your real DB name, dumdum
+    $database = "aeerr2"; // Or your real DB name, dumdum
     $port = 3306;
 
     // APC
