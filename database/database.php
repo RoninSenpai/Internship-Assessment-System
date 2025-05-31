@@ -1,5 +1,5 @@
 <?php    
-    $ipaddress = '192.168.0.2';
+    $ipaddress = 'localhost';
     $host = "localhost";
     $user = "root";
     $password = ""; // DEAD INSIDE

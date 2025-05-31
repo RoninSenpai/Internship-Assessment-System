@@ -861,6 +861,9 @@ viewBatchButton?.addEventListener("click", () => {
         ${sharedInfoHtml}
         <h3>Batchmates:</h3>
         ${tableHtml}
+        <div style="margin-top: 1em;">
+            <button id="add-to-batch-btn" class="update-button">Add New User to Batch</button>
+        </div>
     `;
 
     const buttons = detailsDiv.querySelectorAll(".view-user-btn");
@@ -871,6 +874,11 @@ viewBatchButton?.addEventListener("click", () => {
             updateUserDetails(userData);
             togglePane(true);
         });
+    });
+
+    const addToBatchBtn = detailsDiv.querySelector("#add-to-batch-btn");
+    addToBatchBtn?.addEventListener("click", () => {
+        showAddUserForm(selectedData["Batch"]);
     });
 
     togglePane(true);
@@ -887,16 +895,18 @@ addUserButton.addEventListener("click", () => {
     pane.style.display = "block";
 });
 
-function showAddUserForm() {
+function showAddUserForm(batchVal = null) {
     fetch("add_user_reference.php?load=all") // 👈 change to actual PHP path
         .then((response) => response.json())
         .then((data) => {
-            const batchNumber = data.batch || "Unknown";
+            const batchNumber = batchVal || data.batch || "Unknown";
 
             detailsDiv.innerHTML = `
                 <div style="max-height: 70vh; overflow-y: auto; padding-right: 10px;">
                     <h3>Add New User For INTERN1</h3>
                     <p><strong>Batch: </strong>${batchNumber}</p>
+
+                    <button type="button" id="toggle-mode-btn" class="update-button" style="margin-bottom: 10px;">Switch to Table Mode</button>
 
                     <form id="add-user-form">
                         <input type="hidden" name="batch" value="${batchNumber}" />
@@ -1004,6 +1014,12 @@ function showAddUserForm() {
                 </div>
             `;
 
+            document
+                .getElementById("toggle-mode-btn")
+                .addEventListener("click", () => {
+                    showAddUserTableForm(batchNumber); // poof! switch forms
+                });
+
             setupAddUserFormEvents();
             loadAllDropdowns();
         })
@@ -1015,93 +1031,74 @@ function showAddUserForm() {
         });
 }
 
+// GLOBAL CHAOS DATA STORES!! (make sure these are at the top of your script)
+let allSchools = [],
+    allPrograms = [];
+let allCompanies = [],
+    allDepartments = [],
+    allSupervisors = [],
+    allUsers = [];
+
+let programsBySchool = {};
+let departmentsByCompany = {};
+let supervisorsByDepartment = {};
+let usersById = {};
+
 function loadAllDropdowns() {
     fetch("add_user_reference.php?load=all")
         .then((res) => res.json())
         .then((data) => {
-            // -- Schools & Programs (you already have this)
+            // Store all data globally for later chaos
+            allSchools = data.schools;
+            allPrograms = data.programs;
+            allCompanies = data.companies;
+            allDepartments = data.departments;
+            allSupervisors = data.supervisors;
+            allUsers = data.users;
+
+            // Map programs by school
+            programsBySchool = {};
+            allPrograms.forEach((p) => {
+                if (!programsBySchool[p.school_id])
+                    programsBySchool[p.school_id] = [];
+                programsBySchool[p.school_id].push(p);
+            });
+
+            // Map departments by company
+            departmentsByCompany = {};
+            allDepartments.forEach((d) => {
+                if (!departmentsByCompany[d.company_id])
+                    departmentsByCompany[d.company_id] = [];
+                departmentsByCompany[d.company_id].push(d);
+            });
+
+            // Map supervisors by department
+            supervisorsByDepartment = {};
+            allSupervisors.forEach((sup) => {
+                if (!supervisorsByDepartment[sup.department_id])
+                    supervisorsByDepartment[sup.department_id] = [];
+                supervisorsByDepartment[sup.department_id].push(sup);
+            });
+
+            // Map users by ID
+            usersById = {};
+            allUsers.forEach((u) => {
+                usersById[u.user_id] = u;
+            });
+
+            // === Populate the form on the LEFT ===
+
             const schoolSelect = document.getElementById("add-school");
             const programSelect = document.getElementById("add-program");
             const programContainer =
                 document.getElementById("program-container");
 
-            const programsBySchool = {};
-            data.schools.forEach((s) => {
-                const opt = document.createElement("option");
-                opt.value = s.school_id;
-                opt.textContent = s.school_name;
-                schoolSelect.appendChild(opt);
-            });
-            data.programs.forEach((p) => {
-                if (!programsBySchool[p.school_id])
-                    programsBySchool[p.school_id] = [];
-                programsBySchool[p.school_id].push(p);
-            });
-            schoolSelect.addEventListener("change", () => {
-                const schoolId = schoolSelect.value;
-                const progs = programsBySchool[schoolId] || [];
-                programSelect.innerHTML =
-                    '<option value="">-- Select Program --</option>';
-                if (progs.length > 0) {
-                    programContainer.style.display = "block";
-                    progs.forEach((p) => {
-                        const opt = document.createElement("option");
-                        opt.value = p.program_id;
-                        opt.textContent = p.program_name;
-                        programSelect.appendChild(opt);
-                    });
-                } else {
-                    programContainer.style.display = "none";
-                }
-            });
-
-            // -- Companies & Departments
             const companySelect = document.getElementById("add-company");
             const departmentSelect = document.getElementById("add-department");
             const departmentContainer = document.getElementById(
                 "department-container"
             );
 
-            const departmentsByCompany = {};
-            data.companies.forEach((c) => {
-                const opt = document.createElement("option");
-                opt.value = c.company_id;
-                opt.textContent = c.company_name;
-                companySelect.appendChild(opt);
-            });
-            data.departments.forEach((d) => {
-                if (!departmentsByCompany[d.company_id])
-                    departmentsByCompany[d.company_id] = [];
-                departmentsByCompany[d.company_id].push(d);
-            });
-            companySelect.addEventListener("change", () => {
-                const companyId = companySelect.value;
-                const depts = departmentsByCompany[companyId] || [];
-                departmentSelect.innerHTML =
-                    '<option value="">-- Select Department --</option>';
-                if (depts.length > 0) {
-                    departmentContainer.style.display = "block";
-                    depts.forEach((d) => {
-                        const opt = document.createElement("option");
-                        opt.value = d.department_id;
-                        opt.textContent = d.department_name;
-                        departmentSelect.appendChild(opt);
-                    });
-                } else {
-                    departmentContainer.style.display = "none";
-                    // Also hide supervisor since no department
-                    document.getElementById(
-                        "supervisor-container"
-                    ).style.display = "none";
-                    clearSupervisor();
-                }
-                // Clear supervisor dropdown when company changes
-                document.getElementById("supervisor-container").style.display =
-                    "none";
-                clearSupervisor();
-            });
-
-            // -- Departments & Supervisors
             const supervisorSelect = document.getElementById("add-supervisor");
             const supervisorContainer = document.getElementById(
                 "supervisor-container"
@@ -1114,62 +1111,99 @@ function loadAllDropdowns() {
             const supervisorContactSpan =
                 document.getElementById("supervisor-contact");
 
-            // Map supervisors by department
-            const supervisorsByDepartment = {};
-            data.supervisors.forEach((sup) => {
-                if (!supervisorsByDepartment[sup.department_id])
-                    supervisorsByDepartment[sup.department_id] = [];
-                supervisorsByDepartment[sup.department_id].push(sup);
+            // Populate schools
+            populateOptions(
+                schoolSelect,
+                allSchools,
+                "school_id",
+                "school_name"
+            );
+
+            // Populate companies
+            populateOptions(
+                companySelect,
+                allCompanies,
+                "company_id",
+                "company_name"
+            );
+
+            // Event: When school changes, show programs
+            schoolSelect.addEventListener("change", () => {
+                const schoolId = schoolSelect.value;
+                const progs = programsBySchool[schoolId] || [];
+                if (progs.length > 0) {
+                    programContainer.style.display = "block";
+                    populateOptions(
+                        programSelect,
+                        progs,
+                        "program_id",
+                        "program_name"
+                    );
+                } else {
+                    programContainer.style.display = "none";
+                    programSelect.innerHTML =
+                        '<option value="">-- Select Program --</option>';
+                }
             });
 
-            // Map users by user_id for email lookup
-            const usersById = {};
-            data.users.forEach((u) => {
-                usersById[u.user_id] = u;
+            // Event: When company changes, show departments
+            companySelect.addEventListener("change", () => {
+                const companyId = companySelect.value;
+                const depts = departmentsByCompany[companyId] || [];
+                if (depts.length > 0) {
+                    departmentContainer.style.display = "block";
+                    populateOptions(
+                        departmentSelect,
+                        depts,
+                        "department_id",
+                        "department_name"
+                    );
+                } else {
+                    departmentContainer.style.display = "none";
+                    departmentSelect.innerHTML =
+                        '<option value="">-- Select Department --</option>';
+                }
+                // Hide supervisor until department is picked
+                supervisorContainer.style.display = "none";
+                clearSupervisor();
             });
 
+            // Event: When department changes, show supervisors
             departmentSelect.addEventListener("change", () => {
                 const deptId = departmentSelect.value;
                 const sups = supervisorsByDepartment[deptId] || [];
-                supervisorSelect.innerHTML =
-                    '<option value="">-- Select Supervisor --</option>';
-
                 if (sups.length > 0) {
                     supervisorContainer.style.display = "block";
-                    sups.forEach((sup) => {
-                        const opt = document.createElement("option");
-                        opt.value = sup.supervisor_id;
-                        // If you want supervisor name, get it from users table by user_id
-                        opt.textContent = sup.user_name || "Unknown";
-                        supervisorSelect.appendChild(opt);
-                    });
+                    populateOptions(
+                        supervisorSelect,
+                        sups,
+                        "supervisor_id",
+                        (sup) => {
+                            return (
+                                usersById[sup.user_id]?.user_name || "Unknown"
+                            );
+                        }
+                    );
                 } else {
                     supervisorContainer.style.display = "none";
                     clearSupervisor();
                 }
-
                 supervisorContactInfo.style.display = "none";
-                supervisorEmailSpan.textContent = "";
-                supervisorContactSpan.textContent = "";
             });
 
-            // Show supervisor contact info when supervisor selected
+            // Event: When supervisor selected, show contact info
             supervisorSelect.addEventListener("change", () => {
                 const supId = supervisorSelect.value;
                 if (!supId) {
                     supervisorContactInfo.style.display = "none";
                     return;
                 }
-                const sup = data.supervisors.find(
+                const sup = allSupervisors.find(
                     (s) => s.supervisor_id == supId
                 );
-                if (!sup) {
-                    supervisorContactInfo.style.display = "none";
-                    return;
-                }
-                supervisorEmailSpan.textContent = sup.user_email || "N/A";
+                supervisorEmailSpan.textContent = sup?.user_email || "N/A";
                 supervisorContactSpan.textContent =
-                    sup.supervisor_contact_no || "N/A";
+                    sup?.supervisor_contact_no || "N/A";
                 supervisorContactInfo.style.display = "block";
             });
 
@@ -1181,7 +1215,19 @@ function loadAllDropdowns() {
                 supervisorContactSpan.textContent = "";
             }
         })
-        .catch((err) => console.error("Loading error, Burenyuu~", err));
+        .catch((err) => console.error("Loading error", err));
+}
+
+// Shared function to populate dropdowns
+function populateOptions(select, data, valueKey, textKey) {
+    select.innerHTML = '<option value="">-- Select --</option>';
+    data.forEach((item) => {
+        const option = document.createElement("option");
+        option.value = item[valueKey];
+        option.textContent =
+            typeof textKey === "function" ? textKey(item) : item[textKey];
+        select.appendChild(option);
+    });
 }
 
 function setupAddUserFormEvents() {
@@ -1209,7 +1255,7 @@ function handleAddUserFormSubmit(e) {
         .then((res) => res.json())
         .then((data) => {
             if (data.success) {
-                alert("User added successfully! 💥");
+                alert("User added successfully!");
                 togglePane(false); // or reload something if needed
                 updateTable();
             } else {
@@ -1219,7 +1265,216 @@ function handleAddUserFormSubmit(e) {
             }
         })
         .catch((err) => {
-            console.error("Nyaaaa~ submit error:", err);
+            console.error("Submit error:", err);
             alert("Something exploded! Try again later.");
+        });
+}
+
+function showAddUserTableForm(batchVal) {
+    detailsDiv.innerHTML = `
+        <div style="max-height: 70vh; overflow-y: auto; padding-right: 10px;">
+            <h3>Batch Add Users - INTERN1</h3>
+            <p><strong>Batch:</strong> ${batchVal}</p>
+
+            <button type="button" id="toggle-back-btn" class="cancel-button" style="margin-bottom: 10px;">Switch to Form Mode</button>
+
+            <div style="overflow-y: auto;">
+                <table id="user-add-table" border="1" style="border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Gender</th>
+                            <th>Birthdate</th>
+                            <th>City</th>
+                            <th>Province</th>
+                            <th>Postal</th>
+                            <th>Country</th>
+                            <th>Internship Start</th>
+                            <th>Internship End</th>
+                            <th>School</th>
+                            <th>Program</th>
+                            <th>Company</th>
+                            <th>Department</th>
+                            <th>Supervisor</th>
+                            <th>Job Role</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-add-tbody">
+                        ${generateUserRow()}
+                    </tbody>
+                </table>
+            </div>
+
+            <button type="button" id="add-row-btn" class="update-button" style="margin-top: 10px;">➕ Add Row</button>
+
+            <div class="pane-footer">
+                <button type="button" id="cancel-add" class="cancel-button">Cancel</button>
+                <button type="button" id="submit-multi-user" class="update-button">Submit All Users</button>
+            </div>
+        </div>
+    `;
+    document.getElementById("toggle-back-btn").addEventListener("click", () => {
+        showAddUserForm(batchVal);
+    });
+
+    document.getElementById("add-row-btn").addEventListener("click", () => {
+        const tbody = document.getElementById("user-add-tbody");
+        tbody.insertAdjacentHTML("beforeend", generateUserRow());
+
+        const lastRow = tbody.lastElementChild;
+
+        const schoolSelect = lastRow.querySelector(".school-select");
+        const programSelect = lastRow.querySelector(".program-select");
+        const companySelect = lastRow.querySelector(".company-select");
+        const departmentSelect = lastRow.querySelector(".department-select");
+        const supervisorSelect = lastRow.querySelector(".supervisor-select");
+
+        schoolSelect.addEventListener("change", () => {
+            const schoolId = schoolSelect.value;
+            const programs = programsBySchool[schoolId] || [];
+            programSelect.innerHTML =
+                `<option value="">-- Select Program --</option>` +
+                programs
+                    .map(
+                        (p) =>
+                            `<option value="${p.program_id}">${p.program_name}</option>`
+                    )
+                    .join("");
+        });
+
+        companySelect.addEventListener("change", () => {
+            const companyId = companySelect.value;
+            const departments = departmentsByCompany[companyId] || [];
+            departmentSelect.innerHTML =
+                `<option value="">-- Select Department --</option>` +
+                departments
+                    .map(
+                        (d) =>
+                            `<option value="${d.department_id}">${d.department_name}</option>`
+                    )
+                    .join("");
+
+            supervisorSelect.innerHTML = `<option value="">-- Select Supervisor --</option>`; // Reset downstream
+        });
+
+        departmentSelect.addEventListener("change", () => {
+            const deptId = departmentSelect.value;
+            const supervisors = supervisorsByDepartment[deptId] || [];
+            supervisorSelect.innerHTML =
+                `<option value="">-- Select Supervisor --</option>` +
+                supervisors
+                    .map((s) => {
+                        const user = usersById[s.user_id];
+                        return `<option value="${s.supervisor_id}">${
+                            user ? user.user_name : "Unknown"
+                        }</option>`;
+                    })
+                    .join("");
+        });
+
+        document.addEventListener("click", function (e) {
+            if (e.target.classList.contains("remove-row-btn")) {
+                e.target.closest("tr").remove();
+            }
+        });
+    });
+
+    document
+        .getElementById("submit-multi-user")
+        .addEventListener("click", () => {
+            submitMultipleUsers(batchVal);
+        });
+}
+
+function generateUserRow() {
+    const schoolOptions = allSchools
+        .map((s) => `<option value="${s.school_id}">${s.school_name}</option>`)
+        .join("");
+    const companyOptions = allCompanies
+        .map(
+            (c) => `<option value="${c.company_id}">${c.company_name}</option>`
+        )
+        .join("");
+
+    const genderOptions = `
+        <option value="">-- Select --</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+    `;
+
+    const rowId = `row-${Math.random().toString(36).substr(2, 9)}`; // unique ID for event hook-up later
+
+    return `
+        <tr id="${rowId}">
+            <td><input type="email" name="email[]" required></td>
+            <td><input type="text" name="first_name[]" required></td>
+            <td><input type="text" name="last_name[]" required></td>
+            <td>
+                <select name="gender[]">${genderOptions}</select>
+            </td>
+            <td><input type="date" name="birthdate[]" required></td>
+            <td><input type="text" name="city[]" required></td>
+            <td><input type="text" name="province[]" required></td>
+            <td><input type="text" name="postal[]" required></td>
+            <td><input type="text" name="country[]" required></td>
+            <td><input type="date" name="start_date[]" required></td>
+            <td><input type="date" name="end_date[]" required></td>
+            <td>
+                <select name="school[]" class="school-select">${schoolOptions}</select>
+            </td>
+            <td>
+                <select name="program[]" class="program-select">
+                    <option value="">-- Select Program --</option>
+                </select>
+            </td>
+            <td>
+                <select name="company[]" class="company-select">${companyOptions}</select>
+            </td>
+            <td>
+                <select name="department[]" class="department-select">
+                    <option value="">-- Select Department --</option>
+                </select>
+            </td>
+            <td>
+                <select name="supervisor[]" class="supervisor-select">
+                    <option value="">-- Select Supervisor --</option>
+                </select>
+            </td>
+            <td><input type="text" name="job_role[]" required></td>
+            <td><button type="button" class="remove-row-btn">❌</button></td>
+        </tr>
+    `;
+}
+
+function submitMultipleUsers(batchVal) {
+    const table = document.getElementById("user-add-table");
+    const formData = new FormData();
+
+    formData.append("batch", batchVal);
+
+    const rows = table.querySelectorAll("tbody tr");
+    rows.forEach((row, index) => {
+        const inputs = row.querySelectorAll("input, select");
+        inputs.forEach((input) => {
+            formData.append(`${input.name}`, input.value);
+        });
+    });
+
+    // replace this with actual POST to your backend
+    fetch("submit_multiple_users.php", {
+        method: "POST",
+        body: formData,
+    })
+        .then((response) => response.text())
+        .then((result) => {
+            alert("BATCH USERS ADDED~ BURENYUUU~ 💌");
+            // maybe reload list or go back to view
+        })
+        .catch((error) => {
+            console.error("✨ EVERYTHING’S ON FIRE ✨", error);
         });
 }

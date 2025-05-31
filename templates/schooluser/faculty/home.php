@@ -229,7 +229,9 @@
         <span class="dashboard-title" style="margin-bottom:0;">March 2025</span>
         <span style="font-size:1.2rem;color:#888;"><i class="fas fa-chevron-left"></i> <i class="fas fa-chevron-right"></i></span>
     </div>
-    <div style="font-size:1.3rem;font-weight:700;color:#213B9A;margin-bottom:0.5rem;">130 Interns</div>
+    <div style="font-size:1.3rem;font-weight:700;color:#213B9A;margin-bottom:0.5rem;">
+  <span id="internCount"></span> Interns
+</div>
 <label for="excelFile" style="font-size:0.98rem;font-weight:500;margin-bottom:0.5rem;display:block;">Choose a file:</label>
 <input type="file" id="excelFile" class="input-file" accept=".xlsx" />
 <canvas id="schoolChart" class="chart-canvas" style="margin-top:24px;max-width:400px;"></canvas>
