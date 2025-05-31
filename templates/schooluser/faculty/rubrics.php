@@ -74,6 +74,20 @@
             transition: all 0.3s ease;
             justify-content: end; /* Align search bar to the right */
 }
+
+.create button{
+            background-color: #E7F8E9;
+            margin-top: 5px;
+            margin-left: 700%; /* Align to the right */
+            padding: 8px 15px;
+            border: 1px solid rgb(0, 0, 0);
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            justify-content: end; /* Align search bar to the right */
+}
     .information {
             background-color: #ffffff;
             padding: 10px;
@@ -140,6 +154,10 @@
                 </div>
                 <div class="proceed">
                     <button onclick="window.location.href='../../../templates/schooluser/faculty/rubrics.php'">Proceed</button>
+        </div>
+
+        <div class="create">
+                    <button onclick="window.location.href='../../../templates/schooluser/faculty/rubrics.php'">Create</button>
         </div>
         </div>
     <div class="information">
